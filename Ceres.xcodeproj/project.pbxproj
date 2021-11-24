@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		18F7A804274E2D8E0083BA2B /* CeresApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A803274E2D8E0083BA2B /* CeresApp.swift */; };
-		18F7A806274E2D8E0083BA2B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A805274E2D8E0083BA2B /* ContentView.swift */; };
+		18F7A806274E2D8E0083BA2B /* WorkoutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A805274E2D8E0083BA2B /* WorkoutsView.swift */; };
 		18F7A808274E2D910083BA2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18F7A807274E2D910083BA2B /* Assets.xcassets */; };
 		18F7A80B274E2D910083BA2B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18F7A80A274E2D910083BA2B /* Preview Assets.xcassets */; };
 		18F7A80D274E2D910083BA2B /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A80C274E2D910083BA2B /* Persistence.swift */; };
@@ -16,6 +16,12 @@
 		18F7A81A274E2D910083BA2B /* CeresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A819274E2D910083BA2B /* CeresTests.swift */; };
 		18F7A824274E2D920083BA2B /* CeresUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A823274E2D920083BA2B /* CeresUITests.swift */; };
 		18F7A826274E2D920083BA2B /* CeresUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A825274E2D920083BA2B /* CeresUITestsLaunchTests.swift */; };
+		18F7A836274E339C0083BA2B /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F7A835274E339C0083BA2B /* CloudKit.framework */; };
+		18F7A83C274E35200083BA2B /* Persistence+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A83B274E35200083BA2B /* Persistence+Preview.swift */; };
+		18F7A83E274E35BD0083BA2B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A83D274E35BD0083BA2B /* DataManager.swift */; };
+		18F7A840274E611E0083BA2B /* WorkoutsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A83F274E611E0083BA2B /* WorkoutsViewModel.swift */; };
+		18F7A842274E615C0083BA2B /* DataManager+Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A841274E615C0083BA2B /* DataManager+Workout.swift */; };
+		18F7A844274E62960083BA2B /* DMWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A843274E62960083BA2B /* DMWorkout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +44,7 @@
 /* Begin PBXFileReference section */
 		18F7A800274E2D8E0083BA2B /* Ceres.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ceres.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18F7A803274E2D8E0083BA2B /* CeresApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CeresApp.swift; sourceTree = "<group>"; };
-		18F7A805274E2D8E0083BA2B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		18F7A805274E2D8E0083BA2B /* WorkoutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsView.swift; sourceTree = "<group>"; };
 		18F7A807274E2D910083BA2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18F7A80A274E2D910083BA2B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		18F7A80C274E2D910083BA2B /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -48,6 +54,14 @@
 		18F7A81F274E2D920083BA2B /* CeresUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CeresUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18F7A823274E2D920083BA2B /* CeresUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CeresUITests.swift; sourceTree = "<group>"; };
 		18F7A825274E2D920083BA2B /* CeresUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CeresUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		18F7A835274E339C0083BA2B /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		18F7A837274E33B30083BA2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		18F7A838274E33BD0083BA2B /* Ceres.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Ceres.entitlements; sourceTree = "<group>"; };
+		18F7A83B274E35200083BA2B /* Persistence+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Persistence+Preview.swift"; sourceTree = "<group>"; };
+		18F7A83D274E35BD0083BA2B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		18F7A83F274E611E0083BA2B /* WorkoutsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsViewModel.swift; sourceTree = "<group>"; };
+		18F7A841274E615C0083BA2B /* DataManager+Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Workout.swift"; sourceTree = "<group>"; };
+		18F7A843274E62960083BA2B /* DMWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMWorkout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18F7A836274E339C0083BA2B /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +97,7 @@
 				18F7A818274E2D910083BA2B /* CeresTests */,
 				18F7A822274E2D920083BA2B /* CeresUITests */,
 				18F7A801274E2D8E0083BA2B /* Products */,
+				18F7A834274E339C0083BA2B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,10 +115,11 @@
 			isa = PBXGroup;
 			children = (
 				18F7A803274E2D8E0083BA2B /* CeresApp.swift */,
-				18F7A805274E2D8E0083BA2B /* ContentView.swift */,
+				18F7A83A274E34F60083BA2B /* Views */,
+				18F7A839274E34DD0083BA2B /* Data Model */,
+				18F7A837274E33B30083BA2B /* Info.plist */,
+				18F7A838274E33BD0083BA2B /* Ceres.entitlements */,
 				18F7A807274E2D910083BA2B /* Assets.xcassets */,
-				18F7A80C274E2D910083BA2B /* Persistence.swift */,
-				18F7A80E274E2D910083BA2B /* Ceres.xcdatamodeld */,
 				18F7A809274E2D910083BA2B /* Preview Content */,
 			);
 			path = Ceres;
@@ -131,6 +148,36 @@
 				18F7A825274E2D920083BA2B /* CeresUITestsLaunchTests.swift */,
 			);
 			path = CeresUITests;
+			sourceTree = "<group>";
+		};
+		18F7A834274E339C0083BA2B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				18F7A835274E339C0083BA2B /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		18F7A839274E34DD0083BA2B /* Data Model */ = {
+			isa = PBXGroup;
+			children = (
+				18F7A83D274E35BD0083BA2B /* DataManager.swift */,
+				18F7A841274E615C0083BA2B /* DataManager+Workout.swift */,
+				18F7A843274E62960083BA2B /* DMWorkout.swift */,
+				18F7A80C274E2D910083BA2B /* Persistence.swift */,
+				18F7A83B274E35200083BA2B /* Persistence+Preview.swift */,
+				18F7A80E274E2D910083BA2B /* Ceres.xcdatamodeld */,
+			);
+			path = "Data Model";
+			sourceTree = "<group>";
+		};
+		18F7A83A274E34F60083BA2B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				18F7A805274E2D8E0083BA2B /* WorkoutsView.swift */,
+				18F7A83F274E611E0083BA2B /* WorkoutsViewModel.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,9 +311,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				18F7A810274E2D910083BA2B /* Ceres.xcdatamodeld in Sources */,
+				18F7A844274E62960083BA2B /* DMWorkout.swift in Sources */,
+				18F7A83E274E35BD0083BA2B /* DataManager.swift in Sources */,
+				18F7A840274E611E0083BA2B /* WorkoutsViewModel.swift in Sources */,
 				18F7A80D274E2D910083BA2B /* Persistence.swift in Sources */,
-				18F7A806274E2D8E0083BA2B /* ContentView.swift in Sources */,
+				18F7A806274E2D8E0083BA2B /* WorkoutsView.swift in Sources */,
 				18F7A804274E2D8E0083BA2B /* CeresApp.swift in Sources */,
+				18F7A83C274E35200083BA2B /* Persistence+Preview.swift in Sources */,
+				18F7A842274E615C0083BA2B /* DataManager+Workout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,27 +476,30 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Ceres/Ceres.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Ceres/Preview Content\"";
 				DEVELOPMENT_TEAM = 347QD86WM7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Ceres/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.edmumatu.Ceres;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -453,27 +508,30 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Ceres/Ceres.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Ceres/Preview Content\"";
 				DEVELOPMENT_TEAM = 347QD86WM7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Ceres/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = eu.edmumatu.Ceres;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

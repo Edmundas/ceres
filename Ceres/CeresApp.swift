@@ -9,12 +9,27 @@ import SwiftUI
 
 @main
 struct CeresApp: App {
+    @State private var selection: Tab = .workouts
+    
+    enum Tab {
+        case workouts
+    }
+    
     let persistenceController = PersistenceController.shared
-
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabView(selection: $selection) {
+                NavigationView() {
+                    WorkoutsView()
+                }
+                .navigationViewStyle(.stack)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .tabItem {
+                    Label("Workouts", systemImage: "list.bullet")
+                }
+                .tag(Tab.workouts)
+            }
         }
     }
 }
