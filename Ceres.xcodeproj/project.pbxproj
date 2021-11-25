@@ -22,6 +22,9 @@
 		18F7A840274E611E0083BA2B /* WorkoutsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A83F274E611E0083BA2B /* WorkoutsViewModel.swift */; };
 		18F7A842274E615C0083BA2B /* DataManager+Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A841274E615C0083BA2B /* DataManager+Workout.swift */; };
 		18F7A844274E62960083BA2B /* DMWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A843274E62960083BA2B /* DMWorkout.swift */; };
+		18F7A846274E7E460083BA2B /* ModifyWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A845274E7E460083BA2B /* ModifyWorkoutView.swift */; };
+		18F7A848274E87740083BA2B /* ModifyWorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A847274E87740083BA2B /* ModifyWorkoutViewModel.swift */; };
+		18F7A84B274E8BD60083BA2B /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A84A274E8BD60083BA2B /* ClearButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +65,9 @@
 		18F7A83F274E611E0083BA2B /* WorkoutsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsViewModel.swift; sourceTree = "<group>"; };
 		18F7A841274E615C0083BA2B /* DataManager+Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Workout.swift"; sourceTree = "<group>"; };
 		18F7A843274E62960083BA2B /* DMWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMWorkout.swift; sourceTree = "<group>"; };
+		18F7A845274E7E460083BA2B /* ModifyWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyWorkoutView.swift; sourceTree = "<group>"; };
+		18F7A847274E87740083BA2B /* ModifyWorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyWorkoutViewModel.swift; sourceTree = "<group>"; };
+		18F7A84A274E8BD60083BA2B /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +123,7 @@
 				18F7A803274E2D8E0083BA2B /* CeresApp.swift */,
 				18F7A83A274E34F60083BA2B /* Views */,
 				18F7A839274E34DD0083BA2B /* Data Model */,
+				18F7A849274E8BBC0083BA2B /* Helpers */,
 				18F7A837274E33B30083BA2B /* Info.plist */,
 				18F7A838274E33BD0083BA2B /* Ceres.entitlements */,
 				18F7A807274E2D910083BA2B /* Assets.xcassets */,
@@ -176,8 +183,18 @@
 			children = (
 				18F7A805274E2D8E0083BA2B /* WorkoutsView.swift */,
 				18F7A83F274E611E0083BA2B /* WorkoutsViewModel.swift */,
+				18F7A845274E7E460083BA2B /* ModifyWorkoutView.swift */,
+				18F7A847274E87740083BA2B /* ModifyWorkoutViewModel.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		18F7A849274E8BBC0083BA2B /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				18F7A84A274E8BD60083BA2B /* ClearButton.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,12 +327,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18F7A848274E87740083BA2B /* ModifyWorkoutViewModel.swift in Sources */,
 				18F7A810274E2D910083BA2B /* Ceres.xcdatamodeld in Sources */,
 				18F7A844274E62960083BA2B /* DMWorkout.swift in Sources */,
 				18F7A83E274E35BD0083BA2B /* DataManager.swift in Sources */,
 				18F7A840274E611E0083BA2B /* WorkoutsViewModel.swift in Sources */,
 				18F7A80D274E2D910083BA2B /* Persistence.swift in Sources */,
 				18F7A806274E2D8E0083BA2B /* WorkoutsView.swift in Sources */,
+				18F7A84B274E8BD60083BA2B /* ClearButton.swift in Sources */,
+				18F7A846274E7E460083BA2B /* ModifyWorkoutView.swift in Sources */,
 				18F7A804274E2D8E0083BA2B /* CeresApp.swift in Sources */,
 				18F7A83C274E35200083BA2B /* Persistence+Preview.swift in Sources */,
 				18F7A842274E615C0083BA2B /* DataManager+Workout.swift in Sources */,

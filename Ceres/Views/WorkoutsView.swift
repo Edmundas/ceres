@@ -16,14 +16,30 @@ struct WorkoutsView: View {
     
     @StateObject private var viewModel = WorkoutsViewModel()
     
+    @State private var showingAddWorkoutSheet = false
+    
     var body: some View {
         List {
             if workouts.isEmpty {
                 Label("The list is empty", systemImage: "exclamationmark.circle")
             }
+            ForEach(workouts) { workout in
+                Text(workout.title ?? "NONE")
+            }
         }
         .listStyle(InsetGroupedListStyle())
         .navigationTitle("Workouts")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button(action: { showingAddWorkoutSheet = true },
+                       label: { Image(systemName: "plus") })
+            }
+        }
+        .sheet(isPresented: $showingAddWorkoutSheet) {
+            NavigationView {
+                ModifyWorkoutView()
+            }
+        }
     }
 }
 struct WorkoutsView_Previews: PreviewProvider {

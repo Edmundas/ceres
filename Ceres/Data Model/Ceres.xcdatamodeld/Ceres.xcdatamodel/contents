@@ -24,15 +24,17 @@
         <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DMWorkout" inverseName="rounds" inverseEntity="DMWorkout"/>
     </entity>
     <entity name="DMWorkout" representedClassName="DMWorkout" syncable="YES">
+        <attribute name="category" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="rounds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DMRound" inverseName="workout" inverseEntity="DMRound"/>
     </entity>
     <elements>
-        <element name="DMMovementDefinition" positionX="-63" positionY="-18" width="128" height="74"/>
-        <element name="DMMovement" positionX="-63" positionY="0" width="128" height="89"/>
-        <element name="DMRound" positionX="-45" positionY="27" width="128" height="89"/>
-        <element name="DMWorkout" positionX="-36" positionY="54" width="128" height="74"/>
         <element name="DMMetric" positionX="-18" positionY="72" width="128" height="89"/>
+        <element name="DMMovement" positionX="-63" positionY="0" width="128" height="89"/>
+        <element name="DMMovementDefinition" positionX="-63" positionY="-18" width="128" height="74"/>
+        <element name="DMRound" positionX="-45" positionY="27" width="128" height="89"/>
+        <element name="DMWorkout" positionX="-36" positionY="54" width="128" height="104"/>
     </elements>
 </model>
