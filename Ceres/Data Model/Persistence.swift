@@ -25,6 +25,8 @@ struct PersistenceController {
         }
         return result
     }()
+    
+    static var testing = PersistenceController(inMemory: true)
 
     let container: NSPersistentCloudKitContainer
 

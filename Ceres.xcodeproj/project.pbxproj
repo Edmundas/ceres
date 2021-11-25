@@ -13,7 +13,7 @@
 		18F7A80B274E2D910083BA2B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18F7A80A274E2D910083BA2B /* Preview Assets.xcassets */; };
 		18F7A80D274E2D910083BA2B /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A80C274E2D910083BA2B /* Persistence.swift */; };
 		18F7A810274E2D910083BA2B /* Ceres.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A80E274E2D910083BA2B /* Ceres.xcdatamodeld */; };
-		18F7A81A274E2D910083BA2B /* CeresTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A819274E2D910083BA2B /* CeresTests.swift */; };
+		18F7A81A274E2D910083BA2B /* DataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A819274E2D910083BA2B /* DataManagerTests.swift */; };
 		18F7A824274E2D920083BA2B /* CeresUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A823274E2D920083BA2B /* CeresUITests.swift */; };
 		18F7A826274E2D920083BA2B /* CeresUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A825274E2D920083BA2B /* CeresUITestsLaunchTests.swift */; };
 		18F7A836274E339C0083BA2B /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F7A835274E339C0083BA2B /* CloudKit.framework */; };
@@ -53,7 +53,7 @@
 		18F7A80C274E2D910083BA2B /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		18F7A80F274E2D910083BA2B /* Ceres.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Ceres.xcdatamodel; sourceTree = "<group>"; };
 		18F7A815274E2D910083BA2B /* CeresTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CeresTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		18F7A819274E2D910083BA2B /* CeresTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CeresTests.swift; sourceTree = "<group>"; };
+		18F7A819274E2D910083BA2B /* DataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
 		18F7A81F274E2D920083BA2B /* CeresUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CeresUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18F7A823274E2D920083BA2B /* CeresUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CeresUITests.swift; sourceTree = "<group>"; };
 		18F7A825274E2D920083BA2B /* CeresUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CeresUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -143,7 +143,7 @@
 		18F7A818274E2D910083BA2B /* CeresTests */ = {
 			isa = PBXGroup;
 			children = (
-				18F7A819274E2D910083BA2B /* CeresTests.swift */,
+				18F7A819274E2D910083BA2B /* DataManagerTests.swift */,
 			);
 			path = CeresTests;
 			sourceTree = "<group>";
@@ -346,7 +346,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18F7A81A274E2D910083BA2B /* CeresTests.swift in Sources */,
+				18F7A81A274E2D910083BA2B /* DataManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
