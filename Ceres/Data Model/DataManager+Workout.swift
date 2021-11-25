@@ -10,6 +10,7 @@ import CoreData
 
 protocol WorkoutDataManagerProtocol {
     func createWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory)
+    func deleteWorkout(_ workout: DMWorkout)
 }
 
 // MARK: - WorkoutDataManagerProtocol
@@ -21,6 +22,19 @@ extension DataManager: WorkoutDataManagerProtocol {
                 workout.title = title
                 workout.type = type.rawValue
                 workout.category = category.rawValue
+                
+                try context.save()
+            } catch {
+                // TODO: CoreData - Handle error
+                fatalError("Unresolved error: \(error)")
+            }
+        }
+    }
+    
+    func deleteWorkout(_ workout: DMWorkout) {
+        context.performAndWait {
+            do {
+                context.delete(workout)
                 
                 try context.save()
             } catch {

@@ -13,4 +13,8 @@ final class WorkoutsViewModel: ObservableObject {
     init(dataManager: DataManagerProtocol = DataManager.shared) {
         self.dataManager = dataManager
     }
+    
+    func delete(workout: DMWorkout) {
+        dataManager.deleteWorkout(workout)
+    }
 }

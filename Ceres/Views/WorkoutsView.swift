@@ -24,8 +24,9 @@ struct WorkoutsView: View {
                 Label("The list is empty", systemImage: "exclamationmark.circle")
             }
             ForEach(workouts) { workout in
-                Text(workout.title ?? "NONE")
+                Text(workout.title ?? "")
             }
+            .onDelete(perform: deleteWorkout)
         }
         .listStyle(InsetGroupedListStyle())
         .navigationTitle("Workouts")
@@ -42,6 +43,15 @@ struct WorkoutsView: View {
         }
     }
 }
+
+extension WorkoutsView {
+    private func deleteWorkout(indexSet: IndexSet) {
+        indexSet.forEach {
+            viewModel.delete(workout: workouts[$0])
+        }
+    }
+}
+
 struct WorkoutsView_Previews: PreviewProvider {
     static var previews: some View {
         WorkoutsView()
