@@ -10,6 +10,8 @@ import Foundation
 final class ModifyWorkoutViewModel: ObservableObject {
     @Published var workout: DMWorkout?
     @Published var title = ""
+    @Published var type = DMWorkoutType.none
+    @Published var category = DMWorkoutCategory.none
     
     private let dataManager: DataManagerProtocol
     
@@ -22,7 +24,7 @@ final class ModifyWorkoutViewModel: ObservableObject {
         if let _ = workout {
             // TODO: update workout
         } else {
-            dataManager.createWorkout(title: title.isEmpty ? nil : title, type: .unknown, category: .none)
+            dataManager.createWorkout(title: title.isEmpty ? nil : title, type: type, category: category)
         }
     }
 }

@@ -12,12 +12,35 @@ struct ModifyWorkoutView: View {
     
     @StateObject private var viewModel = ModifyWorkoutViewModel()
     
+    @State private var selectedType = DMWorkoutType.none
+    @State private var selectedCategory = DMWorkoutCategory.none
+    
     var workout: DMWorkout?
     
     var body: some View {
         List {
-            TextField("Title", text: $viewModel.title)
-                .modifier(ClearButton(text: $viewModel.title))
+            Section {
+                TextField("Title", text: $viewModel.title)
+                    .modifier(ClearButton(text: $viewModel.title))
+            }
+            Section {
+                Picker("Type", selection: $selectedType) {
+                    ForEach(DMWorkoutType.allCases, id: \.self) { type in
+                        Text(type == .none ? String(describing: type) : String(describing: type).uppercased())
+                    }
+                }
+                Picker("Category", selection: $selectedCategory) {
+                    ForEach(DMWorkoutCategory.allCases, id: \.self) { category in
+                        Text(category == .none ? String(describing: category) : String(describing: category).capitalized)
+                    }
+                }
+            }
+            Section {
+                // TODO: metrics
+            }
+            Section {
+                // TODO: rounds
+            }
         }
         .listStyle(InsetGroupedListStyle())
         .navigationTitle("Workout")
@@ -43,6 +66,8 @@ extension ModifyWorkoutView {
         if let currentWorkout = workout {
             viewModel.workout = currentWorkout
             viewModel.title = currentWorkout.title ?? ""
+            viewModel.type = DMWorkoutType(rawValue: currentWorkout.type) ?? .none
+            viewModel.category = DMWorkoutCategory(rawValue: currentWorkout.category) ?? .none
         }
     }
 }
@@ -50,5 +75,6 @@ extension ModifyWorkoutView {
 struct ModifyWorkoutView_Previews: PreviewProvider {
     static var previews: some View {
         ModifyWorkoutView()
+            .preferredColorScheme(.dark)
     }
 }

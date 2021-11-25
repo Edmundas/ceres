@@ -8,18 +8,18 @@
 import Foundation
 import CoreData
 
-enum DMWorkoutType: Int16 {
-    case unknown
-    case FT
-    case RFT
-    case AMRAP
-    case EMOM
-    case TABATA
-    case FGB
-    case DBR
+enum DMWorkoutType: Int16, CaseIterable {
+    case none
+    case ft
+    case rft
+    case amrap
+    case emom
+    case tabata
+    case fgb
+    case dbr
 }
 
-enum DMWorkoutCategory: Int16 {
+enum DMWorkoutCategory: Int16, CaseIterable {
     case none
     case girl
     case hero
