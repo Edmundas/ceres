@@ -24,7 +24,7 @@ final class ModifyWorkoutViewModel: ObservableObject {
         if let _ = workout {
             // TODO: update workout
         } else {
-            dataManager.createWorkout(title: title.isEmpty ? nil : title, type: type, category: category)
+            let _ = dataManager.createWorkout(title: title.isEmpty ? nil : title, type: type, category: category)
         }
     }
 }

@@ -26,30 +26,47 @@ class DataManagerTests: XCTestCase {
     // MARK: Test
     
     func testCreateWorkout() throws {
-        expectation(forNotification: .NSManagedObjectContextDidSave, object: dataManager.context) { _ in
-            return true
-        }
+        let newWorkout = dataManager.createWorkout(title: "Test workout #1", type: .ft, category: .hero)
+        XCTAssertNotNil(newWorkout, "Did not create a workout")
         
-        dataManager.context.perform {
-            self.dataManager.createWorkout(title: "Test workout #1", type: .ft, category: .hero)
-        }
-        
-//        let request: NSFetchRequest<DMWorkout> = DMWorkout.fetchRequest()
-//        do {
-//            let workoutsCount = try dataManager.context.count(for: request)
-//            XCTAssertEqual(workoutsCount, 1, "Save did not occur")
-//        } catch {
-//            fatalError("Unresolved error: \(error)")
-//        }
-        
-        waitForExpectations(timeout: 2.0) { error in
-            XCTAssertNil(error, "Save did not occur")
+        let request: NSFetchRequest<DMWorkout> = DMWorkout.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", newWorkout!.id as CVarArg)
+        do {
+            let workoutsCount = try dataManager.context.count(for: request)
+            XCTAssertEqual(workoutsCount, 1, "Did not create a workout")
+        } catch {
+            fatalError("Unresolved error: \(error)")
         }
     }
     
     func testDeleteWorkout() throws {
-        // TODO: testDeleteWorkout
-//        dataManager.deleteWorkout(<#T##workout: DMWorkout##DMWorkout#>)
+        var initialWorkoutsCount = 0
+        let request: NSFetchRequest<DMWorkout> = DMWorkout.fetchRequest()
+        do {
+            initialWorkoutsCount = try dataManager.context.count(for: request)
+        } catch {
+            fatalError("Unresolved error: \(error)")
+        }
+        
+        let workout = DMWorkout(context: dataManager.context)
+        workout.title = "Test workout #1"
+        workout.type = DMWorkoutType.none.rawValue
+        workout.category = DMWorkoutCategory.none.rawValue
+        
+        do {
+            try dataManager.context.save()
+        } catch {
+            fatalError("Unresolved error: \(error)")
+        }
+        
+        dataManager.deleteWorkout(workout)
+        
+        do {
+            let finalWorkoutsCount = try dataManager.context.count(for: request)
+            XCTAssertEqual(initialWorkoutsCount, finalWorkoutsCount, "Did not delete a workout")
+        } catch {
+            fatalError("Unresolved error: \(error)")
+        }
     }
     
 }
