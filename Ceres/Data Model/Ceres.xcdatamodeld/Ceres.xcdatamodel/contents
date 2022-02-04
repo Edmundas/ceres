@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19461" systemVersion="21A559" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="DMMetric" representedClassName="DMMetric" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="subtype" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="unit" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DMWorkout" inverseName="metrics" inverseEntity="DMWorkout"/>
     </entity>
     <entity name="DMMovement" representedClassName="DMMovement" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -28,13 +30,14 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="metrics" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DMMetric" inverseName="workout" inverseEntity="DMMetric"/>
         <relationship name="rounds" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DMRound" inverseName="workout" inverseEntity="DMRound"/>
     </entity>
     <elements>
-        <element name="DMMetric" positionX="-18" positionY="72" width="128" height="89"/>
+        <element name="DMMetric" positionX="-18" positionY="72" width="128" height="119"/>
         <element name="DMMovement" positionX="-63" positionY="0" width="128" height="89"/>
         <element name="DMMovementDefinition" positionX="-63" positionY="-18" width="128" height="74"/>
         <element name="DMRound" positionX="-45" positionY="27" width="128" height="89"/>
-        <element name="DMWorkout" positionX="-36" positionY="54" width="128" height="104"/>
+        <element name="DMWorkout" positionX="-36" positionY="54" width="128" height="119"/>
     </elements>
 </model>

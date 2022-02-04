@@ -9,13 +9,13 @@ import Foundation
 import CoreData
 
 protocol WorkoutDataManagerProtocol {
-    func createWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory) -> DMWorkout?
+    func saveWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory) -> DMWorkout?
     func deleteWorkout(_ workout: DMWorkout)
 }
 
 // MARK: - WorkoutDataManagerProtocol
 extension DataManager: WorkoutDataManagerProtocol {
-    func createWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory) -> DMWorkout? {
+    func saveWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory) -> DMWorkout? {
         context.performAndWait {
             do {
                 let workout = DMWorkout(context: context)

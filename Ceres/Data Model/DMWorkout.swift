@@ -34,6 +34,7 @@ public class DMWorkout: NSManagedObject {
     
     @NSManaged public var title: String?
     
+    @NSManaged public var metrics: Set<DMMetric>?
 //    @NSManaged public var rounds: Set<DMRound>?
     
     public override func awakeFromInsert() {

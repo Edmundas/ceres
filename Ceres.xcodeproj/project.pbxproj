@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18454D4527AD5940002A1E6C /* DMMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18454D4427AD5940002A1E6C /* DMMetric.swift */; };
+		18454D4727AD62B1002A1E6C /* ModifyMetricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18454D4627AD62B1002A1E6C /* ModifyMetricView.swift */; };
+		18454D4927AD6583002A1E6C /* ModifyMetricViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18454D4827AD6583002A1E6C /* ModifyMetricViewModel.swift */; };
+		18454D4B27AD7688002A1E6C /* DataManager+Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18454D4A27AD7688002A1E6C /* DataManager+Metric.swift */; };
 		18F7A804274E2D8E0083BA2B /* CeresApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A803274E2D8E0083BA2B /* CeresApp.swift */; };
 		18F7A806274E2D8E0083BA2B /* WorkoutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A805274E2D8E0083BA2B /* WorkoutsView.swift */; };
 		18F7A808274E2D910083BA2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18F7A807274E2D910083BA2B /* Assets.xcassets */; };
@@ -45,6 +49,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18454D4427AD5940002A1E6C /* DMMetric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMMetric.swift; sourceTree = "<group>"; };
+		18454D4627AD62B1002A1E6C /* ModifyMetricView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyMetricView.swift; sourceTree = "<group>"; };
+		18454D4827AD6583002A1E6C /* ModifyMetricViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyMetricViewModel.swift; sourceTree = "<group>"; };
+		18454D4A27AD7688002A1E6C /* DataManager+Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Metric.swift"; sourceTree = "<group>"; };
 		18F7A800274E2D8E0083BA2B /* Ceres.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ceres.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18F7A803274E2D8E0083BA2B /* CeresApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CeresApp.swift; sourceTree = "<group>"; };
 		18F7A805274E2D8E0083BA2B /* WorkoutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsView.swift; sourceTree = "<group>"; };
@@ -170,7 +178,9 @@
 			children = (
 				18F7A83D274E35BD0083BA2B /* DataManager.swift */,
 				18F7A841274E615C0083BA2B /* DataManager+Workout.swift */,
+				18454D4A27AD7688002A1E6C /* DataManager+Metric.swift */,
 				18F7A843274E62960083BA2B /* DMWorkout.swift */,
+				18454D4427AD5940002A1E6C /* DMMetric.swift */,
 				18F7A80C274E2D910083BA2B /* Persistence.swift */,
 				18F7A83B274E35200083BA2B /* Persistence+Preview.swift */,
 				18F7A80E274E2D910083BA2B /* Ceres.xcdatamodeld */,
@@ -185,6 +195,8 @@
 				18F7A83F274E611E0083BA2B /* WorkoutsViewModel.swift */,
 				18F7A845274E7E460083BA2B /* ModifyWorkoutView.swift */,
 				18F7A847274E87740083BA2B /* ModifyWorkoutViewModel.swift */,
+				18454D4627AD62B1002A1E6C /* ModifyMetricView.swift */,
+				18454D4827AD6583002A1E6C /* ModifyMetricViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -329,15 +341,19 @@
 			files = (
 				18F7A848274E87740083BA2B /* ModifyWorkoutViewModel.swift in Sources */,
 				18F7A810274E2D910083BA2B /* Ceres.xcdatamodeld in Sources */,
+				18454D4527AD5940002A1E6C /* DMMetric.swift in Sources */,
+				18454D4927AD6583002A1E6C /* ModifyMetricViewModel.swift in Sources */,
 				18F7A844274E62960083BA2B /* DMWorkout.swift in Sources */,
 				18F7A83E274E35BD0083BA2B /* DataManager.swift in Sources */,
 				18F7A840274E611E0083BA2B /* WorkoutsViewModel.swift in Sources */,
+				18454D4B27AD7688002A1E6C /* DataManager+Metric.swift in Sources */,
 				18F7A80D274E2D910083BA2B /* Persistence.swift in Sources */,
 				18F7A806274E2D8E0083BA2B /* WorkoutsView.swift in Sources */,
 				18F7A84B274E8BD60083BA2B /* ClearButton.swift in Sources */,
 				18F7A846274E7E460083BA2B /* ModifyWorkoutView.swift in Sources */,
 				18F7A804274E2D8E0083BA2B /* CeresApp.swift in Sources */,
 				18F7A83C274E35200083BA2B /* Persistence+Preview.swift in Sources */,
+				18454D4727AD62B1002A1E6C /* ModifyMetricView.swift in Sources */,
 				18F7A842274E615C0083BA2B /* DataManager+Workout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

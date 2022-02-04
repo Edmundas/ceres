@@ -12,8 +12,7 @@ struct ModifyWorkoutView: View {
     
     @StateObject private var viewModel = ModifyWorkoutViewModel()
     
-    @State private var selectedType = DMWorkoutType.none
-    @State private var selectedCategory = DMWorkoutCategory.none
+    @State private var showingModifyMetricSheet = false
     
     var workout: DMWorkout?
     
@@ -24,12 +23,12 @@ struct ModifyWorkoutView: View {
                     .modifier(ClearButton(text: $viewModel.title))
             }
             Section {
-                Picker("Type", selection: $selectedType) {
+                Picker("Type", selection: $viewModel.type) {
                     ForEach(DMWorkoutType.allCases, id: \.self) { type in
                         Text(type == .none ? String(describing: type) : String(describing: type).uppercased())
                     }
                 }
-                Picker("Category", selection: $selectedCategory) {
+                Picker("Category", selection: $viewModel.category) {
                     ForEach(DMWorkoutCategory.allCases, id: \.self) { category in
                         Text(category == .none ? String(describing: category) : String(describing: category).capitalized)
                     }
@@ -37,6 +36,14 @@ struct ModifyWorkoutView: View {
             }
             Section {
                 // TODO: metrics
+                if let metrics = viewModel.metrics {
+                    ForEach(metrics) { metric in
+                        Text("_METRIC_")
+                    }
+                }
+                Button(action: { showingModifyMetricSheet = true},
+                       label: { Label("Add workout metric", systemImage: "plus.app") })
+                    .buttonStyle(PlainButtonStyle())
             }
             Section {
                 // TODO: rounds
@@ -58,6 +65,14 @@ struct ModifyWorkoutView: View {
             }
         }
         .onAppear(perform: prepareViewModel)
+        .sheet(isPresented: $showingModifyMetricSheet) {
+            NavigationView {
+                ModifyMetricView {
+                    if viewModel.metrics == nil { viewModel.metrics = [] }
+                    viewModel.metrics!.append($0)
+                }
+            }
+        }
     }
 }
 

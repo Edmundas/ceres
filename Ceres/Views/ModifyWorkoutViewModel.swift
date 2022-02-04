@@ -13,6 +13,8 @@ final class ModifyWorkoutViewModel: ObservableObject {
     @Published var type = DMWorkoutType.none
     @Published var category = DMWorkoutCategory.none
     
+    @Published var metrics: [DMMetric]?
+    
     private let dataManager: DataManagerProtocol
     
     init(dataManager: DataManagerProtocol = DataManager.shared) {
@@ -24,7 +26,7 @@ final class ModifyWorkoutViewModel: ObservableObject {
         if let _ = workout {
             // TODO: update workout
         } else {
-            let _ = dataManager.createWorkout(title: title.isEmpty ? nil : title, type: type, category: category)
+            let _ = dataManager.saveWorkout(title: title.isEmpty ? nil : title, type: type, category: category)
         }
     }
 }

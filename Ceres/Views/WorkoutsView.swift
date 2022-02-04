@@ -25,6 +25,8 @@ struct WorkoutsView: View {
             }
             ForEach(workouts) { workout in
                 Text(workout.title ?? "")
+                Text("\(workout.type)")
+                Text("\(workout.category)")
             }
             .onDelete(perform: deleteWorkout)
         }

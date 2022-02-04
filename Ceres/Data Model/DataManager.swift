@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-typealias DataManagerProtocol = WorkoutDataManagerProtocol
+typealias DataManagerProtocol = WorkoutDataManagerProtocol & MetricDataManagerProtocol
 
 final class DataManager {
     static let shared = DataManager()
