@@ -13,6 +13,7 @@ struct ModifyWorkoutView: View {
     @StateObject private var viewModel = ModifyWorkoutViewModel()
     
     @State private var showingModifyMetricSheet = false
+    @State private var metric: DMMetric?
     
     var workout: DMWorkout?
     
@@ -38,7 +39,10 @@ struct ModifyWorkoutView: View {
                 // TODO: metrics
                 if let metrics = viewModel.metrics {
                     ForEach(metrics) { metric in
-                        Text("_METRIC_")
+                        NavigationLink(destination: ModifyMetricView(metric: $metric)) {
+                            Text("_METRIC_")
+                            Text("\(metric.value) - \(metric.type) - \(metric.subtype) - \(metric.unit)")
+                        }
                     }
                 }
                 Button(action: { showingModifyMetricSheet = true},
@@ -67,11 +71,13 @@ struct ModifyWorkoutView: View {
         .onAppear(perform: prepareViewModel)
         .sheet(isPresented: $showingModifyMetricSheet) {
             NavigationView {
-                ModifyMetricView {
-                    if viewModel.metrics == nil { viewModel.metrics = [] }
-                    viewModel.metrics!.append($0)
-                }
+                ModifyMetricView(metric: $metric)
             }
+        }
+        .onChange(of: metric) {
+            guard let newMetric = $0 else { return }
+            if viewModel.metrics == nil { viewModel.metrics = [] }
+            viewModel.metrics!.append(newMetric)
         }
     }
 }
@@ -90,6 +96,6 @@ extension ModifyWorkoutView {
 struct ModifyWorkoutView_Previews: PreviewProvider {
     static var previews: some View {
         ModifyWorkoutView()
-            .preferredColorScheme(.dark)
+//            .preferredColorScheme(.dark)
     }
 }

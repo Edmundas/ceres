@@ -12,7 +12,7 @@ struct ModifyMetricView: View {
     
     @StateObject private var viewModel = ModifyMetricViewModel()
     
-    let completion: (_: DMMetric) -> Void
+    @Binding var metric: DMMetric?
     
     var body: some View {
         List {
@@ -39,25 +39,38 @@ struct ModifyMetricView: View {
             }
         }
         .listStyle(InsetGroupedListStyle())
+        .onAppear {
+//            viewModel.metric = metric
+            print("_APPEAR_")
+        }
+        .onChange(of: metric) { _ in
+            print("_CHANGE_")
+        }
         .navigationTitle("Metric")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") {
-                    presentationMode.wrappedValue.dismiss()
-                }
+                Button("Cancel", action: cancelAction)
             }
             ToolbarItem(placement: .confirmationAction) {
-                Button("Save") {
-                    completion(viewModel.create())
-                    presentationMode.wrappedValue.dismiss()
-                }
+                Button("Save", action: saveAction)
             }
         }
     }
 }
 
-struct ModifyMetricView_Previews: PreviewProvider {
-    static var previews: some View {
-        ModifyMetricView(completion: { _ in })
+extension ModifyMetricView {
+    private func cancelAction() {
+        presentationMode.wrappedValue.dismiss()
+    }
+    
+    private func saveAction() {
+//        metric = viewModel.metric
+        presentationMode.wrappedValue.dismiss()
     }
 }
+
+//struct ModifyMetricView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ModifyMetricView(metric: .constant(nil))
+//    }
+//}
