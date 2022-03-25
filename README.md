@@ -1,2 +1,2 @@
 # ceres
-Crossfit logger
+Workout logger
