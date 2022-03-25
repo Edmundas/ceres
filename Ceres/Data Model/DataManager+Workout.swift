@@ -9,13 +9,14 @@ import Foundation
 import CoreData
 
 protocol WorkoutDataManagerProtocol {
-    func saveWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory, metrics: [DMMetric]?) -> DMWorkout?
+    func saveWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory, metrics: [DMMetric]?)
+    func updateWorkout(_ workout: DMWorkout)
     func deleteWorkout(_ workout: DMWorkout)
 }
 
 // MARK: - WorkoutDataManagerProtocol
 extension DataManager: WorkoutDataManagerProtocol {
-    func saveWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory, metrics: [DMMetric]?) -> DMWorkout? {
+    func saveWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory, metrics: [DMMetric]?) {
         context.performAndWait {
             do {
                 let workout = DMWorkout(context: context)
@@ -28,8 +29,17 @@ extension DataManager: WorkoutDataManagerProtocol {
                 }
                 
                 try context.save()
-                
-                return workout
+            } catch {
+                // TODO: CoreData - Handle error
+                fatalError("Unresolved error: \(error)")
+            }
+        }
+    }
+    
+    func updateWorkout(_ workout: DMWorkout) {
+        context.performAndWait {
+            do {
+                try context.save()
             } catch {
                 // TODO: CoreData - Handle error
                 fatalError("Unresolved error: \(error)")

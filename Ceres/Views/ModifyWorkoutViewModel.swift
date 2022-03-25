@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class ModifyWorkoutViewModel: ObservableObject {
+    @Binding var workout: DMWorkout?
+    
     @Published var title = ""
     @Published var type = DMWorkoutType.none
     @Published var category = DMWorkoutCategory.none
@@ -16,13 +19,32 @@ final class ModifyWorkoutViewModel: ObservableObject {
     
     private let dataManager: DataManagerProtocol
     
-    init(dataManager: DataManagerProtocol = DataManager.shared) {
+    init(dataManager: DataManagerProtocol = DataManager.shared, workout: Binding<DMWorkout?>) {
         self.dataManager = dataManager
+        _workout = workout
+        
+        if let currentWorkout = workout.wrappedValue {
+            title = currentWorkout.title ?? ""
+            type = DMWorkoutType(rawValue: currentWorkout.type) ?? .none
+            category = DMWorkoutCategory(rawValue: currentWorkout.category) ?? .none
+            
+            if let currentMetrics = currentWorkout.metrics {
+                metrics = Array(currentMetrics)
+            }
+        }
     }
     
     func save() {
-        // TODO: save workout
-        let _ = dataManager.saveWorkout(title: title.isEmpty ? nil : title, type: type, category: category, metrics: metrics)
+        if let currentWorkout = workout {
+            currentWorkout.title = title
+            currentWorkout.type = type.rawValue
+            currentWorkout.category = category.rawValue
+            currentWorkout.metrics = metrics.count > 0 ? Set(metrics) : nil
+            
+            dataManager.updateWorkout(currentWorkout)
+        } else {
+            dataManager.saveWorkout(title: title.isEmpty ? nil : title, type: type, category: category, metrics: metrics)
+        }
     }
     
     func delete(metric: DMMetric) {

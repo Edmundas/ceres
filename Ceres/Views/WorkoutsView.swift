@@ -17,6 +17,7 @@ struct WorkoutsView: View {
     @StateObject private var viewModel = WorkoutsViewModel()
     
     @State private var showingAddWorkoutSheet = false
+    @State private var workout: DMWorkout?
     
     var body: some View {
         List {
@@ -24,7 +25,15 @@ struct WorkoutsView: View {
                 Label("The list is empty", systemImage: "exclamationmark.circle")
             }
             ForEach(workouts) { workout in
-                Text("\(workout.title ?? "") - \(workout.metrics?.first?.value ?? 0.0)")
+                Button(action: {
+                    self.workout = workout
+                    showingAddWorkoutSheet.toggle()
+                },
+                       label: {
+                    Text("\(workout.title ?? "") - \(workout.metrics?.first?.value ?? 0.0)")
+                })
+                .buttonStyle(DefaultButtonStyle())
+                .foregroundColor(.primary)
             }
             .onDelete(perform: deleteWorkout)
         }
@@ -36,11 +45,13 @@ struct WorkoutsView: View {
                        label: { Image(systemName: "plus") })
             }
         }
-        .sheet(isPresented: $showingAddWorkoutSheet) {
+        .sheet(isPresented: $showingAddWorkoutSheet,
+               onDismiss: { workout = nil },
+               content: {
             NavigationView {
-                ModifyWorkoutView(viewModel: ModifyWorkoutViewModel())
+                ModifyWorkoutView(viewModel: ModifyWorkoutViewModel(workout: $workout))
             }
-        }
+        })
     }
 }
 
