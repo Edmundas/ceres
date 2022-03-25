@@ -18,8 +18,8 @@ struct GetWorkoutsUseCase: GetWorkouts {
     var repo: WorkoutRepository
     
     func execute() async -> Result<[Workout], WorkoutError> {
-        let workouts = await repo.getWorkouts()
-        return workouts
+        let result = await repo.getWorkouts()
+        return result
     }
     
 }
