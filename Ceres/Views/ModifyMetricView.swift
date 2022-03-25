@@ -10,9 +10,7 @@ import SwiftUI
 struct ModifyMetricView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    @StateObject private var viewModel = ModifyMetricViewModel()
-    
-    @Binding var metric: DMMetric?
+    @StateObject var viewModel: ModifyMetricViewModel
     
     var body: some View {
         List {
@@ -39,13 +37,6 @@ struct ModifyMetricView: View {
             }
         }
         .listStyle(InsetGroupedListStyle())
-        .onAppear {
-//            viewModel.metric = metric
-            print("_APPEAR_")
-        }
-        .onChange(of: metric) { _ in
-            print("_CHANGE_")
-        }
         .navigationTitle("Metric")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
@@ -60,17 +51,18 @@ struct ModifyMetricView: View {
 
 extension ModifyMetricView {
     private func cancelAction() {
+        viewModel.cancel()
         presentationMode.wrappedValue.dismiss()
     }
     
     private func saveAction() {
-//        metric = viewModel.metric
+        viewModel.save()
         presentationMode.wrappedValue.dismiss()
     }
 }
 
 //struct ModifyMetricView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ModifyMetricView(metric: .constant(nil))
+//        ModifyMetricView()
 //    }
 //}

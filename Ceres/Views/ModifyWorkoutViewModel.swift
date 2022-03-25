@@ -13,7 +13,7 @@ final class ModifyWorkoutViewModel: ObservableObject {
     @Published var type = DMWorkoutType.none
     @Published var category = DMWorkoutCategory.none
     
-    @Published var metrics: [DMMetric]?
+    @Published var metrics: [DMMetric] = []
     
     private let dataManager: DataManagerProtocol
     

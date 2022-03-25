@@ -39,15 +39,22 @@ struct ModifyWorkoutView: View {
                 // TODO: metrics
                 if let metrics = viewModel.metrics {
                     ForEach(metrics) { metric in
-                        NavigationLink(destination: ModifyMetricView(metric: $metric)) {
-                            Text("_METRIC_")
+                        Button(action: {
+                            self.metric = metric
+                            showingModifyMetricSheet.toggle()
+                        },
+                               label: {
                             Text("\(metric.value) - \(metric.type) - \(metric.subtype) - \(metric.unit)")
-                        }
+                        })
+                        .buttonStyle(DefaultButtonStyle())
+                        .foregroundColor(.primary)
                     }
                 }
-                Button(action: { showingModifyMetricSheet = true},
-                       label: { Label("Add workout metric", systemImage: "plus.app") })
-                    .buttonStyle(PlainButtonStyle())
+                Button(
+                    action: { showingModifyMetricSheet.toggle() },
+                    label: { Label("Add workout metric", systemImage: "plus.app") }
+                )
+                .buttonStyle(PlainButtonStyle())
             }
             Section {
                 // TODO: rounds
@@ -57,28 +64,20 @@ struct ModifyWorkoutView: View {
         .navigationTitle("Workout")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") {
-                    presentationMode.wrappedValue.dismiss()
-                }
+                Button("Cancel", action: cancelAction)
             }
             ToolbarItem(placement: .confirmationAction) {
-                Button("Save") {
-                    viewModel.save()
-                    presentationMode.wrappedValue.dismiss()
-                }
+                Button("Save", action: saveAction)
             }
         }
         .onAppear(perform: prepareViewModel)
-        .sheet(isPresented: $showingModifyMetricSheet) {
+        .sheet(isPresented: $showingModifyMetricSheet,
+               onDismiss: { updateWorkoutMetrics() },
+               content: {
             NavigationView {
-                ModifyMetricView(metric: $metric)
+                ModifyMetricView(viewModel: ModifyMetricViewModel(metric: $metric))
             }
-        }
-        .onChange(of: metric) {
-            guard let newMetric = $0 else { return }
-            if viewModel.metrics == nil { viewModel.metrics = [] }
-            viewModel.metrics!.append(newMetric)
-        }
+        })
     }
 }
 
@@ -91,11 +90,33 @@ extension ModifyWorkoutView {
             viewModel.category = DMWorkoutCategory(rawValue: currentWorkout.category) ?? .none
         }
     }
-}
-
-struct ModifyWorkoutView_Previews: PreviewProvider {
-    static var previews: some View {
-        ModifyWorkoutView()
-//            .preferredColorScheme(.dark)
+    
+    private func updateWorkoutMetrics() {
+        guard let newMetric = metric else { return }
+        if viewModel.metrics.contains(newMetric) {
+            let index = viewModel.metrics.firstIndex(of: newMetric)!
+            viewModel.metrics.remove(at: index)
+            viewModel.metrics.insert(newMetric, at: index)
+        } else {
+            viewModel.metrics.append(newMetric)
+        }
+        metric = nil
     }
 }
+
+extension ModifyWorkoutView {
+    private func cancelAction() {
+        presentationMode.wrappedValue.dismiss()
+    }
+    
+    private func saveAction() {
+        viewModel.save()
+        presentationMode.wrappedValue.dismiss()
+    }
+}
+
+//struct ModifyWorkoutView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ModifyWorkoutView()
+//    }
+//}
