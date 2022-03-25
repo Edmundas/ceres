@@ -24,7 +24,7 @@ struct WorkoutsView: View {
                 Label("The list is empty", systemImage: "exclamationmark.circle")
             }
             ForEach(workouts) { workout in
-                Text(workout.title ?? "")
+                Text("\(workout.title ?? "") - \(workout.metrics?.first?.value ?? 0.0)")
             }
             .onDelete(perform: deleteWorkout)
         }
@@ -32,13 +32,13 @@ struct WorkoutsView: View {
         .navigationTitle("Workouts")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button(action: { showingAddWorkoutSheet = true },
+                Button(action: { showingAddWorkoutSheet.toggle() },
                        label: { Image(systemName: "plus") })
             }
         }
         .sheet(isPresented: $showingAddWorkoutSheet) {
             NavigationView {
-                ModifyWorkoutView()
+                ModifyWorkoutView(viewModel: ModifyWorkoutViewModel())
             }
         }
     }
@@ -52,9 +52,9 @@ extension WorkoutsView {
     }
 }
 
-struct WorkoutsView_Previews: PreviewProvider {
-    static var previews: some View {
-        WorkoutsView()
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-    }
-}
+//struct WorkoutsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WorkoutsView()
+//            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+//    }
+//}

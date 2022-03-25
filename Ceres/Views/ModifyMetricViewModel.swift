@@ -30,15 +30,6 @@ final class ModifyMetricViewModel: ObservableObject {
         }
     }
     
-    func createMetric() -> DMMetric {
-        dataManager.createMetric(
-            value: Double(value) ?? 0.0,
-            type: type,
-            subtype: subtype,
-            unit: unit
-        )
-    }
-    
     func save() {
         if let currentMetric = metric {
             currentMetric.value = Double(value) ?? 0.0

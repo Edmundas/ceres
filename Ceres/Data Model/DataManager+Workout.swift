@@ -9,19 +9,23 @@ import Foundation
 import CoreData
 
 protocol WorkoutDataManagerProtocol {
-    func saveWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory) -> DMWorkout?
+    func saveWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory, metrics: [DMMetric]?) -> DMWorkout?
     func deleteWorkout(_ workout: DMWorkout)
 }
 
 // MARK: - WorkoutDataManagerProtocol
 extension DataManager: WorkoutDataManagerProtocol {
-    func saveWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory) -> DMWorkout? {
+    func saveWorkout(title: String?, type: DMWorkoutType, category: DMWorkoutCategory, metrics: [DMMetric]?) -> DMWorkout? {
         context.performAndWait {
             do {
                 let workout = DMWorkout(context: context)
                 workout.title = title
                 workout.type = type.rawValue
                 workout.category = category.rawValue
+                
+                if let workoutMetrics = metrics, workoutMetrics.count > 0 {
+                    workout.metrics = Set(workoutMetrics)
+                }
                 
                 try context.save()
                 

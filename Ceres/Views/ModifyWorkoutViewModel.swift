@@ -8,7 +8,6 @@
 import Foundation
 
 final class ModifyWorkoutViewModel: ObservableObject {
-    @Published var workout: DMWorkout?
     @Published var title = ""
     @Published var type = DMWorkoutType.none
     @Published var category = DMWorkoutCategory.none
@@ -23,10 +22,6 @@ final class ModifyWorkoutViewModel: ObservableObject {
     
     func save() {
         // TODO: save workout
-        if let _ = workout {
-            // TODO: update workout
-        } else {
-            let _ = dataManager.saveWorkout(title: title.isEmpty ? nil : title, type: type, category: category)
-        }
+        let _ = dataManager.saveWorkout(title: title.isEmpty ? nil : title, type: type, category: category, metrics: metrics)
     }
 }

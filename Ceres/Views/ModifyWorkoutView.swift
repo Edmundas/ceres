@@ -10,12 +10,10 @@ import SwiftUI
 struct ModifyWorkoutView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    @StateObject private var viewModel = ModifyWorkoutViewModel()
+    @StateObject var viewModel: ModifyWorkoutViewModel
     
     @State private var showingModifyMetricSheet = false
     @State private var metric: DMMetric?
-    
-    var workout: DMWorkout?
     
     var body: some View {
         List {
@@ -70,7 +68,6 @@ struct ModifyWorkoutView: View {
                 Button("Save", action: saveAction)
             }
         }
-        .onAppear(perform: prepareViewModel)
         .sheet(isPresented: $showingModifyMetricSheet,
                onDismiss: { updateWorkoutMetrics() },
                content: {
@@ -82,15 +79,6 @@ struct ModifyWorkoutView: View {
 }
 
 extension ModifyWorkoutView {
-    private func prepareViewModel() {
-        if let currentWorkout = workout {
-            viewModel.workout = currentWorkout
-            viewModel.title = currentWorkout.title ?? ""
-            viewModel.type = DMWorkoutType(rawValue: currentWorkout.type) ?? .none
-            viewModel.category = DMWorkoutCategory(rawValue: currentWorkout.category) ?? .none
-        }
-    }
-    
     private func updateWorkoutMetrics() {
         guard let newMetric = metric else { return }
         if viewModel.metrics.contains(newMetric) {
