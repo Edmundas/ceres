@@ -1,2 +1,2 @@
-# ceres
+# Ceres
 Workout logger
