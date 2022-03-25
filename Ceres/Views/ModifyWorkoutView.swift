@@ -47,6 +47,7 @@ struct ModifyWorkoutView: View {
                         .buttonStyle(DefaultButtonStyle())
                         .foregroundColor(.primary)
                     }
+                    .onDelete(perform: deleteMetric)
                 }
                 Button(
                     action: { showingModifyMetricSheet.toggle() },
@@ -89,6 +90,12 @@ extension ModifyWorkoutView {
             viewModel.metrics.append(newMetric)
         }
         metric = nil
+    }
+    
+    private func deleteMetric(indexSet: IndexSet) {
+        indexSet.forEach {
+            viewModel.delete(metric: viewModel.metrics[$0])
+        }
     }
 }
 

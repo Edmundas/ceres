@@ -24,4 +24,9 @@ final class ModifyWorkoutViewModel: ObservableObject {
         // TODO: save workout
         let _ = dataManager.saveWorkout(title: title.isEmpty ? nil : title, type: type, category: category, metrics: metrics)
     }
+    
+    func delete(metric: DMMetric) {
+        let index = metrics.firstIndex(of: metric)!
+        metrics.remove(at: index)
+    }
 }
