@@ -26,7 +26,8 @@ class DataManagerTests: XCTestCase {
     // MARK: Test
     
     func testCreateWorkout() throws {
-        let newWorkout = dataManager.createWorkout(title: "Test workout #1", type: .ft, category: .hero)
+        dataManager.createWorkout(title: "Test workout #1", type: .ft, category: .hero, metrics: nil)
+        let newWorkout = try? dataManager.context.fetch(DMWorkout.fetchRequest()).first
         XCTAssertNotNil(newWorkout, "Did not create a workout")
         
         let request: NSFetchRequest<DMWorkout> = DMWorkout.fetchRequest()

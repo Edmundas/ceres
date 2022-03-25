@@ -43,7 +43,7 @@ final class ModifyWorkoutViewModel: ObservableObject {
             
             dataManager.updateWorkout(currentWorkout)
         } else {
-            dataManager.saveWorkout(title: title.isEmpty ? nil : title, type: type, category: category, metrics: metrics)
+            dataManager.createWorkout(title: title.isEmpty ? nil : title, type: type, category: category, metrics: metrics)
         }
     }
     
