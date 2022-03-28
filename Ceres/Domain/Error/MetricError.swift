@@ -1,13 +1,13 @@
 //
-//  WorkoutError.swift
+//  MetricError.swift
 //  Ceres
 //
-//  Created by Edmundas Matusevičius on 2022-03-25.
+//  Created by Edmundas Matusevičius on 2022-03-28.
 //
 
 import Foundation
 
-enum WorkoutError: Error {
+enum MetricError: Error {
     case DataSourceError,
          CreateError,
          DeleteError,

@@ -18,7 +18,7 @@ class WorkoutEditViewModel: ObservableObject {
     @Published var type = WorkoutType.none
     @Published var category = WorkoutCategory.none
     
-//    @Published var metrics: [Metric] = []
+    @Published var metrics: [Metric] = []
     
     @Published var errorMessage = ""
     @Published var hasError = false
@@ -27,13 +27,10 @@ class WorkoutEditViewModel: ObservableObject {
         _workout = workout
         
         if let currentWorkout = workout.wrappedValue {
-            title = currentWorkout.title ?? ""
+            title = currentWorkout.title
             type = currentWorkout.type
             category = currentWorkout.category
-            
-//            if let currentMetrics = currentWorkout.metrics {
-//                metrics = Array(currentMetrics)
-//            }
+            metrics = currentWorkout.metrics
         }
     }
     
@@ -43,7 +40,8 @@ class WorkoutEditViewModel: ObservableObject {
             id: UUID(),
             type: type,
             category: category,
-            title: title
+            title: title,
+            metrics: metrics
         )
         let result = await createWorkoutUseCase.execute(workout: workout)
         switch result {
@@ -63,7 +61,8 @@ class WorkoutEditViewModel: ObservableObject {
             id: currentWorkout.id,
             type: type,
             category: category,
-            title: title
+            title: title,
+            metrics: metrics
         )
         let result = await updateWorkoutUseCase.execute(workout: workout)
         switch result {
@@ -73,5 +72,9 @@ class WorkoutEditViewModel: ObservableObject {
             errorMessage = error.localizedDescription
             hasError = true
         }
+    }
+    
+    func deleteMetric(at index: Int) async {
+        metrics.remove(at: index)
     }
 }

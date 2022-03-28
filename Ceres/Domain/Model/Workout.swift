@@ -30,5 +30,7 @@ struct Workout: Identifiable {
     let type: WorkoutType
     let category: WorkoutCategory
     
-    let title: String?
+    let title: String
+    
+    let metrics: [Metric]
 }

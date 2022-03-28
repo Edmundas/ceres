@@ -12,8 +12,8 @@ struct WorkoutEditView: View {
     
     @StateObject var vm: WorkoutEditViewModel
     
-//    @State private var showingModifyMetricSheet = false
-//    @State private var metric: Metric?
+    @State private var showingEditMetricSheet = false
+    @State private var metric: Metric?
     
     fileprivate func EditView() -> some View {
         List {
@@ -35,25 +35,26 @@ struct WorkoutEditView: View {
             }
             Section {
                 // TODO: metrics
-//                if let metrics = viewModel.metrics {
-//                    ForEach(metrics) { metric in
-//                        Button(action: {
-//                            self.metric = metric
-//                            showingModifyMetricSheet.toggle()
-//                        },
-//                               label: {
-//                            Text("\(metric.value) - \(metric.type) - \(metric.subtype) - \(metric.unit)")
-//                        })
-//                        .buttonStyle(DefaultButtonStyle())
-//                        .foregroundColor(.primary)
-//                    }
-//                    .onDelete(perform: deleteMetric)
-//                }
-//                Button(
-//                    action: { showingModifyMetricSheet.toggle() },
-//                    label: { Label("Add workout metric", systemImage: "plus.app") }
-//                )
-//                .buttonStyle(PlainButtonStyle())
+                if let metrics = vm.metrics {
+                    ForEach(metrics) { metric in
+                        Button(action: {
+                            self.metric = metric
+                            showingEditMetricSheet.toggle()
+                        }) {
+                            Text("\(metric.value) - \(String(describing: metric.type)) - \(String(describing: metric.subtype)) - \(String(describing: metric.unit))")
+                        }
+                        .buttonStyle(DefaultButtonStyle())
+                        .foregroundColor(.primary)
+                    }
+                    .onDelete(perform: deleteMetric)
+                }
+                Button(action: {
+                    showingEditMetricSheet.toggle()
+                }) {
+                    Label("Add workout metric", systemImage: "plus.app")
+                    
+                }
+                .buttonStyle(PlainButtonStyle())
             }
             Section {
                 // TODO: rounds
@@ -69,13 +70,13 @@ struct WorkoutEditView: View {
                 Button("Save", action: saveAction)
             }
         }
-//        .sheet(isPresented: $showingModifyMetricSheet,
-//               onDismiss: { updateWorkoutMetrics() },
-//               content: {
-//            NavigationView {
-//                ModifyMetricView(viewModel: ModifyMetricViewModel(metric: $metric))
-//            }
-//        })
+        .sheet(isPresented: $showingEditMetricSheet, onDismiss: {
+            updateWorkoutMetrics()
+        }) {
+            NavigationView {
+                MetricEditView(vm: MetricEditViewModel(metric: $metric))
+            }
+        }
     }
     
     var body: some View {
@@ -83,25 +84,27 @@ struct WorkoutEditView: View {
     }
 }
 
-//extension WorkoutEditView {
-//    private func updateWorkoutMetrics() {
-//        guard let newMetric = metric else { return }
-//        if viewModel.metrics.contains(newMetric) {
-//            let index = viewModel.metrics.firstIndex(of: newMetric)!
-//            viewModel.metrics.remove(at: index)
-//            viewModel.metrics.insert(newMetric, at: index)
-//        } else {
-//            viewModel.metrics.append(newMetric)
-//        }
-//        metric = nil
-//    }
-//
-//    private func deleteMetric(indexSet: IndexSet) {
-//        indexSet.forEach {
-//            viewModel.delete(metric: viewModel.metrics[$0])
-//        }
-//    }
-//}
+extension WorkoutEditView {
+    private func updateWorkoutMetrics() {
+        guard let newMetric = metric else { return }
+        if vm.metrics.contains(newMetric) {
+            let index = vm.metrics.firstIndex(of: newMetric)!
+            vm.metrics.remove(at: index)
+            vm.metrics.insert(newMetric, at: index)
+        } else {
+            vm.metrics.append(newMetric)
+        }
+        metric = nil
+    }
+
+    private func deleteMetric(indexSet: IndexSet) {
+        indexSet.forEach { index in
+            Task {
+                await vm.deleteMetric(at: index)
+            }
+        }
+    }
+}
 
 extension WorkoutEditView {
     private func cancelAction() {

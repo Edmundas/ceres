@@ -22,7 +22,7 @@ struct WorkoutListView: View {
             self.workout = workout
             showingEditWorkoutSheet.toggle()
         }) {
-            Text("\(workout.title ?? "") - \(String(describing: workout.type)) - \(String(describing: workout.category))")
+            Text("\(workout.title) - \(String(describing: workout.type)) - \(String(describing: workout.category))")
         }
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)
