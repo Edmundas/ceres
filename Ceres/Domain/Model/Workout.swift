@@ -25,12 +25,10 @@ enum WorkoutCategory: Int16, CaseIterable {
 }
 
 struct Workout: Identifiable {
-    
     let id: UUID
     
     let type: WorkoutType
     let category: WorkoutCategory
     
     let title: String?
-    
 }

@@ -9,10 +9,9 @@ import Foundation
 import CoreData
 
 struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
-    
     let container: NSPersistentContainer
     
-    init(){
+    init() {
         container = NSPersistentContainer(name: "Ceres")
         container.loadPersistentStores { description, error in
             if error != nil {
@@ -92,5 +91,4 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
             }
         }
     }
-    
 }

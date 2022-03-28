@@ -34,7 +34,7 @@ struct CeresApp: App {
         WindowGroup {
             TabView(selection: $selection) {
                 NavigationView() {
-                    WorkoutListView()
+                    WorkoutListView(vm: WorkoutListViewModel())
                 }
                 .navigationViewStyle(.stack)
                 .tabItem {

@@ -8,7 +8,6 @@
 import Foundation
 
 class WorkoutListViewModel: ObservableObject {
-    
     var getWorkoutsUseCase = GetWorkoutsUseCase(repo: WorkoutRepositoryImpl(dataSource: WorkoutCoreDataSourceImpl()))
     var deleteWorkoutUseCase = DeleteWorkoutUseCase(repo: WorkoutRepositoryImpl(dataSource: WorkoutCoreDataSourceImpl()))
     
@@ -41,5 +40,4 @@ class WorkoutListViewModel: ObservableObject {
             hasError = true
         }
     }
-    
 }

@@ -8,7 +8,6 @@
 import Foundation
 
 struct WorkoutRepositoryImpl: WorkoutRepository {
-    
     var dataSource: WorkoutDataSource
     
     func getWorkout(id: UUID) async -> Result<Workout?, WorkoutError> {
@@ -55,5 +54,4 @@ struct WorkoutRepositoryImpl: WorkoutRepository {
             return .failure(.FetchError)
         }
     }
-    
 }
