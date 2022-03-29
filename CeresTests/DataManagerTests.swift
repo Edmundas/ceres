@@ -27,10 +27,10 @@ class DataManagerTests: XCTestCase {
     
     func testCreateWorkout() throws {
         dataManager.createWorkout(title: "Test workout #1", type: .ft, category: .hero, metrics: nil)
-        let newWorkout = try? dataManager.context.fetch(DMWorkout.fetchRequest()).first
+        let newWorkout = try? dataManager.context.fetch(WorkoutEntity.fetchRequest()).first
         XCTAssertNotNil(newWorkout, "Did not create a workout")
         
-        let request: NSFetchRequest<DMWorkout> = DMWorkout.fetchRequest()
+        let request: NSFetchRequest<WorkoutEntity> = WorkoutEntity.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", newWorkout!.id as CVarArg)
         do {
             let workoutsCount = try dataManager.context.count(for: request)
@@ -42,14 +42,14 @@ class DataManagerTests: XCTestCase {
     
     func testDeleteWorkout() throws {
         var initialWorkoutsCount = 0
-        let request: NSFetchRequest<DMWorkout> = DMWorkout.fetchRequest()
+        let request: NSFetchRequest<WorkoutEntity> = WorkoutEntity.fetchRequest()
         do {
             initialWorkoutsCount = try dataManager.context.count(for: request)
         } catch {
             fatalError("Unresolved error: \(error)")
         }
         
-        let workout = DMWorkout(context: dataManager.context)
+        let workout = WorkoutEntity(context: dataManager.context)
         workout.title = "Test workout #1"
         workout.type = DMWorkoutType.none.rawValue
         workout.category = DMWorkoutCategory.none.rawValue

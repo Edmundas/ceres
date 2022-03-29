@@ -21,7 +21,7 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
     }
     
     func getAll() throws -> [Workout] {
-        let request = DMWorkout.fetchRequest()
+        let request = WorkoutEntity.fetchRequest()
         return try container.viewContext.fetch(request).map({ workoutEntity in
             let workoutEntityMetrics = workoutEntity.metrics?.map {
                 Metric(
@@ -36,7 +36,7 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
                 id: workoutEntity.id,
                 type: WorkoutType(rawValue: workoutEntity.type) ?? .none,
                 category: WorkoutCategory(rawValue: workoutEntity.category) ?? .none,
-                title: workoutEntity.title ?? "",
+                title: workoutEntity.title,
                 metrics: workoutEntityMetrics ?? []
             )
         })
@@ -57,7 +57,7 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
             id: workoutEntity.id,
             type: WorkoutType(rawValue: workoutEntity.type) ?? .none,
             category: WorkoutCategory(rawValue: workoutEntity.category) ?? .none,
-            title: workoutEntity.title ?? "",
+            title: workoutEntity.title,
             metrics: workoutEntityMetrics ?? []
         )
     }
@@ -78,7 +78,7 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
         let workoutEntity = try getEntityById(id)!
 
         var workoutEntityMetrics = workoutEntity.metrics
-        var updatedWorkoutEntityMetrics: Set<DMMetric> = []
+        var updatedWorkoutEntityMetrics: Set<MetricEntity> = []
         
         for metric in workout.metrics {
             if let workoutEntityMetric = workoutEntityMetrics?.first(where: { $0.id == metric.id }) {
@@ -90,7 +90,7 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
                 updatedWorkoutEntityMetrics.insert(workoutEntityMetric)
                 workoutEntityMetrics?.remove(workoutEntityMetric)
             } else {
-                let workoutEntityMetric = DMMetric(context: container.viewContext)
+                let workoutEntityMetric = MetricEntity(context: container.viewContext)
                 workoutEntityMetric.id = metric.id
                 workoutEntityMetric.type = metric.type.rawValue
                 workoutEntityMetric.subtype = metric.subtype.rawValue
@@ -115,9 +115,9 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
     }
     
     func create(workout: Workout) throws -> () {
-        let workoutEntity = DMWorkout(context: container.viewContext)
-        let workoutEntityMetrics: [DMMetric] = workout.metrics.map {
-            let metricEntity = DMMetric(context: container.viewContext)
+        let workoutEntity = WorkoutEntity(context: container.viewContext)
+        let workoutEntityMetrics: [MetricEntity] = workout.metrics.map {
+            let metricEntity = MetricEntity(context: container.viewContext)
             metricEntity.id = $0.id
             metricEntity.type = $0.type.rawValue
             metricEntity.subtype = $0.subtype.rawValue
@@ -133,8 +133,8 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
         saveContext()
     }
     
-    private func getEntityById(_ id: UUID) throws -> DMWorkout? {
-        let request = DMWorkout.fetchRequest()
+    private func getEntityById(_ id: UUID) throws -> WorkoutEntity? {
+        let request = WorkoutEntity.fetchRequest()
         request.fetchLimit = 1
         request.predicate = NSPredicate(
             format: "id = %@", id.uuidString)

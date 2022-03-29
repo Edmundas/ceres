@@ -53,7 +53,7 @@ struct MetricCoreDataSourceImpl: MetricDataSource {
     }
     
     func create(metric: Metric) throws -> () {
-        let metricEntity = DMMetric(context: container.viewContext)
+        let metricEntity = MetricEntity(context: container.viewContext)
         metricEntity.value = metric.value
         metricEntity.unit = metric.unit.rawValue
         metricEntity.subtype = metric.subtype.rawValue
@@ -62,8 +62,8 @@ struct MetricCoreDataSourceImpl: MetricDataSource {
         saveContext()
     }
     
-    private func getEntityById(_ id: UUID) throws -> DMMetric? {
-        let request = DMMetric.fetchRequest()
+    private func getEntityById(_ id: UUID) throws -> MetricEntity? {
+        let request = MetricEntity.fetchRequest()
         request.fetchLimit = 1
         request.predicate = NSPredicate(
             format: "id = %@", id.uuidString)
