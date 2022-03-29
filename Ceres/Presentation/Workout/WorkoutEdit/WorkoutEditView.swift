@@ -87,8 +87,7 @@ struct WorkoutEditView: View {
 extension WorkoutEditView {
     private func updateWorkoutMetrics() {
         guard let newMetric = metric else { return }
-        if vm.metrics.contains(newMetric) {
-            let index = vm.metrics.firstIndex(of: newMetric)!
+        if let index = vm.metrics.firstIndex(where: { $0.id == newMetric.id }) {
             vm.metrics.remove(at: index)
             vm.metrics.insert(newMetric, at: index)
         } else {

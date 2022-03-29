@@ -10,7 +10,7 @@ import CoreData
 
 struct MetricCoreDataSourceImpl: MetricDataSource {
     let container: NSPersistentContainer
-    
+
     init() {
         container = NSPersistentContainer(name: "Ceres")
         container.loadPersistentStores { description, error in
@@ -20,54 +20,12 @@ struct MetricCoreDataSourceImpl: MetricDataSource {
         }
     }
     
-    func getById(_ id: UUID) throws -> Metric? {
-        let metricEntity = try getEntityById(id)!
-        return Metric(
-            id: metricEntity.id,
-            type: MetricType(rawValue: metricEntity.type) ?? .none,
-            subtype: MetricSubtype(rawValue: metricEntity.subtype) ?? .none,
-            unit: MetricUnit(rawValue: metricEntity.unit) ?? .none,
-            value: metricEntity.value
-        )
-    }
-    
-    func delete(_ id: UUID) throws -> () {
-        let metricEntity = try getEntityById(id)!
-        let context = container.viewContext;
-        context.delete(metricEntity)
-        do {
-            try context.save()
-        } catch {
-            context.rollback()
-            fatalError("Error: \(error.localizedDescription)")
-        }
-    }
-    
-    func update(id: UUID, metric: Metric) throws -> () {
-        let metricEntity = try getEntityById(id)!
-        metricEntity.value = metric.value
-        metricEntity.unit = metric.unit.rawValue
-        metricEntity.subtype = metric.subtype.rawValue
-        metricEntity.type = metric.type.rawValue
-        saveContext()
-    }
-    
-    func create(metric: Metric) throws -> () {
-        let metricEntity = MetricEntity(context: container.viewContext)
-        metricEntity.value = metric.value
-        metricEntity.unit = metric.unit.rawValue
-        metricEntity.subtype = metric.subtype.rawValue
-        metricEntity.type = metric.type.rawValue
-        metricEntity.id = metric.id
-        saveContext()
-    }
-    
     private func getEntityById(_ id: UUID) throws -> MetricEntity? {
         let request = MetricEntity.fetchRequest()
         request.fetchLimit = 1
         request.predicate = NSPredicate(
             format: "id = %@", id.uuidString)
-        let context =  container.viewContext
+        let context = container.viewContext
         let workoutEntity = try context.fetch(request)[0]
         return workoutEntity
     }
@@ -81,5 +39,26 @@ struct MetricCoreDataSourceImpl: MetricDataSource {
                 fatalError("Error: \(error.localizedDescription)")
             }
         }
+    }
+}
+
+extension Metric {
+    init(metricEntity: MetricEntity) {
+        id = metricEntity.id
+        type = MetricType(rawValue: metricEntity.type) ?? .none
+        subtype = MetricSubtype(rawValue: metricEntity.subtype) ?? .none
+        unit = MetricUnit(rawValue: metricEntity.unit) ?? .none
+        value = metricEntity.value
+    }
+    
+    func metricEntity(context: NSManagedObjectContext) -> MetricEntity {
+        let metricEntity = MetricEntity(context: context)
+        metricEntity.id = self.id
+        metricEntity.type = self.type.rawValue
+        metricEntity.subtype = self.subtype.rawValue
+        metricEntity.unit = self.unit.rawValue
+        metricEntity.value = self.value
+        
+        return metricEntity
     }
 }

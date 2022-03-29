@@ -25,9 +25,6 @@
 		18843A9B27F1E4880061E240 /* MetricEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843A9A27F1E4880061E240 /* MetricEditViewModel.swift */; };
 		18843A9D27F1E4960061E240 /* MetricEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843A9C27F1E4960061E240 /* MetricEditView.swift */; };
 		18843AA027F1E5780061E240 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843A9F27F1E5780061E240 /* Metric.swift */; };
-		18843AA227F1E6490061E240 /* MetricError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843AA127F1E6490061E240 /* MetricError.swift */; };
-		18843AA427F1E6740061E240 /* MetricRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843AA327F1E6740061E240 /* MetricRepository.swift */; };
-		18843AA627F1E9B70061E240 /* MetricRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843AA527F1E9B70061E240 /* MetricRepositoryImpl.swift */; };
 		18843AA827F1EA270061E240 /* MetricDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843AA727F1EA270061E240 /* MetricDataSource.swift */; };
 		18843AAA27F1EA620061E240 /* MetricCoreDataSourceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843AA927F1EA620061E240 /* MetricCoreDataSourceImpl.swift */; };
 		18F7A804274E2D8E0083BA2B /* CeresApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A803274E2D8E0083BA2B /* CeresApp.swift */; };
@@ -80,9 +77,6 @@
 		18843A9A27F1E4880061E240 /* MetricEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricEditViewModel.swift; sourceTree = "<group>"; };
 		18843A9C27F1E4960061E240 /* MetricEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricEditView.swift; sourceTree = "<group>"; };
 		18843A9F27F1E5780061E240 /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
-		18843AA127F1E6490061E240 /* MetricError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricError.swift; sourceTree = "<group>"; };
-		18843AA327F1E6740061E240 /* MetricRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricRepository.swift; sourceTree = "<group>"; };
-		18843AA527F1E9B70061E240 /* MetricRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricRepositoryImpl.swift; sourceTree = "<group>"; };
 		18843AA727F1EA270061E240 /* MetricDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricDataSource.swift; sourceTree = "<group>"; };
 		18843AA927F1EA620061E240 /* MetricCoreDataSourceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCoreDataSourceImpl.swift; sourceTree = "<group>"; };
 		18F7A800274E2D8E0083BA2B /* Ceres.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ceres.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -179,7 +173,6 @@
 			isa = PBXGroup;
 			children = (
 				183D0A8C27EDF18D006AFDC3 /* WorkoutRepository.swift */,
-				18843AA327F1E6740061E240 /* MetricRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -188,7 +181,6 @@
 			isa = PBXGroup;
 			children = (
 				18843A8E27F1CECB0061E240 /* Workout */,
-				18843A9E27F1E5660061E240 /* Metric */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -225,7 +217,6 @@
 			isa = PBXGroup;
 			children = (
 				183D0A9627EDF37A006AFDC3 /* WorkoutRepositoryImpl.swift */,
-				18843AA527F1E9B70061E240 /* MetricRepositoryImpl.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -233,12 +224,11 @@
 		183D0A9A27EDF39F006AFDC3 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				185E9A2327F2E185004BB80F /* Legacy */,
-				18F7A80E274E2D910083BA2B /* Ceres.xcdatamodeld */,
-				18F7A843274E62960083BA2B /* WorkoutEntity.swift */,
-				18454D4427AD5940002A1E6C /* MetricEntity.swift */,
 				183D0A9B27EDF3BC006AFDC3 /* WorkoutCoreDataSourceImpl.swift */,
 				18843AA927F1EA620061E240 /* MetricCoreDataSourceImpl.swift */,
+				18F7A80E274E2D910083BA2B /* Ceres.xcdatamodeld */,
+				185E9A2427F2E490004BB80F /* Entities */,
+				185E9A2327F2E185004BB80F /* Legacy */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -247,7 +237,6 @@
 			isa = PBXGroup;
 			children = (
 				183D0A9E27EDF496006AFDC3 /* WorkoutError.swift */,
-				18843AA127F1E6490061E240 /* MetricError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -259,6 +248,15 @@
 				18F7A83B274E35200083BA2B /* Persistence+Preview.swift */,
 			);
 			path = Legacy;
+			sourceTree = "<group>";
+		};
+		185E9A2427F2E490004BB80F /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				18F7A843274E62960083BA2B /* WorkoutEntity.swift */,
+				18454D4427AD5940002A1E6C /* MetricEntity.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		18843A8E27F1CECB0061E240 /* Workout */ = {
@@ -296,13 +294,6 @@
 				18843A9C27F1E4960061E240 /* MetricEditView.swift */,
 			);
 			path = MetricEdit;
-			sourceTree = "<group>";
-		};
-		18843A9E27F1E5660061E240 /* Metric */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Metric;
 			sourceTree = "<group>";
 		};
 		18F7A7F7274E2D8E0083BA2B = {
@@ -525,12 +516,9 @@
 				183D0A9C27EDF3BC006AFDC3 /* WorkoutCoreDataSourceImpl.swift in Sources */,
 				183D0A9927EDF397006AFDC3 /* WorkoutDataSource.swift in Sources */,
 				18843A9127F1D5B90061E240 /* WorkoutEditView.swift in Sources */,
-				18843AA627F1E9B70061E240 /* MetricRepositoryImpl.swift in Sources */,
-				18843AA427F1E6740061E240 /* MetricRepository.swift in Sources */,
 				183D0AA127EDFA9D006AFDC3 /* GetWorkouts.swift in Sources */,
 				183D0A9F27EDF496006AFDC3 /* WorkoutError.swift in Sources */,
 				18843AA827F1EA270061E240 /* MetricDataSource.swift in Sources */,
-				18843AA227F1E6490061E240 /* MetricError.swift in Sources */,
 				18843AA027F1E5780061E240 /* Metric.swift in Sources */,
 				18843AAA27F1EA620061E240 /* MetricCoreDataSourceImpl.swift in Sources */,
 				18F7A80D274E2D910083BA2B /* Persistence.swift in Sources */,
