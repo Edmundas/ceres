@@ -11,63 +11,63 @@ import CoreData
 
 class DataManagerTests: XCTestCase {
     
-    var dataManager: DataManager!
+//    var dataManager: DataManager!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        dataManager = DataManager(persistenceController: PersistenceController.testing)
+//        dataManager = DataManager(persistenceController: PersistenceController.testing)
     }
     
     override func tearDownWithError() throws {
-        dataManager = nil
+//        dataManager = nil
         try super.tearDownWithError()
     }
     
     // MARK: Test
     
-    func testCreateWorkout() throws {
-        dataManager.createWorkout(title: "Test workout #1", type: .ft, category: .hero, metrics: nil)
-        let newWorkout = try? dataManager.context.fetch(DMWorkout.fetchRequest()).first
-        XCTAssertNotNil(newWorkout, "Did not create a workout")
-        
-        let request: NSFetchRequest<DMWorkout> = DMWorkout.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@", newWorkout!.id as CVarArg)
-        do {
-            let workoutsCount = try dataManager.context.count(for: request)
-            XCTAssertEqual(workoutsCount, 1, "Did not create a workout")
-        } catch {
-            fatalError("Unresolved error: \(error)")
-        }
-    }
+//    func testCreateWorkout() throws {
+//        dataManager.createWorkout(title: "Test workout #1", type: .ft, category: .hero, metrics: nil)
+//        let newWorkout = try? dataManager.context.fetch(WorkoutEntity.fetchRequest()).first
+//        XCTAssertNotNil(newWorkout, "Did not create a workout")
+//
+//        let request: NSFetchRequest<WorkoutEntity> = WorkoutEntity.fetchRequest()
+//        request.predicate = NSPredicate(format: "id == %@", newWorkout!.id as CVarArg)
+//        do {
+//            let workoutsCount = try dataManager.context.count(for: request)
+//            XCTAssertEqual(workoutsCount, 1, "Did not create a workout")
+//        } catch {
+//            fatalError("Unresolved error: \(error)")
+//        }
+//    }
     
-    func testDeleteWorkout() throws {
-        var initialWorkoutsCount = 0
-        let request: NSFetchRequest<DMWorkout> = DMWorkout.fetchRequest()
-        do {
-            initialWorkoutsCount = try dataManager.context.count(for: request)
-        } catch {
-            fatalError("Unresolved error: \(error)")
-        }
-        
-        let workout = DMWorkout(context: dataManager.context)
-        workout.title = "Test workout #1"
-        workout.type = DMWorkoutType.none.rawValue
-        workout.category = DMWorkoutCategory.none.rawValue
-        
-        do {
-            try dataManager.context.save()
-        } catch {
-            fatalError("Unresolved error: \(error)")
-        }
-        
-        dataManager.deleteWorkout(workout)
-        
-        do {
-            let finalWorkoutsCount = try dataManager.context.count(for: request)
-            XCTAssertEqual(initialWorkoutsCount, finalWorkoutsCount, "Did not delete a workout")
-        } catch {
-            fatalError("Unresolved error: \(error)")
-        }
-    }
+//    func testDeleteWorkout() throws {
+//        var initialWorkoutsCount = 0
+//        let request: NSFetchRequest<WorkoutEntity> = WorkoutEntity.fetchRequest()
+//        do {
+//            initialWorkoutsCount = try dataManager.context.count(for: request)
+//        } catch {
+//            fatalError("Unresolved error: \(error)")
+//        }
+//
+//        let workout = WorkoutEntity(context: dataManager.context)
+//        workout.title = "Test workout #1"
+//        workout.type = DMWorkoutType.none.rawValue
+//        workout.category = DMWorkoutCategory.none.rawValue
+//
+//        do {
+//            try dataManager.context.save()
+//        } catch {
+//            fatalError("Unresolved error: \(error)")
+//        }
+//
+//        dataManager.deleteWorkout(workout)
+//
+//        do {
+//            let finalWorkoutsCount = try dataManager.context.count(for: request)
+//            XCTAssertEqual(initialWorkoutsCount, finalWorkoutsCount, "Did not delete a workout")
+//        } catch {
+//            fatalError("Unresolved error: \(error)")
+//        }
+//    }
     
 }

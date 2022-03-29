@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E230" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="MetricEntity" representedClassName="MetricEntity" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="subtype" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="unit" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="value" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutEntity" inverseName="metrics" inverseEntity="WorkoutEntity"/>
+    </entity>
+    <entity name="MovementDefinitionEntity" representedClassName="MovementDefinitionEntity" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="movement" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MovementEntity" inverseName="definition" inverseEntity="MovementEntity"/>
+    </entity>
+    <entity name="MovementEntity" representedClassName="MovementEntity" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="orderNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="definition" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MovementDefinitionEntity" inverseName="movement" inverseEntity="MovementDefinitionEntity"/>
+        <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoundEntity" inverseName="movements" inverseEntity="RoundEntity"/>
+    </entity>
+    <entity name="RoundEntity" representedClassName="RoundEntity" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="orderNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="movements" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MovementEntity" inverseName="round" inverseEntity="MovementEntity"/>
+        <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutEntity" inverseName="rounds" inverseEntity="WorkoutEntity"/>
+    </entity>
+    <entity name="WorkoutEntity" representedClassName="WorkoutEntity" syncable="YES">
+        <attribute name="category" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+        <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="metrics" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MetricEntity" inverseName="workout" inverseEntity="MetricEntity"/>
+        <relationship name="rounds" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RoundEntity" inverseName="workout" inverseEntity="RoundEntity"/>
+    </entity>
+    <elements>
+        <element name="MetricEntity" positionX="-18" positionY="72" width="128" height="119"/>
+        <element name="MovementEntity" positionX="-63" positionY="0" width="128" height="89"/>
+        <element name="MovementDefinitionEntity" positionX="-63" positionY="-18" width="128" height="74"/>
+        <element name="RoundEntity" positionX="-45" positionY="27" width="128" height="89"/>
+        <element name="WorkoutEntity" positionX="-36" positionY="54" width="128" height="119"/>
+    </elements>
+</model>
