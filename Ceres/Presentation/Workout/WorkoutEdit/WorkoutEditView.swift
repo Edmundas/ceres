@@ -15,46 +15,67 @@ struct WorkoutEditView: View {
     @State private var showingEditMetricSheet = false
     @State private var metric: Metric?
     
+    fileprivate func TitleRow() -> some View {
+        TextField("Title", text: $vm.title)
+            .modifier(ClearButton(text: $vm.title))
+    }
+    
+    fileprivate func TypePickerRow() -> some View {
+        Picker("Type", selection: $vm.type) {
+            ForEach(WorkoutType.allCases, id: \.self) { type in
+                Text(type == .none ? String(describing: type) : String(describing: type).uppercased())
+            }
+        }
+    }
+    
+    fileprivate func CategoryPickerRow() -> some View {
+        Picker("Category", selection: $vm.category) {
+            ForEach(WorkoutCategory.allCases, id: \.self) { category in
+                Text(category == .none ? String(describing: category) : String(describing: category).capitalized)
+            }
+        }
+    }
+    
+    fileprivate func MetricListRow(_ metric: Metric) -> some View {
+        Button(action: {
+            self.metric = metric
+            showingEditMetricSheet.toggle()
+        }) {
+            Text("\(metric.value) - \(String(describing: metric.type)) - \(String(describing: metric.subtype)) - \(String(describing: metric.unit))")
+        }
+        .buttonStyle(DefaultButtonStyle())
+        .foregroundColor(.primary)
+    }
+    
+    fileprivate func MetricList() -> some View {
+        Group {
+            if let metrics = vm.metrics {
+                ForEach(metrics) { metric in
+                    MetricListRow(metric)
+                }
+                .onDelete(perform: deleteMetric)
+            }
+            Button(action: {
+                showingEditMetricSheet.toggle()
+            }) {
+                Label("Add workout metric", systemImage: "plus.app")
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+    
     fileprivate func EditView() -> some View {
         List {
             Section {
-                TextField("Title", text: $vm.title)
-                    .modifier(ClearButton(text: $vm.title))
+                TitleRow()
             }
             Section {
-                Picker("Type", selection: $vm.type) {
-                    ForEach(WorkoutType.allCases, id: \.self) { type in
-                        Text(type == .none ? String(describing: type) : String(describing: type).uppercased())
-                    }
-                }
-                Picker("Category", selection: $vm.category) {
-                    ForEach(WorkoutCategory.allCases, id: \.self) { category in
-                        Text(category == .none ? String(describing: category) : String(describing: category).capitalized)
-                    }
-                }
+                TypePickerRow()
+                CategoryPickerRow()
             }
             Section {
                 // TODO: metrics
-                if let metrics = vm.metrics {
-                    ForEach(metrics) { metric in
-                        Button(action: {
-                            self.metric = metric
-                            showingEditMetricSheet.toggle()
-                        }) {
-                            Text("\(metric.value) - \(String(describing: metric.type)) - \(String(describing: metric.subtype)) - \(String(describing: metric.unit))")
-                        }
-                        .buttonStyle(DefaultButtonStyle())
-                        .foregroundColor(.primary)
-                    }
-                    .onDelete(perform: deleteMetric)
-                }
-                Button(action: {
-                    showingEditMetricSheet.toggle()
-                }) {
-                    Label("Add workout metric", systemImage: "plus.app")
-                    
-                }
-                .buttonStyle(PlainButtonStyle())
+                MetricList()
             }
             Section {
                 // TODO: rounds
@@ -87,13 +108,10 @@ struct WorkoutEditView: View {
 extension WorkoutEditView {
     private func updateWorkoutMetrics() {
         guard let newMetric = metric else { return }
-        if let index = vm.metrics.firstIndex(where: { $0.id == newMetric.id }) {
-            vm.metrics.remove(at: index)
-            vm.metrics.insert(newMetric, at: index)
-        } else {
-            vm.metrics.append(newMetric)
+        Task {
+            await vm.updateMetric(newMetric)
+            metric = nil
         }
-        metric = nil
     }
 
     private func deleteMetric(indexSet: IndexSet) {

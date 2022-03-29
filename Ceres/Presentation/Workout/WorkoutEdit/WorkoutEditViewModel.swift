@@ -74,6 +74,15 @@ class WorkoutEditViewModel: ObservableObject {
         }
     }
     
+    func updateMetric(_ metric: Metric) async {
+        if let index = metrics.firstIndex(where: { $0.id == metric.id }) {
+            metrics.remove(at: index)
+            metrics.insert(metric, at: index)
+        } else {
+            metrics.append(metric)
+        }
+    }
+    
     func deleteMetric(at index: Int) async {
         metrics.remove(at: index)
     }
