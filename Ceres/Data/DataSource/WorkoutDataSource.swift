@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol WorkoutDataSource{
+protocol WorkoutDataSource {
     func getAll() async throws -> [Workout]
     func getById(_ id: UUID) async throws -> Workout?
     func delete(_ id: UUID) async throws -> ()

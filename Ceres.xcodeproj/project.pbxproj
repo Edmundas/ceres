@@ -18,9 +18,6 @@
 		183D0AA127EDFA9D006AFDC3 /* GetWorkouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D0AA027EDFA9D006AFDC3 /* GetWorkouts.swift */; };
 		183D0AA327EE03AC006AFDC3 /* DeleteWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D0AA227EE03AC006AFDC3 /* DeleteWorkout.swift */; };
 		18454D4527AD5940002A1E6C /* DMMetric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18454D4427AD5940002A1E6C /* DMMetric.swift */; };
-		18454D4727AD62B1002A1E6C /* ModifyMetricView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18454D4627AD62B1002A1E6C /* ModifyMetricView.swift */; };
-		18454D4927AD6583002A1E6C /* ModifyMetricViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18454D4827AD6583002A1E6C /* ModifyMetricViewModel.swift */; };
-		18454D4B27AD7688002A1E6C /* DataManager+Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18454D4A27AD7688002A1E6C /* DataManager+Metric.swift */; };
 		18843A9127F1D5B90061E240 /* WorkoutEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843A9027F1D5B90061E240 /* WorkoutEditView.swift */; };
 		18843A9327F1D5C90061E240 /* WorkoutEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843A9227F1D5C90061E240 /* WorkoutEditViewModel.swift */; };
 		18843A9527F1D91C0061E240 /* CreateWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843A9427F1D91C0061E240 /* CreateWorkout.swift */; };
@@ -34,7 +31,6 @@
 		18843AA827F1EA270061E240 /* MetricDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843AA727F1EA270061E240 /* MetricDataSource.swift */; };
 		18843AAA27F1EA620061E240 /* MetricCoreDataSourceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18843AA927F1EA620061E240 /* MetricCoreDataSourceImpl.swift */; };
 		18F7A804274E2D8E0083BA2B /* CeresApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A803274E2D8E0083BA2B /* CeresApp.swift */; };
-		18F7A806274E2D8E0083BA2B /* WorkoutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A805274E2D8E0083BA2B /* WorkoutsView.swift */; };
 		18F7A808274E2D910083BA2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18F7A807274E2D910083BA2B /* Assets.xcassets */; };
 		18F7A80B274E2D910083BA2B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18F7A80A274E2D910083BA2B /* Preview Assets.xcassets */; };
 		18F7A80D274E2D910083BA2B /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A80C274E2D910083BA2B /* Persistence.swift */; };
@@ -44,12 +40,7 @@
 		18F7A826274E2D920083BA2B /* CeresUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A825274E2D920083BA2B /* CeresUITestsLaunchTests.swift */; };
 		18F7A836274E339C0083BA2B /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F7A835274E339C0083BA2B /* CloudKit.framework */; };
 		18F7A83C274E35200083BA2B /* Persistence+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A83B274E35200083BA2B /* Persistence+Preview.swift */; };
-		18F7A83E274E35BD0083BA2B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A83D274E35BD0083BA2B /* DataManager.swift */; };
-		18F7A840274E611E0083BA2B /* WorkoutsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A83F274E611E0083BA2B /* WorkoutsViewModel.swift */; };
-		18F7A842274E615C0083BA2B /* DataManager+Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A841274E615C0083BA2B /* DataManager+Workout.swift */; };
 		18F7A844274E62960083BA2B /* DMWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A843274E62960083BA2B /* DMWorkout.swift */; };
-		18F7A846274E7E460083BA2B /* ModifyWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A845274E7E460083BA2B /* ModifyWorkoutView.swift */; };
-		18F7A848274E87740083BA2B /* ModifyWorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A847274E87740083BA2B /* ModifyWorkoutViewModel.swift */; };
 		18F7A84B274E8BD60083BA2B /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F7A84A274E8BD60083BA2B /* ClearButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -82,9 +73,6 @@
 		183D0AA027EDFA9D006AFDC3 /* GetWorkouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWorkouts.swift; sourceTree = "<group>"; };
 		183D0AA227EE03AC006AFDC3 /* DeleteWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteWorkout.swift; sourceTree = "<group>"; };
 		18454D4427AD5940002A1E6C /* DMMetric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMMetric.swift; sourceTree = "<group>"; };
-		18454D4627AD62B1002A1E6C /* ModifyMetricView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyMetricView.swift; sourceTree = "<group>"; };
-		18454D4827AD6583002A1E6C /* ModifyMetricViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyMetricViewModel.swift; sourceTree = "<group>"; };
-		18454D4A27AD7688002A1E6C /* DataManager+Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Metric.swift"; sourceTree = "<group>"; };
 		18843A9027F1D5B90061E240 /* WorkoutEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEditView.swift; sourceTree = "<group>"; };
 		18843A9227F1D5C90061E240 /* WorkoutEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutEditViewModel.swift; sourceTree = "<group>"; };
 		18843A9427F1D91C0061E240 /* CreateWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWorkout.swift; sourceTree = "<group>"; };
@@ -99,7 +87,6 @@
 		18843AA927F1EA620061E240 /* MetricCoreDataSourceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCoreDataSourceImpl.swift; sourceTree = "<group>"; };
 		18F7A800274E2D8E0083BA2B /* Ceres.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ceres.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18F7A803274E2D8E0083BA2B /* CeresApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CeresApp.swift; sourceTree = "<group>"; };
-		18F7A805274E2D8E0083BA2B /* WorkoutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsView.swift; sourceTree = "<group>"; };
 		18F7A807274E2D910083BA2B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18F7A80A274E2D910083BA2B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		18F7A80C274E2D910083BA2B /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -113,12 +100,7 @@
 		18F7A837274E33B30083BA2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		18F7A838274E33BD0083BA2B /* Ceres.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Ceres.entitlements; sourceTree = "<group>"; };
 		18F7A83B274E35200083BA2B /* Persistence+Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Persistence+Preview.swift"; sourceTree = "<group>"; };
-		18F7A83D274E35BD0083BA2B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		18F7A83F274E611E0083BA2B /* WorkoutsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutsViewModel.swift; sourceTree = "<group>"; };
-		18F7A841274E615C0083BA2B /* DataManager+Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataManager+Workout.swift"; sourceTree = "<group>"; };
 		18F7A843274E62960083BA2B /* DMWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMWorkout.swift; sourceTree = "<group>"; };
-		18F7A845274E7E460083BA2B /* ModifyWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyWorkoutView.swift; sourceTree = "<group>"; };
-		18F7A847274E87740083BA2B /* ModifyWorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyWorkoutViewModel.swift; sourceTree = "<group>"; };
 		18F7A84A274E8BD60083BA2B /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -251,7 +233,10 @@
 		183D0A9A27EDF39F006AFDC3 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				185E9A2327F2E185004BB80F /* Legacy */,
 				18F7A80E274E2D910083BA2B /* Ceres.xcdatamodeld */,
+				18F7A843274E62960083BA2B /* DMWorkout.swift */,
+				18454D4427AD5940002A1E6C /* DMMetric.swift */,
 				183D0A9B27EDF3BC006AFDC3 /* WorkoutCoreDataSourceImpl.swift */,
 				18843AA927F1EA620061E240 /* MetricCoreDataSourceImpl.swift */,
 			);
@@ -265,6 +250,15 @@
 				18843AA127F1E6490061E240 /* MetricError.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		185E9A2327F2E185004BB80F /* Legacy */ = {
+			isa = PBXGroup;
+			children = (
+				18F7A80C274E2D910083BA2B /* Persistence.swift */,
+				18F7A83B274E35200083BA2B /* Persistence+Preview.swift */,
+			);
+			path = Legacy;
 			sourceTree = "<group>";
 		};
 		18843A8E27F1CECB0061E240 /* Workout */ = {
@@ -335,13 +329,11 @@
 		18F7A802274E2D8E0083BA2B /* Ceres */ = {
 			isa = PBXGroup;
 			children = (
+				18F7A803274E2D8E0083BA2B /* CeresApp.swift */,
 				183D0A8327EDF035006AFDC3 /* Core */,
 				183D0A8427EDF041006AFDC3 /* Data */,
 				183D0A8527EDF04A006AFDC3 /* Domain */,
 				183D0A8627EDF053006AFDC3 /* Presentation */,
-				18F7A803274E2D8E0083BA2B /* CeresApp.swift */,
-				18F7A83A274E34F60083BA2B /* Views */,
-				18F7A839274E34DD0083BA2B /* Data Model */,
 				18F7A849274E8BBC0083BA2B /* Helpers */,
 				18F7A837274E33B30083BA2B /* Info.plist */,
 				18F7A838274E33BD0083BA2B /* Ceres.entitlements */,
@@ -382,33 +374,6 @@
 				18F7A835274E339C0083BA2B /* CloudKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		18F7A839274E34DD0083BA2B /* Data Model */ = {
-			isa = PBXGroup;
-			children = (
-				18F7A83D274E35BD0083BA2B /* DataManager.swift */,
-				18F7A841274E615C0083BA2B /* DataManager+Workout.swift */,
-				18454D4A27AD7688002A1E6C /* DataManager+Metric.swift */,
-				18F7A843274E62960083BA2B /* DMWorkout.swift */,
-				18454D4427AD5940002A1E6C /* DMMetric.swift */,
-				18F7A80C274E2D910083BA2B /* Persistence.swift */,
-				18F7A83B274E35200083BA2B /* Persistence+Preview.swift */,
-			);
-			path = "Data Model";
-			sourceTree = "<group>";
-		};
-		18F7A83A274E34F60083BA2B /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				18F7A805274E2D8E0083BA2B /* WorkoutsView.swift */,
-				18F7A83F274E611E0083BA2B /* WorkoutsViewModel.swift */,
-				18F7A845274E7E460083BA2B /* ModifyWorkoutView.swift */,
-				18F7A847274E87740083BA2B /* ModifyWorkoutViewModel.swift */,
-				18454D4627AD62B1002A1E6C /* ModifyMetricView.swift */,
-				18454D4827AD6583002A1E6C /* ModifyMetricViewModel.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		18F7A849274E8BBC0083BA2B /* Helpers */ = {
@@ -550,17 +515,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				18843A9B27F1E4880061E240 /* MetricEditViewModel.swift in Sources */,
-				18F7A848274E87740083BA2B /* ModifyWorkoutViewModel.swift in Sources */,
 				18F7A810274E2D910083BA2B /* Ceres.xcdatamodeld in Sources */,
 				18843A9327F1D5C90061E240 /* WorkoutEditViewModel.swift in Sources */,
 				18843A9527F1D91C0061E240 /* CreateWorkout.swift in Sources */,
 				183D0AA327EE03AC006AFDC3 /* DeleteWorkout.swift in Sources */,
 				183D0A9327EDF337006AFDC3 /* WorkoutListView.swift in Sources */,
 				18454D4527AD5940002A1E6C /* DMMetric.swift in Sources */,
-				18454D4927AD6583002A1E6C /* ModifyMetricViewModel.swift in Sources */,
 				18F7A844274E62960083BA2B /* DMWorkout.swift in Sources */,
-				18F7A83E274E35BD0083BA2B /* DataManager.swift in Sources */,
-				18F7A840274E611E0083BA2B /* WorkoutsViewModel.swift in Sources */,
 				183D0A9C27EDF3BC006AFDC3 /* WorkoutCoreDataSourceImpl.swift in Sources */,
 				183D0A9927EDF397006AFDC3 /* WorkoutDataSource.swift in Sources */,
 				18843A9127F1D5B90061E240 /* WorkoutEditView.swift in Sources */,
@@ -569,23 +530,18 @@
 				183D0AA127EDFA9D006AFDC3 /* GetWorkouts.swift in Sources */,
 				183D0A9F27EDF496006AFDC3 /* WorkoutError.swift in Sources */,
 				18843AA827F1EA270061E240 /* MetricDataSource.swift in Sources */,
-				18454D4B27AD7688002A1E6C /* DataManager+Metric.swift in Sources */,
 				18843AA227F1E6490061E240 /* MetricError.swift in Sources */,
 				18843AA027F1E5780061E240 /* Metric.swift in Sources */,
 				18843AAA27F1EA620061E240 /* MetricCoreDataSourceImpl.swift in Sources */,
 				18F7A80D274E2D910083BA2B /* Persistence.swift in Sources */,
-				18F7A806274E2D8E0083BA2B /* WorkoutsView.swift in Sources */,
 				18843A9D27F1E4960061E240 /* MetricEditView.swift in Sources */,
 				18F7A84B274E8BD60083BA2B /* ClearButton.swift in Sources */,
 				183D0A9727EDF37A006AFDC3 /* WorkoutRepositoryImpl.swift in Sources */,
-				18F7A846274E7E460083BA2B /* ModifyWorkoutView.swift in Sources */,
 				18843A9727F1E22F0061E240 /* UpdateWorkout.swift in Sources */,
 				18F7A804274E2D8E0083BA2B /* CeresApp.swift in Sources */,
 				183D0A8D27EDF18D006AFDC3 /* WorkoutRepository.swift in Sources */,
 				18F7A83C274E35200083BA2B /* Persistence+Preview.swift in Sources */,
-				18454D4727AD62B1002A1E6C /* ModifyMetricView.swift in Sources */,
 				183D0A8B27EDF164006AFDC3 /* Workout.swift in Sources */,
-				18F7A842274E615C0083BA2B /* DataManager+Workout.swift in Sources */,
 				183D0A9127EDF328006AFDC3 /* WorkoutListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

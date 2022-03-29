@@ -15,22 +15,7 @@ struct CeresApp: App {
         case workouts
     }
     
-//    let persistenceController = PersistenceController.shared
-    
     var body: some Scene {
-//        WindowGroup {
-//            TabView(selection: $selection) {
-//                NavigationView() {
-//                    WorkoutsView()
-//                }
-//                .navigationViewStyle(.stack)
-//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-//                .tabItem {
-//                    Label("Workouts", systemImage: "list.bullet")
-//                }
-//                .tag(Tab.workouts)
-//            }
-//        }
         WindowGroup {
             TabView(selection: $selection) {
                 NavigationView() {
