@@ -9,15 +9,12 @@ import Foundation
 import CoreData
 
 struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
+    let persistenceController: PersistenceController
     let container: NSPersistentContainer
     
     init() {
-        container = NSPersistentContainer(name: "Ceres")
-        container.loadPersistentStores { description, error in
-            if error != nil {
-                fatalError("Cannot Load Core Data Model")
-            }
-        }
+        persistenceController = PersistenceController.shared
+        container = persistenceController.container
     }
     
     func getAll() throws -> [Workout] {

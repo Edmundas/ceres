@@ -228,7 +228,7 @@
 				18843AA927F1EA620061E240 /* MetricCoreDataSourceImpl.swift */,
 				18F7A80E274E2D910083BA2B /* Ceres.xcdatamodeld */,
 				185E9A2427F2E490004BB80F /* Entities */,
-				185E9A2327F2E185004BB80F /* Legacy */,
+				185E9A2827F34039004BB80F /* Persistence */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -241,15 +241,6 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
-		185E9A2327F2E185004BB80F /* Legacy */ = {
-			isa = PBXGroup;
-			children = (
-				18F7A80C274E2D910083BA2B /* Persistence.swift */,
-				18F7A83B274E35200083BA2B /* Persistence+Preview.swift */,
-			);
-			path = Legacy;
-			sourceTree = "<group>";
-		};
 		185E9A2427F2E490004BB80F /* Entities */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +248,15 @@
 				18454D4427AD5940002A1E6C /* MetricEntity.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		185E9A2827F34039004BB80F /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				18F7A80C274E2D910083BA2B /* Persistence.swift */,
+				18F7A83B274E35200083BA2B /* Persistence+Preview.swift */,
+			);
+			path = Persistence;
 			sourceTree = "<group>";
 		};
 		18843A8E27F1CECB0061E240 /* Workout */ = {

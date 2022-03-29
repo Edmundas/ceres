@@ -9,15 +9,12 @@ import Foundation
 import CoreData
 
 struct MetricCoreDataSourceImpl: MetricDataSource {
+    let persistenceController: PersistenceController
     let container: NSPersistentContainer
 
     init() {
-        container = NSPersistentContainer(name: "Ceres")
-        container.loadPersistentStores { description, error in
-            if error != nil {
-                fatalError("Cannot Load Core Data Model")
-            }
-        }
+        persistenceController = PersistenceController.shared
+        container = persistenceController.container
     }
     
     private func getEntityById(_ id: UUID) throws -> MetricEntity? {
