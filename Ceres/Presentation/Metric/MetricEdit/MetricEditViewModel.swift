@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 class MetricEditViewModel: ObservableObject {
     @Binding var metric: Metric?
     
@@ -30,27 +31,33 @@ class MetricEditViewModel: ObservableObject {
         }
     }
     
-    func save() {
-        if metric != nil {
-            metric = Metric(
-                id: metric!.id,
-                type: type,
-                subtype: subtype,
-                unit: unit,
-                value: Double(value) ?? 0.0
-            )
-        } else {
-            metric = Metric(
-                id: UUID(),
-                type: type,
-                subtype: subtype,
-                unit: unit,
-                value: Double(value) ?? 0.0
-            )
-        }
+    private func createMetric() async {
+        metric = Metric(
+            id: UUID(),
+            type: type,
+            subtype: subtype,
+            unit: unit,
+            value: Double(value) ?? 0.0
+        )
     }
     
-    func cancel() {
-        metric = nil
+    private func updateMetric() async {
+        guard let currentMetric = metric else { return }
+
+        metric = Metric(
+            id: currentMetric.id,
+            type: type,
+            subtype: subtype,
+            unit: unit,
+            value: Double(value) ?? 0.0
+        )
+    }
+    
+    func save() {
+        if metric != nil {
+            Task { await updateMetric() }
+        } else {
+            Task { await createMetric() }
+        }
     }
 }

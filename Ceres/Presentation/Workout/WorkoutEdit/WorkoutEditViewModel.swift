@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+@MainActor
 class WorkoutEditViewModel: ObservableObject {
     var createWorkoutUseCase = CreateWorkoutUseCase(repo: WorkoutRepositoryImpl(dataSource: WorkoutCoreDataSourceImpl()))
     var updateWorkoutUseCase = UpdateWorkoutUseCase(repo: WorkoutRepositoryImpl(dataSource: WorkoutCoreDataSourceImpl()))
@@ -34,7 +35,7 @@ class WorkoutEditViewModel: ObservableObject {
         }
     }
     
-    func createWorkout() async {
+    private func createWorkout() async {
         errorMessage = ""
         let workout = Workout(
             id: UUID(),
@@ -53,7 +54,7 @@ class WorkoutEditViewModel: ObservableObject {
         }
     }
     
-    func updateWorkout() async {
+    private func updateWorkout() async {
         guard let currentWorkout = workout else { return }
 
         errorMessage = ""
@@ -85,5 +86,13 @@ class WorkoutEditViewModel: ObservableObject {
     
     func deleteMetric(at index: Int) async {
         metrics.remove(at: index)
+    }
+    
+    func save() {
+        if workout != nil {
+            Task { await updateWorkout() }
+        } else {
+            Task { await createWorkout() }
+        }
     }
 }

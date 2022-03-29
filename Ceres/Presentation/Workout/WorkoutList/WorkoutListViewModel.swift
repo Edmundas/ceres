@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class WorkoutListViewModel: ObservableObject {
     var getWorkoutsUseCase = GetWorkoutsUseCase(repo: WorkoutRepositoryImpl(dataSource: WorkoutCoreDataSourceImpl()))
     var deleteWorkoutUseCase = DeleteWorkoutUseCase(repo: WorkoutRepositoryImpl(dataSource: WorkoutCoreDataSourceImpl()))

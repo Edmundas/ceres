@@ -74,7 +74,6 @@ struct WorkoutEditView: View {
                 CategoryPickerRow()
             }
             Section {
-                // TODO: metrics
                 MetricList()
             }
             Section {
@@ -129,11 +128,7 @@ extension WorkoutEditView {
     }
     
     private func saveAction() {
-        if vm.workout != nil {
-            Task { await vm.updateWorkout() }
-        } else {
-            Task { await vm.createWorkout() }
-        }
+        vm.save()
         presentationMode.wrappedValue.dismiss()
     }
 }

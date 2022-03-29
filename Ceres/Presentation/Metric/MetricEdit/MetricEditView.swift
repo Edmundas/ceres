@@ -12,28 +12,44 @@ struct MetricEditView: View {
     
     @StateObject var vm: MetricEditViewModel
     
+    fileprivate func ValueRow() -> some View {
+        TextField("Value", text: $vm.value)
+            .modifier(ClearButton(text: $vm.value))
+    }
+    
+    fileprivate func TypePicker() -> some View {
+        Picker("Type", selection: $vm.type) {
+            ForEach(MetricType.allCases, id: \.self) { type in
+                Text(type == .none ? String(describing: type) : String(describing: type))
+            }
+        }
+    }
+    
+    fileprivate func SubtypePicker() -> some View {
+        Picker("Subtype", selection: $vm.subtype) {
+            ForEach(MetricSubtype.allCases, id: \.self) { subtype in
+                Text(subtype == .none ? String(describing: subtype) : String(describing: subtype))
+            }
+        }
+    }
+    
+    fileprivate func UnitPicker() -> some View {
+        Picker("Unit", selection: $vm.unit) {
+            ForEach(MetricUnit.allCases, id: \.self) { unit in
+                Text(unit == .none ? String(describing: unit) : String(describing: unit))
+            }
+        }
+    }
+    
     fileprivate func EditView() -> some View {
         List {
             Section {
-                TextField("Value", text: $vm.value)
-                    .modifier(ClearButton(text: $vm.value))
+                ValueRow()
             }
             Section {
-                Picker("Type", selection: $vm.type) {
-                    ForEach(MetricType.allCases, id: \.self) { type in
-                        Text(type == .none ? String(describing: type) : String(describing: type))
-                    }
-                }
-                Picker("Subtype", selection: $vm.subtype) {
-                    ForEach(MetricSubtype.allCases, id: \.self) { subtype in
-                        Text(subtype == .none ? String(describing: subtype) : String(describing: subtype))
-                    }
-                }
-                Picker("Unit", selection: $vm.unit) {
-                    ForEach(MetricUnit.allCases, id: \.self) { unit in
-                        Text(unit == .none ? String(describing: unit) : String(describing: unit))
-                    }
-                }
+                TypePicker()
+                SubtypePicker()
+                UnitPicker()
             }
         }
         .listStyle(InsetGroupedListStyle())
@@ -55,7 +71,6 @@ struct MetricEditView: View {
 
 extension MetricEditView {
     private func cancelAction() {
-        vm.cancel()
         presentationMode.wrappedValue.dismiss()
     }
     
