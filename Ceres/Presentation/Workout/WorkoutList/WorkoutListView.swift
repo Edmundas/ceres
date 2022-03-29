@@ -10,8 +10,11 @@ import SwiftUI
 struct WorkoutListView: View {
     @StateObject var vm: WorkoutListViewModel
     
-    @State private var showingEditWorkoutSheet = false
-    @State private var workout: Workout?
+    class SheetMananger: ObservableObject {
+        @Published var showSheet = false
+        @Published var workout: Workout? = nil
+    }
+    @StateObject var sheetManager = SheetMananger()
     
     fileprivate func EmptyListRow() -> some View {
         Label("The list is empty", systemImage: "exclamationmark.circle")
@@ -19,8 +22,8 @@ struct WorkoutListView: View {
     
     fileprivate func ListRow(_ workout: Workout) -> some View {
         Button(action: {
-            self.workout = workout
-            showingEditWorkoutSheet.toggle()
+            sheetManager.workout = workout
+            sheetManager.showSheet.toggle()
         }) {
             Text("\(workout.title) - \(String(describing: workout.type)) - \(String(describing: workout.category))")
         }
@@ -42,18 +45,15 @@ struct WorkoutListView: View {
         .navigationTitle("Workouts")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button(action: { showingEditWorkoutSheet.toggle() },
+                Button(action: { sheetManager.showSheet.toggle() },
                        label: { Image(systemName: "plus") })
             }
         }
-        .sheet(isPresented: $showingEditWorkoutSheet, onDismiss: {
-            self.workout = nil
-            Task {
-                await vm.getWorkouts()
-            }
+        .sheet(isPresented: $sheetManager.showSheet, onDismiss: {
+            updateWorkouts()
         }) {
             NavigationView {
-                WorkoutEditView(vm: WorkoutEditViewModel(workout: $workout))
+                WorkoutEditView(vm: WorkoutEditViewModel(workout: $sheetManager.workout))
             }
         }
         .task {
@@ -70,6 +70,13 @@ struct WorkoutListView: View {
 }
 
 extension WorkoutListView {
+    private func updateWorkouts() {
+        Task {
+            await vm.getWorkouts()
+            sheetManager.workout = nil
+        }
+    }
+    
     private func deleteWorkout(indexSet: IndexSet) {
         indexSet.forEach { index in
             Task {

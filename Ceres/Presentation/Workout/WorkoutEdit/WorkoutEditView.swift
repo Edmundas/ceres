@@ -12,8 +12,11 @@ struct WorkoutEditView: View {
     
     @StateObject var vm: WorkoutEditViewModel
     
-    @State private var showingEditMetricSheet = false
-    @State private var metric: Metric?
+    class SheetMananger: ObservableObject {
+        @Published var showSheet = false
+        @Published var metric: Metric? = nil
+    }
+    @StateObject var sheetManager = SheetMananger()
     
     fileprivate func TitleRow() -> some View {
         TextField("Title", text: $vm.title)
@@ -38,8 +41,8 @@ struct WorkoutEditView: View {
     
     fileprivate func MetricListRow(_ metric: Metric) -> some View {
         Button(action: {
-            self.metric = metric
-            showingEditMetricSheet.toggle()
+            sheetManager.metric = metric
+            sheetManager.showSheet.toggle()
         }) {
             Text("\(metric.value) - \(String(describing: metric.type)) - \(String(describing: metric.subtype)) - \(String(describing: metric.unit))")
         }
@@ -56,7 +59,7 @@ struct WorkoutEditView: View {
                 .onDelete(perform: deleteMetric)
             }
             Button(action: {
-                showingEditMetricSheet.toggle()
+                sheetManager.showSheet.toggle()
             }) {
                 Label("Add workout metric", systemImage: "plus.app")
             }
@@ -90,11 +93,11 @@ struct WorkoutEditView: View {
                 Button("Save", action: saveAction)
             }
         }
-        .sheet(isPresented: $showingEditMetricSheet, onDismiss: {
+        .sheet(isPresented: $sheetManager.showSheet, onDismiss: {
             updateWorkoutMetrics()
         }) {
             NavigationView {
-                MetricEditView(vm: MetricEditViewModel(metric: $metric))
+                MetricEditView(vm: MetricEditViewModel(metric: $sheetManager.metric))
             }
         }
     }
@@ -106,10 +109,10 @@ struct WorkoutEditView: View {
 
 extension WorkoutEditView {
     private func updateWorkoutMetrics() {
-        guard let newMetric = metric else { return }
+        guard let newMetric = sheetManager.metric else { return }
         Task {
             await vm.updateMetric(newMetric)
-            metric = nil
+            sheetManager.metric = nil
         }
     }
 
