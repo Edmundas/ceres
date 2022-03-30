@@ -10,16 +10,16 @@ import SwiftUI
 @main
 struct CeresApp: App {
     @State private var selection: Tab = .workouts
-    
+
     enum Tab {
         case workouts
     }
-    
+
     var body: some Scene {
         WindowGroup {
             TabView(selection: $selection) {
-                NavigationView() {
-                    WorkoutListView(vm: WorkoutListViewModel())
+                NavigationView {
+                    WorkoutListView(viewModel: WorkoutListViewModel())
                 }
                 .navigationViewStyle(.stack)
                 .tabItem {

@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol MetricDataSource{
-    
+protocol MetricDataSource {
+
 }

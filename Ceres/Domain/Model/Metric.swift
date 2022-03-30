@@ -41,10 +41,10 @@ enum MetricUnit: Int16, CaseIterable {
 
 struct Metric: Identifiable, Equatable {
     let id: UUID
-    
+
     let type: MetricType
     let subtype: MetricSubtype
     let unit: MetricUnit
-    
+
     let value: Double
 }

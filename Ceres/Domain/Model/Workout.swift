@@ -9,7 +9,9 @@ import Foundation
 
 enum WorkoutType: Int16, CaseIterable {
     case none,
-         ft,
+         // swiftlint:disable identifier_name
+         ft, // abbreviation 'for time'
+         // swiftlint:enable identifier_name
          rft,
          amrap,
          emom,
@@ -26,11 +28,11 @@ enum WorkoutCategory: Int16, CaseIterable {
 
 struct Workout: Identifiable {
     let id: UUID
-    
+
     let type: WorkoutType
     let category: WorkoutCategory
-    
+
     let title: String
-    
+
     let metrics: [Metric]
 }

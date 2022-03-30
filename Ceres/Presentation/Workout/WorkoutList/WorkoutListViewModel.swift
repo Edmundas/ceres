@@ -9,13 +9,21 @@ import Foundation
 
 @MainActor
 class WorkoutListViewModel: ObservableObject {
-    var getWorkoutsUseCase = GetWorkoutsUseCase(repo: WorkoutRepositoryImpl(dataSource: WorkoutCoreDataSourceImpl()))
-    var deleteWorkoutUseCase = DeleteWorkoutUseCase(repo: WorkoutRepositoryImpl(dataSource: WorkoutCoreDataSourceImpl()))
-    
+    var getWorkoutsUseCase = GetWorkoutsUseCase(
+        repo: WorkoutRepositoryImpl(
+            dataSource: WorkoutCoreDataSourceImpl()
+        )
+    )
+    var deleteWorkoutUseCase = DeleteWorkoutUseCase(
+        repo: WorkoutRepositoryImpl(
+            dataSource: WorkoutCoreDataSourceImpl()
+        )
+    )
+
     @Published var workouts: [Workout] = []
     @Published var errorMessage = ""
     @Published var hasError = false
-    
+
     func getWorkouts() async {
         errorMessage = ""
         let result = await getWorkoutsUseCase.execute()
@@ -28,7 +36,7 @@ class WorkoutListViewModel: ObservableObject {
             hasError = true
         }
     }
-    
+
     func deleteWorkout(at index: Int) async {
         errorMessage = ""
         let workout = workouts[index]

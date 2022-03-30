@@ -10,23 +10,31 @@ import SwiftUI
 
 @MainActor
 class WorkoutEditViewModel: ObservableObject {
-    var createWorkoutUseCase = CreateWorkoutUseCase(repo: WorkoutRepositoryImpl(dataSource: WorkoutCoreDataSourceImpl()))
-    var updateWorkoutUseCase = UpdateWorkoutUseCase(repo: WorkoutRepositoryImpl(dataSource: WorkoutCoreDataSourceImpl()))
-    
+    var createWorkoutUseCase = CreateWorkoutUseCase(
+        repo: WorkoutRepositoryImpl(
+            dataSource: WorkoutCoreDataSourceImpl()
+        )
+    )
+    var updateWorkoutUseCase = UpdateWorkoutUseCase(
+        repo: WorkoutRepositoryImpl(
+            dataSource: WorkoutCoreDataSourceImpl()
+        )
+    )
+
     @Binding var workout: Workout?
-    
+
     @Published var title = ""
     @Published var type = WorkoutType.none
     @Published var category = WorkoutCategory.none
-    
+
     @Published var metrics: [Metric] = []
-    
+
     @Published var errorMessage = ""
     @Published var hasError = false
-    
+
     init(workout: Binding<Workout?>) {
         _workout = workout
-        
+
         if let currentWorkout = workout.wrappedValue {
             title = currentWorkout.title
             type = currentWorkout.type
@@ -34,7 +42,7 @@ class WorkoutEditViewModel: ObservableObject {
             metrics = currentWorkout.metrics
         }
     }
-    
+
     private func createWorkout() async {
         errorMessage = ""
         let workout = Workout(
@@ -53,7 +61,7 @@ class WorkoutEditViewModel: ObservableObject {
             hasError = true
         }
     }
-    
+
     private func updateWorkout() async {
         guard let currentWorkout = workout else { return }
 
@@ -74,7 +82,7 @@ class WorkoutEditViewModel: ObservableObject {
             hasError = true
         }
     }
-    
+
     func updateMetric(_ metric: Metric) async {
         if let index = metrics.firstIndex(where: { $0.id == metric.id }) {
             metrics.remove(at: index)
@@ -83,11 +91,11 @@ class WorkoutEditViewModel: ObservableObject {
             metrics.append(metric)
         }
     }
-    
+
     func deleteMetric(at index: Int) async {
         metrics.remove(at: index)
     }
-    
+
     func save() {
         if workout != nil {
             Task { await updateWorkout() }

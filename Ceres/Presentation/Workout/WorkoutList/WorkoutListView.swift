@@ -8,36 +8,36 @@
 import SwiftUI
 
 struct WorkoutListView: View {
-    @StateObject var vm: WorkoutListViewModel
-    
+    @StateObject var viewModel: WorkoutListViewModel
+
     class SheetMananger: ObservableObject {
         @Published var showSheet = false
-        @Published var workout: Workout? = nil
+        @Published var workout: Workout?
     }
     @StateObject var sheetManager = SheetMananger()
-    
-    fileprivate func EmptyListRow() -> some View {
+
+    fileprivate func emptyListRow() -> some View {
         Label("The list is empty", systemImage: "exclamationmark.circle")
     }
-    
-    fileprivate func ListRow(_ workout: Workout) -> some View {
+
+    fileprivate func listRow(_ workout: Workout) -> some View {
         Button(action: {
             sheetManager.workout = workout
             sheetManager.showSheet.toggle()
-        }) {
+        }, label: {
             Text("\(workout.title) - \(String(describing: workout.type)) - \(String(describing: workout.category))")
-        }
+        })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)
     }
-    
-    fileprivate func WorkoutList() -> some View {
+
+    fileprivate func workoutList() -> some View {
         List {
-            if vm.workouts.isEmpty {
-                EmptyListRow()
+            if viewModel.workouts.isEmpty {
+                emptyListRow()
             }
-            ForEach(vm.workouts) { item in
-                ListRow(item)
+            ForEach(viewModel.workouts) { item in
+                listRow(item)
             }
             .onDelete(perform: deleteWorkout)
         }
@@ -51,45 +51,47 @@ struct WorkoutListView: View {
         }
         .sheet(isPresented: $sheetManager.showSheet, onDismiss: {
             updateWorkouts()
-        }) {
+        }, content: {
             NavigationView {
-                WorkoutEditView(vm: WorkoutEditViewModel(workout: $sheetManager.workout))
+                WorkoutEditView(viewModel: WorkoutEditViewModel(workout: $sheetManager.workout))
             }
-        }
+        })
         .task {
-           await vm.getWorkouts()
+           await viewModel.getWorkouts()
         }
-        .alert("Error", isPresented: $vm.hasError, actions: { }) {
-            Text(vm.errorMessage)
-        }
+        .alert("Error", isPresented: $viewModel.hasError, actions: { }, message: {
+            Text(viewModel.errorMessage)
+        })
     }
-    
+
     var body: some View {
-       WorkoutList()
+       workoutList()
     }
 }
 
 extension WorkoutListView {
     private func updateWorkouts() {
         Task {
-            await vm.getWorkouts()
+            await viewModel.getWorkouts()
             sheetManager.workout = nil
         }
     }
-    
+
     private func deleteWorkout(indexSet: IndexSet) {
         indexSet.forEach { index in
             Task {
-                await vm.deleteWorkout(at: index)
+                await viewModel.deleteWorkout(at: index)
             }
         }
     }
 }
 
-//struct WorkoutListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NavigationView {
-//            WorkoutListView()
-//        }.navigationViewStyle(StackNavigationViewStyle())
-//    }
-//}
+/*
+struct WorkoutListView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            WorkoutListView()
+        }.navigationViewStyle(StackNavigationViewStyle())
+    }
+}
+ */

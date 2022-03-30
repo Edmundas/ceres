@@ -9,16 +9,16 @@ import SwiftUI
 
 struct ClearButton: ViewModifier {
     @Binding var text: String
-    
+
     public func body(content: Content) -> some View {
         HStack {
             content
-            
+
             if !text.isEmpty {
-                Button(action: { self.text = "" }) {
+                Button(action: { self.text = "" }, label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.secondary)
-                }
+                })
             }
         }
     }

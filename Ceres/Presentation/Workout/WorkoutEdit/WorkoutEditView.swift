@@ -9,75 +9,80 @@ import SwiftUI
 
 struct WorkoutEditView: View {
     @Environment(\.presentationMode) var presentationMode
-    
-    @StateObject var vm: WorkoutEditViewModel
-    
+
+    @StateObject var viewModel: WorkoutEditViewModel
+
     class SheetMananger: ObservableObject {
         @Published var showSheet = false
-        @Published var metric: Metric? = nil
+        @Published var metric: Metric?
     }
     @StateObject var sheetManager = SheetMananger()
-    
-    fileprivate func TitleRow() -> some View {
-        TextField("Title", text: $vm.title)
-            .modifier(ClearButton(text: $vm.title))
+
+    fileprivate func titleRow() -> some View {
+        TextField("Title", text: $viewModel.title)
+            .modifier(ClearButton(text: $viewModel.title))
     }
-    
-    fileprivate func TypePickerRow() -> some View {
-        Picker("Type", selection: $vm.type) {
+
+    fileprivate func typePickerRow() -> some View {
+        Picker("Type", selection: $viewModel.type) {
             ForEach(WorkoutType.allCases, id: \.self) { type in
                 Text(type == .none ? String(describing: type) : String(describing: type).uppercased())
             }
         }
     }
-    
-    fileprivate func CategoryPickerRow() -> some View {
-        Picker("Category", selection: $vm.category) {
+
+    fileprivate func categoryPickerRow() -> some View {
+        Picker("Category", selection: $viewModel.category) {
             ForEach(WorkoutCategory.allCases, id: \.self) { category in
                 Text(category == .none ? String(describing: category) : String(describing: category).capitalized)
             }
         }
     }
-    
-    fileprivate func MetricListRow(_ metric: Metric) -> some View {
+
+    fileprivate func metricListRow(_ metric: Metric) -> some View {
         Button(action: {
             sheetManager.metric = metric
             sheetManager.showSheet.toggle()
-        }) {
-            Text("\(metric.value) - \(String(describing: metric.type)) - \(String(describing: metric.subtype)) - \(String(describing: metric.unit))")
-        }
+        }, label: {
+            Text("""
+                \(metric.value) -
+                \(String(describing: metric.type)) -
+                \(String(describing: metric.subtype)) -
+                \(String(describing: metric.unit))
+            """)
+        })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)
     }
-    
-    fileprivate func MetricList() -> some View {
+
+    fileprivate func metricList() -> some View {
         Group {
-            if let metrics = vm.metrics {
+            if let metrics = viewModel.metrics {
                 ForEach(metrics) { metric in
-                    MetricListRow(metric)
+                    metricListRow(metric)
                 }
                 .onDelete(perform: deleteMetric)
             }
             Button(action: {
                 sheetManager.showSheet.toggle()
-            }) {
+            }, label: {
                 Label("Add workout metric", systemImage: "plus.app")
-            }
+            })
             .buttonStyle(PlainButtonStyle())
         }
     }
-    
-    fileprivate func EditView() -> some View {
+
+    fileprivate func editView() -> some View {
         List {
             Section {
-                TitleRow()
+                titleRow()
             }
             Section {
-                TypePickerRow()
-                CategoryPickerRow()
+                typePickerRow()
+                categoryPickerRow()
             }
             Section {
-                MetricList()
+                metricList()
             }
             Section {
                 // TODO: rounds
@@ -95,15 +100,15 @@ struct WorkoutEditView: View {
         }
         .sheet(isPresented: $sheetManager.showSheet, onDismiss: {
             updateWorkoutMetrics()
-        }) {
+        }, content: {
             NavigationView {
-                MetricEditView(vm: MetricEditViewModel(metric: $sheetManager.metric))
+                MetricEditView(viewModel: MetricEditViewModel(metric: $sheetManager.metric))
             }
-        }
+        })
     }
-    
+
     var body: some View {
-        EditView()
+        editView()
     }
 }
 
@@ -111,7 +116,7 @@ extension WorkoutEditView {
     private func updateWorkoutMetrics() {
         guard let newMetric = sheetManager.metric else { return }
         Task {
-            await vm.updateMetric(newMetric)
+            await viewModel.updateMetric(newMetric)
             sheetManager.metric = nil
         }
     }
@@ -119,7 +124,7 @@ extension WorkoutEditView {
     private func deleteMetric(indexSet: IndexSet) {
         indexSet.forEach { index in
             Task {
-                await vm.deleteMetric(at: index)
+                await viewModel.deleteMetric(at: index)
             }
         }
     }
@@ -129,15 +134,17 @@ extension WorkoutEditView {
     private func cancelAction() {
         presentationMode.wrappedValue.dismiss()
     }
-    
+
     private func saveAction() {
-        vm.save()
+        viewModel.save()
         presentationMode.wrappedValue.dismiss()
     }
 }
 
-//struct WorkoutEditView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        WorkoutEditView()
-//    }
-//}
+/*
+struct WorkoutEditView_Previews: PreviewProvider {
+    static var previews: some View {
+        WorkoutEditView()
+    }
+}
+ */

@@ -16,7 +16,7 @@ struct MetricCoreDataSourceImpl: MetricDataSource {
         persistenceController = PersistenceController.shared
         container = persistenceController.container
     }
-    
+
     private func getEntityById(_ id: UUID) throws -> MetricEntity? {
         let request = MetricEntity.fetchRequest()
         request.fetchLimit = 1
@@ -26,7 +26,7 @@ struct MetricCoreDataSourceImpl: MetricDataSource {
         let workoutEntity = try context.fetch(request)[0]
         return workoutEntity
     }
-    
+
     private func saveContext() {
         let context = container.viewContext
         if context.hasChanges {
@@ -47,7 +47,7 @@ extension Metric {
         unit = MetricUnit(rawValue: metricEntity.unit) ?? .none
         value = metricEntity.value
     }
-    
+
     func metricEntity(context: NSManagedObjectContext) -> MetricEntity {
         let metricEntity = MetricEntity(context: context)
         metricEntity.id = self.id
@@ -55,7 +55,7 @@ extension Metric {
         metricEntity.subtype = self.subtype.rawValue
         metricEntity.unit = self.unit.rawValue
         metricEntity.value = self.value
-        
+
         return metricEntity
     }
 }

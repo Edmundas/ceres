@@ -13,7 +13,7 @@ protocol UpdateWorkout {
 
 struct UpdateWorkoutUseCase: UpdateWorkout {
     var repo: WorkoutRepository
-    
+
     func execute(workout: Workout) async -> Result<Bool, WorkoutError> {
         let result = await repo.updateWorkout(workout)
         return result

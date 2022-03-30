@@ -13,7 +13,7 @@ protocol DeleteWorkout {
 
 struct DeleteWorkoutUseCase: DeleteWorkout {
     var repo: WorkoutRepository
-    
+
     func execute(id: UUID) async -> Result<Bool, WorkoutError> {
         let result = await repo.deleteWorkout(id)
         return result

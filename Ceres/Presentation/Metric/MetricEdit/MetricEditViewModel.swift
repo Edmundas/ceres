@@ -11,18 +11,18 @@ import SwiftUI
 @MainActor
 class MetricEditViewModel: ObservableObject {
     @Binding var metric: Metric?
-    
+
     @Published var value = ""
     @Published var type = MetricType.none
     @Published var subtype = MetricSubtype.none
     @Published var unit = MetricUnit.none
-    
+
     @Published var errorMessage = ""
     @Published var hasError = false
-    
+
     init(metric: Binding<Metric?>) {
         _metric = metric
-        
+
         if let currentMetric = metric.wrappedValue {
             value = String(currentMetric.value)
             type = currentMetric.type
@@ -30,7 +30,7 @@ class MetricEditViewModel: ObservableObject {
             unit = currentMetric.unit
         }
     }
-    
+
     private func createMetric() async {
         metric = Metric(
             id: UUID(),
@@ -40,7 +40,7 @@ class MetricEditViewModel: ObservableObject {
             value: Double(value) ?? 0.0
         )
     }
-    
+
     private func updateMetric() async {
         guard let currentMetric = metric else { return }
 
@@ -52,7 +52,7 @@ class MetricEditViewModel: ObservableObject {
             value: Double(value) ?? 0.0
         )
     }
-    
+
     func save() {
         if metric != nil {
             Task { await updateMetric() }

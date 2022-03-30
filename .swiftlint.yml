@@ -1,0 +1,7 @@
+excluded:
+  - ${PWD}/Carthage
+  - ${PWD}/Pods
+  - ${PWD}/DerivedData
+
+disabled_rules:
+  - todo

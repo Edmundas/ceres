@@ -10,21 +10,21 @@ import XCTest
 import CoreData
 
 class DataManagerTests: XCTestCase {
-    
+
 //    var dataManager: DataManager!
-    
+
     override func setUpWithError() throws {
         try super.setUpWithError()
 //        dataManager = DataManager(persistenceController: PersistenceController.testing)
     }
-    
+
     override func tearDownWithError() throws {
 //        dataManager = nil
         try super.tearDownWithError()
     }
-    
+
     // MARK: Test
-    
+
 //    func testCreateWorkout() throws {
 //        dataManager.createWorkout(title: "Test workout #1", type: .ft, category: .hero, metrics: nil)
 //        let newWorkout = try? dataManager.context.fetch(WorkoutEntity.fetchRequest()).first
@@ -39,7 +39,7 @@ class DataManagerTests: XCTestCase {
 //            fatalError("Unresolved error: \(error)")
 //        }
 //    }
-    
+
 //    func testDeleteWorkout() throws {
 //        var initialWorkoutsCount = 0
 //        let request: NSFetchRequest<WorkoutEntity> = WorkoutEntity.fetchRequest()
@@ -69,5 +69,5 @@ class DataManagerTests: XCTestCase {
 //            fatalError("Unresolved error: \(error)")
 //        }
 //    }
-    
+
 }

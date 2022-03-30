@@ -8,9 +8,9 @@
 import Foundation
 
 enum WorkoutError: Error {
-    case DataSourceError,
-         CreateError,
-         DeleteError,
-         UpdateError,
-         FetchError
+    case dataSourceError,
+         createError,
+         deleteError,
+         updateError,
+         fetchError
 }
