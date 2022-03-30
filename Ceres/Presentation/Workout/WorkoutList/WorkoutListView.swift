@@ -16,11 +16,11 @@ struct WorkoutListView: View {
     }
     @StateObject var sheetManager = SheetMananger()
 
-    fileprivate func emptyListRow() -> some View {
+    private func emptyListRow() -> some View {
         Label("The list is empty", systemImage: "exclamationmark.circle")
     }
 
-    fileprivate func listRow(_ workout: Workout) -> some View {
+    private func listRow(_ workout: Workout) -> some View {
         Button(action: {
             sheetManager.workout = workout
             sheetManager.showSheet.toggle()
@@ -31,7 +31,7 @@ struct WorkoutListView: View {
         .foregroundColor(.primary)
     }
 
-    fileprivate func workoutList() -> some View {
+    private func workoutList() -> some View {
         List {
             if viewModel.workouts.isEmpty {
                 emptyListRow()

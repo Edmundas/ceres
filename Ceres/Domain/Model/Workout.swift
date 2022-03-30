@@ -7,6 +7,8 @@
 
 import Foundation
 
+protocol WorkoutEnums: Hashable { }
+
 enum WorkoutType: Int16, CaseIterable {
     case none,
          // swiftlint:disable identifier_name
@@ -20,11 +22,15 @@ enum WorkoutType: Int16, CaseIterable {
          dbr
 }
 
+extension WorkoutType: WorkoutEnums { }
+
 enum WorkoutCategory: Int16, CaseIterable {
     case none,
          girl,
          hero
 }
+
+extension WorkoutCategory: WorkoutEnums { }
 
 struct Workout: Identifiable {
     let id: UUID

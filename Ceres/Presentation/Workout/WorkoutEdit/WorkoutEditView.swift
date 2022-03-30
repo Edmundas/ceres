@@ -18,28 +18,30 @@ struct WorkoutEditView: View {
     }
     @StateObject var sheetManager = SheetMananger()
 
-    fileprivate func titleRow() -> some View {
+    private func titleRow() -> some View {
         TextField("Title", text: $viewModel.title)
             .modifier(ClearButton(text: $viewModel.title))
     }
 
-    fileprivate func typePickerRow() -> some View {
-        Picker("Type", selection: $viewModel.type) {
-            ForEach(WorkoutType.allCases, id: \.self) { type in
-                Text(type == .none ? String(describing: type) : String(describing: type).uppercased())
+    private func pickerRow<T: WorkoutEnums>(title: String, selection: Binding<T>) -> some View {
+        var allCases: [T]
+        switch selection.wrappedValue {
+        case is WorkoutType:
+            allCases = (WorkoutType.allCases as? [T]) ?? []
+        case is WorkoutCategory:
+            allCases = (WorkoutCategory.allCases as? [T]) ?? []
+        default:
+            allCases = []
+        }
+
+        return Picker(title, selection: selection) {
+            ForEach(allCases, id: \.self) {
+                Text(String(describing: $0))
             }
         }
     }
 
-    fileprivate func categoryPickerRow() -> some View {
-        Picker("Category", selection: $viewModel.category) {
-            ForEach(WorkoutCategory.allCases, id: \.self) { category in
-                Text(category == .none ? String(describing: category) : String(describing: category).capitalized)
-            }
-        }
-    }
-
-    fileprivate func metricListRow(_ metric: Metric) -> some View {
+    private func metricListRow(_ metric: Metric) -> some View {
         Button(action: {
             sheetManager.metric = metric
             sheetManager.showSheet.toggle()
@@ -55,7 +57,7 @@ struct WorkoutEditView: View {
         .foregroundColor(.primary)
     }
 
-    fileprivate func metricList() -> some View {
+    private func metricList() -> some View {
         Group {
             if let metrics = viewModel.metrics {
                 ForEach(metrics) { metric in
@@ -72,14 +74,14 @@ struct WorkoutEditView: View {
         }
     }
 
-    fileprivate func editView() -> some View {
+    private func editView() -> some View {
         List {
             Section {
                 titleRow()
             }
             Section {
-                typePickerRow()
-                categoryPickerRow()
+                pickerRow(title: "Type", selection: $viewModel.type)
+                pickerRow(title: "Category", selection: $viewModel.category)
             }
             Section {
                 metricList()

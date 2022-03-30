@@ -7,6 +7,8 @@
 
 import Foundation
 
+protocol MetricEnums: Hashable { }
+
 enum MetricType: Int16, CaseIterable {
     case none,
          weight,
@@ -16,6 +18,8 @@ enum MetricType: Int16, CaseIterable {
          reps
 }
 
+extension MetricType: MetricEnums { }
+
 enum MetricSubtype: Int16, CaseIterable {
     case none,
          perRound,
@@ -23,6 +27,8 @@ enum MetricSubtype: Int16, CaseIterable {
          minPerRounds,
          maxPerRounds
 }
+
+extension MetricSubtype: MetricEnums { }
 
 enum MetricUnit: Int16, CaseIterable {
     case none,
@@ -38,6 +44,8 @@ enum MetricUnit: Int16, CaseIterable {
          kilogram,
          pound
 }
+
+extension MetricUnit: MetricEnums { }
 
 struct Metric: Identifiable, Equatable {
     let id: UUID

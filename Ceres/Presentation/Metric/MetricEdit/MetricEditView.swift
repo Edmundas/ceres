@@ -12,44 +12,40 @@ struct MetricEditView: View {
 
     @StateObject var viewModel: MetricEditViewModel
 
-    fileprivate func valueRow() -> some View {
+    private func valueRow() -> some View {
         TextField("Value", text: $viewModel.value)
             .modifier(ClearButton(text: $viewModel.value))
     }
 
-    fileprivate func typePicker() -> some View {
-        Picker("Type", selection: $viewModel.type) {
-            ForEach(MetricType.allCases, id: \.self) { type in
-                Text(type == .none ? String(describing: type) : String(describing: type))
+    private func picker<T: MetricEnums>(title: String, selection: Binding<T>) -> some View {
+        var allCases: [T]
+        switch selection.wrappedValue {
+        case is MetricType:
+            allCases = (MetricType.allCases as? [T]) ?? []
+        case is MetricSubtype:
+            allCases = (MetricSubtype.allCases as? [T]) ?? []
+        case is MetricUnit:
+            allCases = (MetricUnit.allCases as? [T]) ?? []
+        default:
+            allCases = []
+        }
+
+        return Picker(title, selection: selection) {
+            ForEach(allCases, id: \.self) {
+                Text(String(describing: $0))
             }
         }
     }
 
-    fileprivate func subtypePicker() -> some View {
-        Picker("Subtype", selection: $viewModel.subtype) {
-            ForEach(MetricSubtype.allCases, id: \.self) { subtype in
-                Text(subtype == .none ? String(describing: subtype) : String(describing: subtype))
-            }
-        }
-    }
-
-    fileprivate func unitPicker() -> some View {
-        Picker("Unit", selection: $viewModel.unit) {
-            ForEach(MetricUnit.allCases, id: \.self) { unit in
-                Text(unit == .none ? String(describing: unit) : String(describing: unit))
-            }
-        }
-    }
-
-    fileprivate func editView() -> some View {
+    private func editView() -> some View {
         List {
             Section {
                 valueRow()
             }
             Section {
-                typePicker()
-                subtypePicker()
-                unitPicker()
+                picker(title: "Type", selection: $viewModel.type)
+                picker(title: "Subtype", selection: $viewModel.subtype)
+                picker(title: "Unit", selection: $viewModel.unit)
             }
         }
         .listStyle(InsetGroupedListStyle())
