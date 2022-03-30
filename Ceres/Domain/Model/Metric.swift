@@ -41,6 +41,7 @@ enum MetricUnit: Int16, CaseIterable {
 
 struct Metric: Identifiable, Equatable {
     let id: UUID
+    let createDate: Date
 
     let type: MetricType
     let subtype: MetricSubtype

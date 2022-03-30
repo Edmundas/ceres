@@ -42,6 +42,7 @@ struct MetricCoreDataSourceImpl: MetricDataSource {
 extension Metric {
     init(metricEntity: MetricEntity) {
         id = metricEntity.id
+        createDate = metricEntity.createDate
         type = MetricType(rawValue: metricEntity.type) ?? .none
         subtype = MetricSubtype(rawValue: metricEntity.subtype) ?? .none
         unit = MetricUnit(rawValue: metricEntity.unit) ?? .none
@@ -51,6 +52,7 @@ extension Metric {
     func metricEntity(context: NSManagedObjectContext) -> MetricEntity {
         let metricEntity = MetricEntity(context: context)
         metricEntity.id = self.id
+        metricEntity.createDate = self.createDate
         metricEntity.type = self.type.rawValue
         metricEntity.subtype = self.subtype.rawValue
         metricEntity.unit = self.unit.rawValue

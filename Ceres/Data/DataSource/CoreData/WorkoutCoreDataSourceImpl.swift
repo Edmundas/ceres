@@ -117,6 +117,7 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
 extension Workout {
     init(workoutEntity: WorkoutEntity) {
         id = workoutEntity.id
+        createDate = workoutEntity.createDate
         type = WorkoutType(rawValue: workoutEntity.type) ?? .none
         category = WorkoutCategory(rawValue: workoutEntity.category) ?? .none
         title = workoutEntity.title
@@ -130,6 +131,7 @@ extension Workout {
     func workoutEntity(context: NSManagedObjectContext) -> WorkoutEntity {
         let workoutEntity = WorkoutEntity(context: context)
         workoutEntity.id = self.id
+        workoutEntity.createDate = self.createDate
         workoutEntity.type = self.type.rawValue
         workoutEntity.category = self.category.rawValue
         workoutEntity.title = self.title

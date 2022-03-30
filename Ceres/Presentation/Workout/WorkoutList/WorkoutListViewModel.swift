@@ -29,7 +29,9 @@ class WorkoutListViewModel: ObservableObject {
         let result = await getWorkoutsUseCase.execute()
         switch result {
         case .success(let workouts):
-            self.workouts = workouts
+            self.workouts = workouts.sorted {
+                $0.createDate < $1.createDate
+            }
         case .failure(let error):
             self.workouts = []
             errorMessage = error.localizedDescription

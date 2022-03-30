@@ -45,10 +45,10 @@ struct WorkoutEditView: View {
             sheetManager.showSheet.toggle()
         }, label: {
             Text("""
-                \(metric.value) -
-                \(String(describing: metric.type)) -
-                \(String(describing: metric.subtype)) -
-                \(String(describing: metric.unit))
+            \(metric.value) - \
+            \(String(describing: metric.type)) - \
+            \(String(describing: metric.subtype)) - \
+            \(String(describing: metric.unit))
             """)
         })
         .buttonStyle(DefaultButtonStyle())

@@ -34,6 +34,7 @@ class MetricEditViewModel: ObservableObject {
     private func createMetric() async {
         metric = Metric(
             id: UUID(),
+            createDate: Date(),
             type: type,
             subtype: subtype,
             unit: unit,
@@ -46,6 +47,7 @@ class MetricEditViewModel: ObservableObject {
 
         metric = Metric(
             id: currentMetric.id,
+            createDate: currentMetric.createDate,
             type: type,
             subtype: subtype,
             unit: unit,

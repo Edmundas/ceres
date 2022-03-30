@@ -39,7 +39,9 @@ class WorkoutEditViewModel: ObservableObject {
             title = currentWorkout.title
             type = currentWorkout.type
             category = currentWorkout.category
-            metrics = currentWorkout.metrics
+            metrics = currentWorkout.metrics.sorted {
+                $0.createDate < $1.createDate
+            }
         }
     }
 
@@ -47,6 +49,7 @@ class WorkoutEditViewModel: ObservableObject {
         errorMessage = ""
         let workout = Workout(
             id: UUID(),
+            createDate: Date(),
             type: type,
             category: category,
             title: title,
@@ -68,6 +71,7 @@ class WorkoutEditViewModel: ObservableObject {
         errorMessage = ""
         let workout = Workout(
             id: currentWorkout.id,
+            createDate: currentWorkout.createDate,
             type: type,
             category: category,
             title: title,
