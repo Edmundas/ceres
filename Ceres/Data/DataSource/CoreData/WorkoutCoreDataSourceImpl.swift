@@ -48,63 +48,13 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
 
     func update(id: UUID, workout: Workout) throws {
         let workoutEntity = try getEntityById(id)!
-        let context = container.viewContext
 
         workoutEntity.type = workout.type.rawValue
         workoutEntity.category = workout.category.rawValue
         workoutEntity.title = workout.title
 
-        var workoutEntityMetrics = workoutEntity.metrics
-        var updatedWorkoutEntityMetrics: Set<MetricEntity> = []
-
-        for metric in workout.metrics {
-            // update metric
-            if let workoutEntityMetric = workoutEntityMetrics?.first(where: { $0.id == metric.id }) {
-                workoutEntityMetric.type = metric.type.rawValue
-                workoutEntityMetric.subtype = metric.subtype.rawValue
-                workoutEntityMetric.unit = metric.unit.rawValue
-                workoutEntityMetric.value = metric.value
-
-                updatedWorkoutEntityMetrics.insert(workoutEntityMetric)
-                workoutEntityMetrics?.remove(workoutEntityMetric)
-            }
-            // create metric
-            else {
-                let workoutEntityMetric = metric.metricEntity(context: context)
-
-                updatedWorkoutEntityMetrics.insert(workoutEntityMetric)
-            }
-        }
-        // delete metric
-        workoutEntityMetrics?.forEach {
-            context.delete($0)
-        }
-        workoutEntity.metrics = updatedWorkoutEntityMetrics
-
-        var workoutEntityRounds = workoutEntity.rounds
-        var updatedWorkoutEntityRounds: Set<RoundEntity> = []
-
-        for (index, round) in workout.rounds.enumerated() {
-            // update round
-            if let workoutEntityRound = workoutEntityRounds?.first(where: { $0.id == round.id }) {
-                workoutEntityRound.orderNumber = Int16(index)
-
-                updatedWorkoutEntityRounds.insert(workoutEntityRound)
-                workoutEntityRounds?.remove(workoutEntityRound)
-            }
-            // create round
-            else {
-                let workoutEntityRound = round.roundEntity(context: context)
-                workoutEntityRound.orderNumber = Int16(index)
-
-                updatedWorkoutEntityRounds.insert(workoutEntityRound)
-            }
-        }
-        // delete round
-        workoutEntityRounds?.forEach {
-            context.delete($0)
-        }
-        workoutEntity.rounds = updatedWorkoutEntityRounds
+        workout.updateMetrics(for: workoutEntity)
+        workout.updateRounds(for: workoutEntity)
 
         saveContext()
     }
@@ -183,5 +133,66 @@ extension Workout {
         workoutEntity.rounds = !workoutEntityRounds.isEmpty ? Set(workoutEntityRounds) : nil
 
         return workoutEntity
+    }
+
+    func updateMetrics(for workoutEntity: WorkoutEntity) {
+        guard let context = workoutEntity.managedObjectContext else { return }
+
+        var workoutEntityMetrics = workoutEntity.metrics
+        var updatedWorkoutEntityMetrics: Set<MetricEntity> = []
+
+        for metric in metrics {
+            // update metric
+            if let workoutEntityMetric = workoutEntityMetrics?.first(where: { $0.id == metric.id }) {
+                workoutEntityMetric.type = metric.type.rawValue
+                workoutEntityMetric.subtype = metric.subtype.rawValue
+                workoutEntityMetric.unit = metric.unit.rawValue
+                workoutEntityMetric.value = metric.value
+
+                updatedWorkoutEntityMetrics.insert(workoutEntityMetric)
+                workoutEntityMetrics?.remove(workoutEntityMetric)
+            }
+            // create metric
+            else {
+                let workoutEntityMetric = metric.metricEntity(context: context)
+
+                updatedWorkoutEntityMetrics.insert(workoutEntityMetric)
+            }
+        }
+        // delete metric
+        workoutEntityMetrics?.forEach {
+            context.delete($0)
+        }
+        workoutEntity.metrics = updatedWorkoutEntityMetrics
+    }
+
+    func updateRounds(for workoutEntity: WorkoutEntity) {
+        guard let context = workoutEntity.managedObjectContext else { return }
+
+        var workoutEntityRounds = workoutEntity.rounds
+        var updatedWorkoutEntityRounds: Set<RoundEntity> = []
+
+        for (index, round) in rounds.enumerated() {
+            // update round
+            if let workoutEntityRound = workoutEntityRounds?.first(where: { $0.id == round.id }) {
+                workoutEntityRound.orderNumber = Int16(index)
+                round.updateMovements(for: workoutEntityRound)
+
+                updatedWorkoutEntityRounds.insert(workoutEntityRound)
+                workoutEntityRounds?.remove(workoutEntityRound)
+            }
+            // create round
+            else {
+                let workoutEntityRound = round.roundEntity(context: context)
+                workoutEntityRound.orderNumber = Int16(index)
+
+                updatedWorkoutEntityRounds.insert(workoutEntityRound)
+            }
+        }
+        // delete round
+        workoutEntityRounds?.forEach {
+            context.delete($0)
+        }
+        workoutEntity.rounds = updatedWorkoutEntityRounds
     }
 }

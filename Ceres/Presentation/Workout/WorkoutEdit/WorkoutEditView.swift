@@ -71,22 +71,11 @@ struct WorkoutEditView: View {
             roundSheetManager.round = round
             roundSheetManager.showSheet.toggle()
         }, label: {
-            Text("\(formattedDate(round.createDate))")
+            Text("Round")
         })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)
     }
-
-    // vvv TODO: remove temporary solution
-    private func formattedDate(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "LT_lt")
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .medium
-
-        return dateFormatter.string(from: date)
-    }
-    // ^^^
 
     private func metricList() -> some View {
         Group {

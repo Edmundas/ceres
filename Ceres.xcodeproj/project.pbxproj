@@ -14,6 +14,12 @@
 		1803427A27F5951C002208FF /* RoundEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803427927F5951C002208FF /* RoundEditView.swift */; };
 		1803427C27F59526002208FF /* RoundEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803427B27F59526002208FF /* RoundEditViewModel.swift */; };
 		1803427E27F5B000002208FF /* ListItemDragDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803427D27F5B000002208FF /* ListItemDragDelegate.swift */; };
+		1803428027F5C196002208FF /* MovementEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803427F27F5C196002208FF /* MovementEntity.swift */; };
+		1803428227F5C20F002208FF /* Movement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803428127F5C20F002208FF /* Movement.swift */; };
+		1803428427F5C253002208FF /* MovementCoreDataSourceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803428327F5C253002208FF /* MovementCoreDataSourceImpl.swift */; };
+		1803428627F5C2B2002208FF /* MovementDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803428527F5C2B2002208FF /* MovementDataSource.swift */; };
+		1803428A27F5C67C002208FF /* MovementEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803428927F5C67C002208FF /* MovementEditView.swift */; };
+		1803428C27F5C68F002208FF /* MovementEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803428B27F5C68F002208FF /* MovementEditViewModel.swift */; };
 		183D0A8B27EDF164006AFDC3 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D0A8A27EDF164006AFDC3 /* Workout.swift */; };
 		183D0A8D27EDF18D006AFDC3 /* WorkoutRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D0A8C27EDF18D006AFDC3 /* WorkoutRepository.swift */; };
 		183D0A9127EDF328006AFDC3 /* WorkoutListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D0A9027EDF328006AFDC3 /* WorkoutListViewModel.swift */; };
@@ -73,6 +79,12 @@
 		1803427927F5951C002208FF /* RoundEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundEditView.swift; sourceTree = "<group>"; };
 		1803427B27F59526002208FF /* RoundEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundEditViewModel.swift; sourceTree = "<group>"; };
 		1803427D27F5B000002208FF /* ListItemDragDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemDragDelegate.swift; sourceTree = "<group>"; };
+		1803427F27F5C196002208FF /* MovementEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementEntity.swift; sourceTree = "<group>"; };
+		1803428127F5C20F002208FF /* Movement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movement.swift; sourceTree = "<group>"; };
+		1803428327F5C253002208FF /* MovementCoreDataSourceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementCoreDataSourceImpl.swift; sourceTree = "<group>"; };
+		1803428527F5C2B2002208FF /* MovementDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementDataSource.swift; sourceTree = "<group>"; };
+		1803428927F5C67C002208FF /* MovementEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementEditView.swift; sourceTree = "<group>"; };
+		1803428B27F5C68F002208FF /* MovementEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementEditViewModel.swift; sourceTree = "<group>"; };
 		183D0A8A27EDF164006AFDC3 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		183D0A8C27EDF18D006AFDC3 /* WorkoutRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRepository.swift; sourceTree = "<group>"; };
 		183D0A9027EDF328006AFDC3 /* WorkoutListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListViewModel.swift; sourceTree = "<group>"; };
@@ -155,6 +167,23 @@
 			path = RoundEdit;
 			sourceTree = "<group>";
 		};
+		1803428727F5C65B002208FF /* Movement */ = {
+			isa = PBXGroup;
+			children = (
+				1803428827F5C666002208FF /* MovementEdit */,
+			);
+			path = Movement;
+			sourceTree = "<group>";
+		};
+		1803428827F5C666002208FF /* MovementEdit */ = {
+			isa = PBXGroup;
+			children = (
+				1803428927F5C67C002208FF /* MovementEditView.swift */,
+				1803428B27F5C68F002208FF /* MovementEditViewModel.swift */,
+			);
+			path = MovementEdit;
+			sourceTree = "<group>";
+		};
 		183D0A8327EDF035006AFDC3 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,6 +217,7 @@
 				183D0A8E27EDF30B006AFDC3 /* Workout */,
 				18843A9827F1E46B0061E240 /* Metric */,
 				1803427727F594E3002208FF /* Round */,
+				1803428727F5C65B002208FF /* Movement */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -198,6 +228,7 @@
 				183D0A8A27EDF164006AFDC3 /* Workout.swift */,
 				18843A9F27F1E5780061E240 /* Metric.swift */,
 				1803427127F58F78002208FF /* Round.swift */,
+				1803428127F5C20F002208FF /* Movement.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -242,6 +273,7 @@
 				183D0A9827EDF397006AFDC3 /* WorkoutDataSource.swift */,
 				18843AA727F1EA270061E240 /* MetricDataSource.swift */,
 				1803427527F59024002208FF /* RoundDataSource.swift */,
+				1803428527F5C2B2002208FF /* MovementDataSource.swift */,
 				183D0A9A27EDF39F006AFDC3 /* CoreData */,
 			);
 			path = DataSource;
@@ -261,6 +293,7 @@
 				183D0A9B27EDF3BC006AFDC3 /* WorkoutCoreDataSourceImpl.swift */,
 				18843AA927F1EA620061E240 /* MetricCoreDataSourceImpl.swift */,
 				1803427327F58FBA002208FF /* RoundCoreDataSourceImpl.swift */,
+				1803428327F5C253002208FF /* MovementCoreDataSourceImpl.swift */,
 				18F7A80E274E2D910083BA2B /* Ceres.xcdatamodeld */,
 				185E9A2427F2E490004BB80F /* Entities */,
 				185E9A2827F34039004BB80F /* Persistence */,
@@ -282,6 +315,7 @@
 				18F7A843274E62960083BA2B /* WorkoutEntity.swift */,
 				18454D4427AD5940002A1E6C /* MetricEntity.swift */,
 				1803426F27F58EE3002208FF /* RoundEntity.swift */,
+				1803427F27F5C196002208FF /* MovementEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -566,8 +600,10 @@
 				18843A9B27F1E4880061E240 /* MetricEditViewModel.swift in Sources */,
 				18F7A810274E2D910083BA2B /* Ceres.xcdatamodeld in Sources */,
 				18843A9327F1D5C90061E240 /* WorkoutEditViewModel.swift in Sources */,
+				1803428227F5C20F002208FF /* Movement.swift in Sources */,
 				18843A9527F1D91C0061E240 /* CreateWorkout.swift in Sources */,
 				1803427E27F5B000002208FF /* ListItemDragDelegate.swift in Sources */,
+				1803428027F5C196002208FF /* MovementEntity.swift in Sources */,
 				183D0AA327EE03AC006AFDC3 /* DeleteWorkout.swift in Sources */,
 				183D0A9327EDF337006AFDC3 /* WorkoutListView.swift in Sources */,
 				18454D4527AD5940002A1E6C /* MetricEntity.swift in Sources */,
@@ -577,6 +613,7 @@
 				18843A9127F1D5B90061E240 /* WorkoutEditView.swift in Sources */,
 				1803427627F59024002208FF /* RoundDataSource.swift in Sources */,
 				183D0AA127EDFA9D006AFDC3 /* GetWorkouts.swift in Sources */,
+				1803428427F5C253002208FF /* MovementCoreDataSourceImpl.swift in Sources */,
 				1803427C27F59526002208FF /* RoundEditViewModel.swift in Sources */,
 				183D0A9F27EDF496006AFDC3 /* WorkoutError.swift in Sources */,
 				18843AA827F1EA270061E240 /* MetricDataSource.swift in Sources */,
@@ -587,9 +624,12 @@
 				1803427A27F5951C002208FF /* RoundEditView.swift in Sources */,
 				1803427427F58FBA002208FF /* RoundCoreDataSourceImpl.swift in Sources */,
 				18843A9D27F1E4960061E240 /* MetricEditView.swift in Sources */,
+				1803428C27F5C68F002208FF /* MovementEditViewModel.swift in Sources */,
 				18F7A84B274E8BD60083BA2B /* ClearButton.swift in Sources */,
 				183D0A9727EDF37A006AFDC3 /* WorkoutRepositoryImpl.swift in Sources */,
+				1803428627F5C2B2002208FF /* MovementDataSource.swift in Sources */,
 				18843A9727F1E22F0061E240 /* UpdateWorkout.swift in Sources */,
+				1803428A27F5C67C002208FF /* MovementEditView.swift in Sources */,
 				18F7A804274E2D8E0083BA2B /* CeresApp.swift in Sources */,
 				183D0A8D27EDF18D006AFDC3 /* WorkoutRepository.swift in Sources */,
 				18F7A83C274E35200083BA2B /* Persistence+Preview.swift in Sources */,

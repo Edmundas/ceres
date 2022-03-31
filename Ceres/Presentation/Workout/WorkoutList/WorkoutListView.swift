@@ -14,7 +14,7 @@ struct WorkoutListView: View {
         @Published var showSheet = false
         @Published var workout: Workout?
     }
-    @StateObject var sheetManager = SheetMananger()
+    @StateObject private var sheetManager = SheetMananger()
 
     private func emptyListRow() -> some View {
         Label("The list is empty", systemImage: "exclamationmark.circle")

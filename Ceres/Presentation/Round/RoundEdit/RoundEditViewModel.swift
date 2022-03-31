@@ -12,18 +12,24 @@ import SwiftUI
 class RoundEditViewModel: ObservableObject {
     @Binding var round: Round?
 
+    @Published var movements: [Movement] = []
+
     @Published var errorMessage = ""
     @Published var hasError = false
 
     init(round: Binding<Round?>) {
         _round = round
+
+        if let currentRound = round.wrappedValue {
+            movements = currentRound.movements
+        }
     }
 
     private func createRound() async {
         round = Round(
             id: UUID(),
-            createDate: Date(),
-            orderNumber: 0
+            orderNumber: 0,
+            movements: movements
         )
     }
 
@@ -32,9 +38,22 @@ class RoundEditViewModel: ObservableObject {
 
         round = Round(
             id: currentRound.id,
-            createDate: currentRound.createDate,
-            orderNumber: currentRound.orderNumber
+            orderNumber: currentRound.orderNumber,
+            movements: movements
         )
+    }
+
+    func updateMovement(_ movement: Movement) async {
+        if let index = movements.firstIndex(where: { $0.id == movement.id }) {
+            movements.remove(at: index)
+            movements.insert(movement, at: index)
+        } else {
+            movements.append(movement)
+        }
+    }
+
+    func deleteMovement(at index: Int) async {
+        movements.remove(at: index)
     }
 
     func save() {

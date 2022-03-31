@@ -1,5 +1,5 @@
 //
-//  RoundEntity.swift
+//  MovementEntity.swift
 //  Ceres
 //
 //  Created by Edmundas Matusevičius on 2022-03-31.
@@ -8,13 +8,11 @@
 import Foundation
 import CoreData
 
-@objc(RoundEntity)
-public class RoundEntity: NSManagedObject {
+@objc(MovementEntity)
+public class MovementEntity: NSManagedObject {
     @NSManaged public var id: UUID
 
     @NSManaged public var orderNumber: Int16
-
-    @NSManaged public var movements: Set<MovementEntity>?
 
     public override func awakeFromInsert() {
         super.awakeFromInsert()
@@ -22,12 +20,12 @@ public class RoundEntity: NSManagedObject {
     }
 }
 
-extension RoundEntity {
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<RoundEntity> {
-        let request = NSFetchRequest<RoundEntity>(entityName: "RoundEntity")
+extension MovementEntity {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<MovementEntity> {
+        let request = NSFetchRequest<MovementEntity>(entityName: "MovementEntity")
         request.sortDescriptors = []
         return request
     }
 }
 
-extension RoundEntity: Identifiable { }
+extension MovementEntity: Identifiable { }
