@@ -67,24 +67,28 @@ extension Round {
         return roundEntity
     }
 
-    func updateMovements(for roundEntity: RoundEntity) {
+    func updateRoundEntity(_ roundEntity: RoundEntity) {
+        updateMovements(for: roundEntity)
+    }
+
+    private func updateMovements(for roundEntity: RoundEntity) {
         guard let context = roundEntity.managedObjectContext else { return }
 
         var roundEntityMovements = roundEntity.movements
         var updatedRoundEntityMovements: Set<MovementEntity> = []
 
-        for (index, movement) in movements.enumerated() {
+        movements.enumerated().map {
+            Movement(id: $0.element.id,
+                     orderNumber: $0.offset)
+        }.forEach { movement in
             // update movement
             if let roundEntityMovement = roundEntityMovements?.first(where: { $0.id == movement.id }) {
-                roundEntityMovement.orderNumber = Int16(index)
-
                 updatedRoundEntityMovements.insert(roundEntityMovement)
                 roundEntityMovements?.remove(roundEntityMovement)
             }
             // create movement
             else {
                 let roundEntityMovement = movement.movementEntity(context: context)
-                roundEntityMovement.orderNumber = Int16(index)
 
                 updatedRoundEntityMovements.insert(roundEntityMovement)
             }

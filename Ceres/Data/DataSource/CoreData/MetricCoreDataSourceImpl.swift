@@ -60,4 +60,11 @@ extension Metric {
 
         return metricEntity
     }
+
+    func updateMetricEntity(_ metricEntity: MetricEntity) {
+        metricEntity.type = type.rawValue
+        metricEntity.subtype = subtype.rawValue
+        metricEntity.unit = unit.rawValue
+        metricEntity.value = value
+    }
 }

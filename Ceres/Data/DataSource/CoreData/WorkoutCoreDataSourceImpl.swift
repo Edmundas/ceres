@@ -141,13 +141,10 @@ extension Workout {
         var workoutEntityMetrics = workoutEntity.metrics
         var updatedWorkoutEntityMetrics: Set<MetricEntity> = []
 
-        for metric in metrics {
+        metrics.forEach { metric in
             // update metric
             if let workoutEntityMetric = workoutEntityMetrics?.first(where: { $0.id == metric.id }) {
-                workoutEntityMetric.type = metric.type.rawValue
-                workoutEntityMetric.subtype = metric.subtype.rawValue
-                workoutEntityMetric.unit = metric.unit.rawValue
-                workoutEntityMetric.value = metric.value
+                metric.updateMetricEntity(workoutEntityMetric)
 
                 updatedWorkoutEntityMetrics.insert(workoutEntityMetric)
                 workoutEntityMetrics?.remove(workoutEntityMetric)
@@ -172,11 +169,14 @@ extension Workout {
         var workoutEntityRounds = workoutEntity.rounds
         var updatedWorkoutEntityRounds: Set<RoundEntity> = []
 
-        for (index, round) in rounds.enumerated() {
+        rounds.enumerated().map {
+            Round(id: $0.element.id,
+                  orderNumber: $0.offset,
+                  movements: $0.element.movements)
+        }.forEach { round in
             // update round
             if let workoutEntityRound = workoutEntityRounds?.first(where: { $0.id == round.id }) {
-                workoutEntityRound.orderNumber = Int16(index)
-                round.updateMovements(for: workoutEntityRound)
+                round.updateRoundEntity(workoutEntityRound)
 
                 updatedWorkoutEntityRounds.insert(workoutEntityRound)
                 workoutEntityRounds?.remove(workoutEntityRound)
@@ -184,7 +184,6 @@ extension Workout {
             // create round
             else {
                 let workoutEntityRound = round.roundEntity(context: context)
-                workoutEntityRound.orderNumber = Int16(index)
 
                 updatedWorkoutEntityRounds.insert(workoutEntityRound)
             }
