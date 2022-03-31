@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct RoundEditView: View {
     @Environment(\.presentationMode) var presentationMode
 
     @StateObject var viewModel: RoundEditViewModel
+
+    @State private var draggingMovement: Movement?
 
     class MetricSheetMananger: ObservableObject {
         @Published var showSheet = false
@@ -73,7 +76,13 @@ struct RoundEditView: View {
             if let movements = viewModel.movements {
                 ForEach(movements) { movement in
                     movementListRow(movement)
+                        .onDrag {
+                            draggingMovement = movement
+                            return NSItemProvider(object: NSString())
+                        }
+                        .onDrop(of: [UTType.item], delegate: ListItemDragDelegate(current: $draggingMovement))
                 }
+                .onMove(perform: moveMovement)
                 .onDelete(perform: deleteMovement)
             }
             Button(action: {
@@ -148,6 +157,10 @@ extension RoundEditView {
             await viewModel.updateMovement(newMovement)
             movementSheetManager.movement = nil
         }
+    }
+
+    private func moveMovement(from source: IndexSet, to destination: Int) {
+        viewModel.movements.move(fromOffsets: source, toOffset: destination)
     }
 
     private func deleteMovement(indexSet: IndexSet) {
