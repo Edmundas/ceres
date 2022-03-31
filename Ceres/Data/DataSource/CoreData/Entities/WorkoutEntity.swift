@@ -19,7 +19,7 @@ public class WorkoutEntity: NSManagedObject {
     @NSManaged public var title: String
 
     @NSManaged public var metrics: Set<MetricEntity>?
-//    @NSManaged public var rounds: Set<RoundEntity>?
+    @NSManaged public var rounds: Set<RoundEntity>?
 
     public override func awakeFromInsert() {
         super.awakeFromInsert()

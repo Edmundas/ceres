@@ -19,8 +19,6 @@ public class MetricEntity: NSManagedObject {
 
     @NSManaged public var value: Double
 
-    @NSManaged public var workout: WorkoutEntity?
-
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         id = UUID()

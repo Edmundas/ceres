@@ -81,6 +81,31 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
         }
         workoutEntity.metrics = updatedWorkoutEntityMetrics
 
+        var workoutEntityRounds = workoutEntity.rounds
+        var updatedWorkoutEntityRounds: Set<RoundEntity> = []
+
+        for (index, round) in workout.rounds.enumerated() {
+            // update round
+            if let workoutEntityRound = workoutEntityRounds?.first(where: { $0.id == round.id }) {
+                workoutEntityRound.orderNumber = Int16(index)
+
+                updatedWorkoutEntityRounds.insert(workoutEntityRound)
+                workoutEntityRounds?.remove(workoutEntityRound)
+            }
+            // create round
+            else {
+                let workoutEntityRound = round.roundEntity(context: context)
+                workoutEntityRound.orderNumber = Int16(index)
+
+                updatedWorkoutEntityRounds.insert(workoutEntityRound)
+            }
+        }
+        // delete round
+        workoutEntityRounds?.forEach {
+            context.delete($0)
+        }
+        workoutEntity.rounds = updatedWorkoutEntityRounds
+
         saveContext()
     }
 
@@ -124,8 +149,17 @@ extension Workout {
 
         let workoutEntityMetrics = workoutEntity.metrics?.map {
             Metric(metricEntity: $0)
+        }.sorted {
+            $0.createDate < $1.createDate
         }
         metrics = workoutEntityMetrics ?? []
+
+        let workoutEntityRounds = workoutEntity.rounds?.map {
+            Round(roundEntity: $0)
+        }.sorted {
+            $0.orderNumber < $1.orderNumber
+        }
+        rounds = workoutEntityRounds ?? []
     }
 
     func workoutEntity(context: NSManagedObjectContext) -> WorkoutEntity {
@@ -140,6 +174,13 @@ extension Workout {
             $0.metricEntity(context: context)
         }
         workoutEntity.metrics = !workoutEntityMetrics.isEmpty ? Set(workoutEntityMetrics) : nil
+
+        let workoutEntityRounds: [RoundEntity] = self.rounds.enumerated().map {
+            let entity = $0.element.roundEntity(context: context)
+            entity.orderNumber = Int16($0.offset)
+            return entity
+        }
+        workoutEntity.rounds = !workoutEntityRounds.isEmpty ? Set(workoutEntityRounds) : nil
 
         return workoutEntity
     }

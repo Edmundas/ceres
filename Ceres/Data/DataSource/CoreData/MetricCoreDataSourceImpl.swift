@@ -23,8 +23,8 @@ struct MetricCoreDataSourceImpl: MetricDataSource {
         request.predicate = NSPredicate(
             format: "id = %@", id.uuidString)
         let context = container.viewContext
-        let workoutEntity = try context.fetch(request)[0]
-        return workoutEntity
+        let metricEntity = try context.fetch(request)[0]
+        return metricEntity
     }
 
     private func saveContext() {

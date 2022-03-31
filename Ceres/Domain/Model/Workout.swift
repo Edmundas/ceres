@@ -42,4 +42,5 @@ struct Workout: Identifiable {
     let title: String
 
     let metrics: [Metric]
+    let rounds: [Round]
 }
