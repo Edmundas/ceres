@@ -12,16 +12,38 @@ struct RoundEditView: View {
 
     @StateObject var viewModel: RoundEditViewModel
 
-    class SheetMananger: ObservableObject {
+    class MetricSheetMananger: ObservableObject {
+        @Published var showSheet = false
+        @Published var metric: Metric?
+    }
+    @StateObject private var metricSheetManager = MetricSheetMananger()
+
+    class MovementSheetMananger: ObservableObject {
         @Published var showSheet = false
         @Published var movement: Movement?
     }
-    @StateObject private var sheetManager = SheetMananger()
+    @StateObject private var movementSheetManager = MovementSheetMananger()
+
+    private func metricListRow(_ metric: Metric) -> some View {
+        Button(action: {
+            metricSheetManager.metric = metric
+            metricSheetManager.showSheet.toggle()
+        }, label: {
+            Text("""
+            \(metric.value) - \
+            \(String(describing: metric.type)) - \
+            \(String(describing: metric.subtype)) - \
+            \(String(describing: metric.unit))
+            """)
+        })
+        .buttonStyle(DefaultButtonStyle())
+        .foregroundColor(.primary)
+    }
 
     private func movementListRow(_ movement: Movement) -> some View {
         Button(action: {
-            sheetManager.movement = movement
-            sheetManager.showSheet.toggle()
+            movementSheetManager.movement = movement
+            movementSheetManager.showSheet.toggle()
         }, label: {
             Text("Movement")
         })
@@ -29,7 +51,24 @@ struct RoundEditView: View {
         .foregroundColor(.primary)
     }
 
-    private func movementsList() -> some View {
+    private func metricList() -> some View {
+        Group {
+            if let metrics = viewModel.metrics {
+                ForEach(metrics) { metric in
+                    metricListRow(metric)
+                }
+                .onDelete(perform: deleteMetric)
+            }
+            Button(action: {
+                metricSheetManager.showSheet.toggle()
+            }, label: {
+                Label("Add workout metric", systemImage: "plus.app")
+            })
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+
+    private func movementList() -> some View {
         Group {
             if let movements = viewModel.movements {
                 ForEach(movements) { movement in
@@ -38,7 +77,7 @@ struct RoundEditView: View {
                 .onDelete(perform: deleteMovement)
             }
             Button(action: {
-                sheetManager.showSheet.toggle()
+                movementSheetManager.showSheet.toggle()
             }, label: {
                 Label("Add round movement", systemImage: "plus.app")
             })
@@ -49,7 +88,10 @@ struct RoundEditView: View {
     private func editView() -> some View {
         List {
             Section {
-                movementsList()
+                metricList()
+            }
+            Section {
+                movementList()
             }
         }
         .listStyle(InsetGroupedListStyle())
@@ -62,11 +104,18 @@ struct RoundEditView: View {
                 Button("Save", action: saveAction)
             }
         }
-        .sheet(isPresented: $sheetManager.showSheet, onDismiss: {
+        .sheet(isPresented: $metricSheetManager.showSheet, onDismiss: {
+            updateRoundMetrics()
+        }, content: {
+            NavigationView {
+                MetricEditView(viewModel: MetricEditViewModel(metric: $metricSheetManager.metric))
+            }
+        })
+        .sheet(isPresented: $movementSheetManager.showSheet, onDismiss: {
             updateRoundMovements()
         }, content: {
             NavigationView {
-                MovementEditView(viewModel: MovementEditViewModel(movement: $sheetManager.movement))
+                MovementEditView(viewModel: MovementEditViewModel(movement: $movementSheetManager.movement))
             }
         })
     }
@@ -77,11 +126,27 @@ struct RoundEditView: View {
 }
 
 extension RoundEditView {
+    private func updateRoundMetrics() {
+        guard let newMetric = metricSheetManager.metric else { return }
+        Task {
+            await viewModel.updateMetric(newMetric)
+            metricSheetManager.metric = nil
+        }
+    }
+
+    private func deleteMetric(indexSet: IndexSet) {
+        indexSet.forEach { index in
+            Task {
+                await viewModel.deleteMetric(at: index)
+            }
+        }
+    }
+
     private func updateRoundMovements() {
-        guard let newMovement = sheetManager.movement else { return }
+        guard let newMovement = movementSheetManager.movement else { return }
         Task {
             await viewModel.updateMovement(newMovement)
-            sheetManager.movement = nil
+            movementSheetManager.movement = nil
         }
     }
 

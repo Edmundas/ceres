@@ -44,6 +44,13 @@ extension Round {
         id = roundEntity.id
         orderNumber = Int(roundEntity.orderNumber)
 
+        let roundEntityMetrics = roundEntity.metrics?.map {
+            Metric(metricEntity: $0)
+        }.sorted {
+            $0.createDate < $1.createDate
+        }
+        metrics = roundEntityMetrics ?? []
+
         let roundEntityMovements = roundEntity.movements?.map {
             Movement(movementEntity: $0)
         }.sorted {
@@ -57,6 +64,11 @@ extension Round {
         roundEntity.id = self.id
         roundEntity.orderNumber = Int16(self.orderNumber)
 
+        let roundEntityMetrics: [MetricEntity] = self.metrics.map {
+            $0.metricEntity(context: context)
+        }
+        roundEntity.metrics = !roundEntityMetrics.isEmpty ? Set(roundEntityMetrics) : nil
+
         let roundEntityMovements: [MovementEntity] = self.movements.enumerated().map {
             let entity = $0.element.movementEntity(context: context)
             entity.orderNumber = Int16($0.offset)
@@ -68,7 +80,36 @@ extension Round {
     }
 
     func updateRoundEntity(_ roundEntity: RoundEntity) {
+        updateMetrics(for: roundEntity)
         updateMovements(for: roundEntity)
+    }
+
+    private func updateMetrics(for roundEntity: RoundEntity) {
+        guard let context = roundEntity.managedObjectContext else { return }
+
+        var roundEntityMetrics = roundEntity.metrics
+        var updatedRoundEntityMetrics: Set<MetricEntity> = []
+
+        metrics.forEach { metric in
+            // update metric
+            if let roundEntityMetric = roundEntityMetrics?.first(where: { $0.id == metric.id }) {
+                metric.updateMetricEntity(roundEntityMetric)
+
+                updatedRoundEntityMetrics.insert(roundEntityMetric)
+                roundEntityMetrics?.remove(roundEntityMetric)
+            }
+            // create metric
+            else {
+                let roundEntityMetric = metric.metricEntity(context: context)
+
+                updatedRoundEntityMetrics.insert(roundEntityMetric)
+            }
+        }
+        // delete metric
+        roundEntityMetrics?.forEach {
+            context.delete($0)
+        }
+        roundEntity.metrics = updatedRoundEntityMetrics
     }
 
     private func updateMovements(for roundEntity: RoundEntity) {

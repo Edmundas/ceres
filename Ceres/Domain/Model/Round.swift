@@ -12,5 +12,6 @@ struct Round: Identifiable, Equatable {
 
     let orderNumber: Int
 
+    let metrics: [Metric]
     let movements: [Movement]
 }

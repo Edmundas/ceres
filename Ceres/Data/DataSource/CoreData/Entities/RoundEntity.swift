@@ -14,6 +14,7 @@ public class RoundEntity: NSManagedObject {
 
     @NSManaged public var orderNumber: Int16
 
+    @NSManaged public var metrics: Set<MetricEntity>?
     @NSManaged public var movements: Set<MovementEntity>?
 
     public override func awakeFromInsert() {

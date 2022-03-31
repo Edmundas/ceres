@@ -49,12 +49,7 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
     func update(id: UUID, workout: Workout) throws {
         let workoutEntity = try getEntityById(id)!
 
-        workoutEntity.type = workout.type.rawValue
-        workoutEntity.category = workout.category.rawValue
-        workoutEntity.title = workout.title
-
-        workout.updateMetrics(for: workoutEntity)
-        workout.updateRounds(for: workoutEntity)
+        workout.updateWorkoutEntity(workoutEntity)
 
         saveContext()
     }
@@ -135,7 +130,16 @@ extension Workout {
         return workoutEntity
     }
 
-    func updateMetrics(for workoutEntity: WorkoutEntity) {
+    func updateWorkoutEntity(_ workoutEntity: WorkoutEntity) {
+        workoutEntity.type = type.rawValue
+        workoutEntity.category = category.rawValue
+        workoutEntity.title = title
+
+        updateMetrics(for: workoutEntity)
+        updateRounds(for: workoutEntity)
+    }
+
+    private func updateMetrics(for workoutEntity: WorkoutEntity) {
         guard let context = workoutEntity.managedObjectContext else { return }
 
         var workoutEntityMetrics = workoutEntity.metrics
@@ -163,7 +167,7 @@ extension Workout {
         workoutEntity.metrics = updatedWorkoutEntityMetrics
     }
 
-    func updateRounds(for workoutEntity: WorkoutEntity) {
+    private func updateRounds(for workoutEntity: WorkoutEntity) {
         guard let context = workoutEntity.managedObjectContext else { return }
 
         var workoutEntityRounds = workoutEntity.rounds
@@ -172,6 +176,7 @@ extension Workout {
         rounds.enumerated().map {
             Round(id: $0.element.id,
                   orderNumber: $0.offset,
+                  metrics: $0.element.metrics,
                   movements: $0.element.movements)
         }.forEach { round in
             // update round
