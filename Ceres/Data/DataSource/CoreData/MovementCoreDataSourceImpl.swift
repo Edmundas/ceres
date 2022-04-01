@@ -23,8 +23,8 @@ struct MovementCoreDataSourceImpl: MovementDataSource {
         request.predicate = NSPredicate(
             format: "id = %@", id.uuidString)
         let context = container.viewContext
-        let movementEntity = try context.fetch(request)[0]
-        return movementEntity
+        let entity = try context.fetch(request)[0]
+        return entity
     }
 
     private func saveContext() {
@@ -40,60 +40,91 @@ struct MovementCoreDataSourceImpl: MovementDataSource {
 }
 
 extension Movement {
-    init(movementEntity: MovementEntity) {
-        id = movementEntity.id
-        orderNumber = Int(movementEntity.orderNumber)
+    init(_ entity: MovementEntity) {
+        id = entity.id
+        orderNumber = Int(entity.orderNumber)
 
-        let movementEntityMetrics = movementEntity.metrics?.map {
-            Metric(metricEntity: $0)
+        if let movementDefinitionEntity = entity.movementDefinition {
+            movementDefinition = MovementDefinition(movementDefinitionEntity)
+        } else {
+            movementDefinition = nil
+        }
+
+        let entityMetrics = entity.metrics?.map {
+            Metric($0)
         }.sorted {
             $0.createDate < $1.createDate
         }
-        metrics = movementEntityMetrics ?? []
+        metrics = entityMetrics ?? []
     }
 
     func movementEntity(context: NSManagedObjectContext) -> MovementEntity {
-        let movementEntity = MovementEntity(context: context)
-        movementEntity.id = self.id
-        movementEntity.orderNumber = Int16(self.orderNumber)
+        let entity = MovementEntity(context: context)
+        entity.id = self.id
+        entity.orderNumber = Int16(self.orderNumber)
 
-        let movementEntityMetrics: [MetricEntity] = self.metrics.map {
+        if let movementDefinition = self.movementDefinition {
+            let movementDefinitionDataSource = MovementDefinitionCoreDataSourceImpl()
+            do {
+                entity.movementDefinition = try movementDefinitionDataSource.getEntityById(movementDefinition.id)
+            } catch {
+                entity.movementDefinition = nil
+            }
+        } else {
+            entity.movementDefinition = nil
+        }
+
+        let entityMetrics: [MetricEntity] = self.metrics.map {
             $0.metricEntity(context: context)
         }
-        movementEntity.metrics = !movementEntityMetrics.isEmpty ? Set(movementEntityMetrics) : nil
+        entity.metrics = !entityMetrics.isEmpty ? Set(entityMetrics) : nil
 
-        return movementEntity
+        return entity
     }
 
-    func updateMovementEntity(_ movementEntity: MovementEntity) {
-        updateMetrics(for: movementEntity)
+    func updateMovementEntity(_ entity: MovementEntity) {
+        updateMovementDefinition(for: entity)
+        updateMetrics(for: entity)
     }
 
-    private func updateMetrics(for movementEntity: MovementEntity) {
-        guard let context = movementEntity.managedObjectContext else { return }
+    private func updateMovementDefinition(for entity: MovementEntity) {
+        if let movementDefinition = self.movementDefinition {
+            let movementDefinitionDataSource = MovementDefinitionCoreDataSourceImpl()
+            do {
+                entity.movementDefinition = try movementDefinitionDataSource.getEntityById(movementDefinition.id)
+            } catch {
+                entity.movementDefinition = nil
+            }
+        } else {
+            entity.movementDefinition = nil
+        }
+    }
 
-        var movementEntityMetrics = movementEntity.metrics
-        var updatedMovementEntityMetrics: Set<MetricEntity> = []
+    private func updateMetrics(for entity: MovementEntity) {
+        guard let context = entity.managedObjectContext else { return }
+
+        var entityMetrics = entity.metrics
+        var updatedEntityMetrics: Set<MetricEntity> = []
 
         metrics.forEach { metric in
             // update metric
-            if let movementEntityMetric = movementEntityMetrics?.first(where: { $0.id == metric.id }) {
-                metric.updateMetricEntity(movementEntityMetric)
+            if let entityMetric = entityMetrics?.first(where: { $0.id == metric.id }) {
+                metric.updateMetricEntity(entityMetric)
 
-                updatedMovementEntityMetrics.insert(movementEntityMetric)
-                movementEntityMetrics?.remove(movementEntityMetric)
+                updatedEntityMetrics.insert(entityMetric)
+                entityMetrics?.remove(entityMetric)
             }
             // create metric
             else {
-                let movementEntityMetric = metric.metricEntity(context: context)
+                let entityMetric = metric.metricEntity(context: context)
 
-                updatedMovementEntityMetrics.insert(movementEntityMetric)
+                updatedEntityMetrics.insert(entityMetric)
             }
         }
         // delete metric
-        movementEntityMetrics?.forEach {
+        entityMetrics?.forEach {
             context.delete($0)
         }
-        movementEntity.metrics = updatedMovementEntityMetrics
+        entity.metrics = updatedEntityMetrics
     }
 }

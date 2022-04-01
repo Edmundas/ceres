@@ -12,6 +12,7 @@ import SwiftUI
 class MovementEditViewModel: ObservableObject {
     @Binding var movement: Movement?
 
+    @Published var movementDefinition: MovementDefinition?
     @Published var metrics: [Metric] = []
 
     @Published var errorMessage = ""
@@ -21,6 +22,7 @@ class MovementEditViewModel: ObservableObject {
         _movement = movement
 
         if let currentMovement = movement.wrappedValue {
+            movementDefinition = currentMovement.movementDefinition
             metrics = currentMovement.metrics
         }
     }
@@ -29,6 +31,7 @@ class MovementEditViewModel: ObservableObject {
         movement = Movement(
             id: UUID(),
             orderNumber: 0,
+            movementDefinition: movementDefinition,
             metrics: metrics
         )
     }
@@ -39,6 +42,7 @@ class MovementEditViewModel: ObservableObject {
         movement = Movement(
             id: currentMovement.id,
             orderNumber: currentMovement.orderNumber,
+            movementDefinition: currentMovement.movementDefinition,
             metrics: metrics
         )
     }

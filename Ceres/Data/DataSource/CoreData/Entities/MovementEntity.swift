@@ -14,6 +14,7 @@ public class MovementEntity: NSManagedObject {
 
     @NSManaged public var orderNumber: Int16
 
+    @NSManaged public var movementDefinition: MovementDefinitionEntity?
     @NSManaged public var metrics: Set<MetricEntity>?
 
     public override func awakeFromInsert() {

@@ -23,8 +23,8 @@ struct MetricCoreDataSourceImpl: MetricDataSource {
         request.predicate = NSPredicate(
             format: "id = %@", id.uuidString)
         let context = container.viewContext
-        let metricEntity = try context.fetch(request)[0]
-        return metricEntity
+        let entity = try context.fetch(request)[0]
+        return entity
     }
 
     private func saveContext() {
@@ -40,31 +40,31 @@ struct MetricCoreDataSourceImpl: MetricDataSource {
 }
 
 extension Metric {
-    init(metricEntity: MetricEntity) {
-        id = metricEntity.id
-        createDate = metricEntity.createDate
-        type = MetricType(rawValue: metricEntity.type) ?? .none
-        subtype = MetricSubtype(rawValue: metricEntity.subtype) ?? .none
-        unit = MetricUnit(rawValue: metricEntity.unit) ?? .none
-        value = metricEntity.value
+    init(_ entity: MetricEntity) {
+        id = entity.id
+        createDate = entity.createDate
+        type = MetricType(rawValue: entity.type) ?? .none
+        subtype = MetricSubtype(rawValue: entity.subtype) ?? .none
+        unit = MetricUnit(rawValue: entity.unit) ?? .none
+        value = entity.value
     }
 
     func metricEntity(context: NSManagedObjectContext) -> MetricEntity {
-        let metricEntity = MetricEntity(context: context)
-        metricEntity.id = self.id
-        metricEntity.createDate = self.createDate
-        metricEntity.type = self.type.rawValue
-        metricEntity.subtype = self.subtype.rawValue
-        metricEntity.unit = self.unit.rawValue
-        metricEntity.value = self.value
+        let entity = MetricEntity(context: context)
+        entity.id = self.id
+        entity.createDate = self.createDate
+        entity.type = self.type.rawValue
+        entity.subtype = self.subtype.rawValue
+        entity.unit = self.unit.rawValue
+        entity.value = self.value
 
-        return metricEntity
+        return entity
     }
 
-    func updateMetricEntity(_ metricEntity: MetricEntity) {
-        metricEntity.type = type.rawValue
-        metricEntity.subtype = subtype.rawValue
-        metricEntity.unit = unit.rawValue
-        metricEntity.value = value
+    func updateMetricEntity(_ entity: MetricEntity) {
+        entity.type = type.rawValue
+        entity.subtype = subtype.rawValue
+        entity.unit = unit.rawValue
+        entity.value = value
     }
 }

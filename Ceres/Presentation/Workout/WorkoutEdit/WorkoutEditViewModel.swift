@@ -10,16 +10,12 @@ import SwiftUI
 
 @MainActor
 class WorkoutEditViewModel: ObservableObject {
-    var createWorkoutUseCase = CreateWorkoutUseCase(
+    private var createWorkoutUseCase = CreateWorkoutUseCase(
         repo: WorkoutRepositoryImpl(
-            dataSource: WorkoutCoreDataSourceImpl()
-        )
-    )
-    var updateWorkoutUseCase = UpdateWorkoutUseCase(
+            dataSource: WorkoutCoreDataSourceImpl()))
+    private var updateWorkoutUseCase = UpdateWorkoutUseCase(
         repo: WorkoutRepositoryImpl(
-            dataSource: WorkoutCoreDataSourceImpl()
-        )
-    )
+            dataSource: WorkoutCoreDataSourceImpl()))
 
     @Binding var workout: Workout?
 

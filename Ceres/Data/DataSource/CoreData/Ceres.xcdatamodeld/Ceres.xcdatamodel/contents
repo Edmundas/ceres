@@ -14,13 +14,13 @@
     <entity name="MovementDefinitionEntity" representedClassName="MovementDefinitionEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
-        <relationship name="movement" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MovementEntity" inverseName="definition" inverseEntity="MovementEntity"/>
+        <relationship name="movements" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MovementEntity" inverseName="movementDefinition" inverseEntity="MovementEntity"/>
     </entity>
     <entity name="MovementEntity" representedClassName="MovementEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="orderNumber" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="definition" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MovementDefinitionEntity" inverseName="movement" inverseEntity="MovementDefinitionEntity"/>
         <relationship name="metrics" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MetricEntity" inverseName="movement" inverseEntity="MetricEntity"/>
+        <relationship name="movementDefinition" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MovementDefinitionEntity" inverseName="movements" inverseEntity="MovementDefinitionEntity"/>
         <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoundEntity" inverseName="movements" inverseEntity="RoundEntity"/>
     </entity>
     <entity name="RoundEntity" representedClassName="RoundEntity" syncable="YES">

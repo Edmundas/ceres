@@ -12,5 +12,6 @@ struct Movement: Identifiable, Equatable {
 
     let orderNumber: Int
 
+    let movementDefinition: MovementDefinition?
     let metrics: [Metric]
 }

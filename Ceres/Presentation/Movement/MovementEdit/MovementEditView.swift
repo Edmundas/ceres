@@ -18,6 +18,22 @@ struct MovementEditView: View {
     }
     @StateObject private var metricSheetManager = MetricSheetMananger()
 
+    private func movementDefinitionRow(_ movementDefinition: MovementDefinition?) -> some View {
+        NavigationLink(
+            destination: MovementDefinitionListView(
+                viewModel: MovementDefinitionListViewModel(),
+                isSelectionOnly: true,
+                selectedMovementDefinition: $viewModel.movementDefinition),
+            label: {
+                HStack {
+                    Text("Movement definition")
+                    Spacer()
+                    Text("\(movementDefinition != nil ? movementDefinition!.title : "none")")
+                        .foregroundColor(.secondary)
+                }
+        })
+    }
+
     private func metricListRow(_ metric: Metric) -> some View {
         Button(action: {
             metricSheetManager.metric = metric
@@ -53,7 +69,12 @@ struct MovementEditView: View {
 
     private func editView() -> some View {
         List {
-            metricList()
+            Section {
+                movementDefinitionRow(viewModel.movementDefinition)
+            }
+            Section {
+                metricList()
+            }
         }
         .listStyle(InsetGroupedListStyle())
         .navigationTitle("Movement")

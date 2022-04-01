@@ -32,7 +32,7 @@ enum WorkoutCategory: Int16, CaseIterable {
 
 extension WorkoutCategory: WorkoutEnums { }
 
-struct Workout: Identifiable {
+struct Workout: Identifiable, Equatable {
     let id: UUID
     let createDate: Date
 
