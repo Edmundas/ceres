@@ -120,10 +120,13 @@ extension Round {
 
         movements.enumerated().map {
             Movement(id: $0.element.id,
-                     orderNumber: $0.offset)
+                     orderNumber: $0.offset,
+                     metrics: $0.element.metrics)
         }.forEach { movement in
             // update movement
             if let roundEntityMovement = roundEntityMovements?.first(where: { $0.id == movement.id }) {
+                movement.updateMovementEntity(roundEntityMovement)
+
                 updatedRoundEntityMovements.insert(roundEntityMovement)
                 roundEntityMovements?.remove(roundEntityMovement)
             }

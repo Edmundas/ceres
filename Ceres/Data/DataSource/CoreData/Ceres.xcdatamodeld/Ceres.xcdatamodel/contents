@@ -7,18 +7,20 @@
         <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="unit" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="value" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="movement" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MovementEntity" inverseName="metrics" inverseEntity="MovementEntity"/>
         <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoundEntity" inverseName="metrics" inverseEntity="RoundEntity"/>
         <relationship name="workout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutEntity" inverseName="metrics" inverseEntity="WorkoutEntity"/>
     </entity>
     <entity name="MovementDefinitionEntity" representedClassName="MovementDefinitionEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="movement" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MovementEntity" inverseName="definition" inverseEntity="MovementEntity"/>
     </entity>
     <entity name="MovementEntity" representedClassName="MovementEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="orderNumber" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="definition" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MovementDefinitionEntity" inverseName="movement" inverseEntity="MovementDefinitionEntity"/>
+        <relationship name="metrics" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MetricEntity" inverseName="movement" inverseEntity="MetricEntity"/>
         <relationship name="round" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoundEntity" inverseName="movements" inverseEntity="RoundEntity"/>
     </entity>
     <entity name="RoundEntity" representedClassName="RoundEntity" syncable="YES">
@@ -38,9 +40,9 @@
         <relationship name="rounds" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RoundEntity" inverseName="workout" inverseEntity="RoundEntity"/>
     </entity>
     <elements>
-        <element name="MetricEntity" positionX="-18" positionY="72" width="128" height="149"/>
+        <element name="MetricEntity" positionX="-18" positionY="72" width="128" height="164"/>
         <element name="MovementDefinitionEntity" positionX="-63" positionY="-18" width="128" height="74"/>
-        <element name="MovementEntity" positionX="-63" positionY="0" width="128" height="89"/>
+        <element name="MovementEntity" positionX="-63" positionY="0" width="128" height="104"/>
         <element name="RoundEntity" positionX="-45" positionY="27" width="128" height="104"/>
         <element name="WorkoutEntity" positionX="-36" positionY="54" width="128" height="134"/>
     </elements>

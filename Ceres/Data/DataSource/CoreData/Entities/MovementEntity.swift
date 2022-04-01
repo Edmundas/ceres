@@ -14,6 +14,8 @@ public class MovementEntity: NSManagedObject {
 
     @NSManaged public var orderNumber: Int16
 
+    @NSManaged public var metrics: Set<MetricEntity>?
+
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         id = UUID()

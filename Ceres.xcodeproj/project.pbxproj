@@ -178,8 +178,8 @@
 		1803428827F5C666002208FF /* MovementEdit */ = {
 			isa = PBXGroup;
 			children = (
-				1803428927F5C67C002208FF /* MovementEditView.swift */,
 				1803428B27F5C68F002208FF /* MovementEditViewModel.swift */,
+				1803428927F5C67C002208FF /* MovementEditView.swift */,
 			);
 			path = MovementEdit;
 			sourceTree = "<group>";

@@ -12,17 +12,24 @@ import SwiftUI
 class MovementEditViewModel: ObservableObject {
     @Binding var movement: Movement?
 
+    @Published var metrics: [Metric] = []
+
     @Published var errorMessage = ""
     @Published var hasError = false
 
     init(movement: Binding<Movement?>) {
         _movement = movement
+
+        if let currentMovement = movement.wrappedValue {
+            metrics = currentMovement.metrics
+        }
     }
 
     private func createMovement() async {
         movement = Movement(
             id: UUID(),
-            orderNumber: 0
+            orderNumber: 0,
+            metrics: metrics
         )
     }
 
@@ -31,8 +38,22 @@ class MovementEditViewModel: ObservableObject {
 
         movement = Movement(
             id: currentMovement.id,
-            orderNumber: currentMovement.orderNumber
+            orderNumber: currentMovement.orderNumber,
+            metrics: metrics
         )
+    }
+
+    func updateMetric(_ metric: Metric) async {
+        if let index = metrics.firstIndex(where: { $0.id == metric.id }) {
+            metrics.remove(at: index)
+            metrics.insert(metric, at: index)
+        } else {
+            metrics.append(metric)
+        }
+    }
+
+    func deleteMetric(at index: Int) async {
+        metrics.remove(at: index)
     }
 
     func save() {

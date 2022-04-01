@@ -11,4 +11,6 @@ struct Movement: Identifiable, Equatable {
     let id: UUID
 
     let orderNumber: Int
+
+    let metrics: [Metric]
 }

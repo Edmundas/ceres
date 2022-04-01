@@ -12,12 +12,51 @@ struct MovementEditView: View {
 
     @StateObject var viewModel: MovementEditViewModel
 
+    class MetricSheetMananger: ObservableObject {
+        @Published var showSheet = false
+        @Published var metric: Metric?
+    }
+    @StateObject private var metricSheetManager = MetricSheetMananger()
+
+    private func metricListRow(_ metric: Metric) -> some View {
+        Button(action: {
+            metricSheetManager.metric = metric
+            metricSheetManager.showSheet.toggle()
+        }, label: {
+            Text("""
+            \(metric.value) - \
+            \(String(describing: metric.type)) - \
+            \(String(describing: metric.subtype)) - \
+            \(String(describing: metric.unit))
+            """)
+        })
+        .buttonStyle(DefaultButtonStyle())
+        .foregroundColor(.primary)
+    }
+
+    private func metricList() -> some View {
+        Group {
+            if let metrics = viewModel.metrics {
+                ForEach(metrics) { metric in
+                    metricListRow(metric)
+                }
+                .onDelete(perform: deleteMetric)
+            }
+            Button(action: {
+                metricSheetManager.showSheet.toggle()
+            }, label: {
+                Label("Add workout metric", systemImage: "plus.app")
+            })
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+
     private func editView() -> some View {
         List {
-            Text("Movement")
+            metricList()
         }
         .listStyle(InsetGroupedListStyle())
-        .navigationTitle("Round")
+        .navigationTitle("Movement")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Cancel", action: cancelAction)
@@ -26,10 +65,35 @@ struct MovementEditView: View {
                 Button("Save", action: saveAction)
             }
         }
+        .sheet(isPresented: $metricSheetManager.showSheet, onDismiss: {
+            updateMovementMetrics()
+        }, content: {
+            NavigationView {
+                MetricEditView(viewModel: MetricEditViewModel(metric: $metricSheetManager.metric))
+            }
+        })
     }
 
     var body: some View {
         editView()
+    }
+}
+
+extension MovementEditView {
+    private func updateMovementMetrics() {
+        guard let newMetric = metricSheetManager.metric else { return }
+        Task {
+            await viewModel.updateMetric(newMetric)
+            metricSheetManager.metric = nil
+        }
+    }
+
+    private func deleteMetric(indexSet: IndexSet) {
+        indexSet.forEach { index in
+            Task {
+                await viewModel.deleteMetric(at: index)
+            }
+        }
     }
 }
 

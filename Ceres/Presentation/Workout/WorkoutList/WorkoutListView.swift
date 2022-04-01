@@ -10,11 +10,11 @@ import SwiftUI
 struct WorkoutListView: View {
     @StateObject var viewModel: WorkoutListViewModel
 
-    class SheetMananger: ObservableObject {
+    class WorkoutSheetMananger: ObservableObject {
         @Published var showSheet = false
         @Published var workout: Workout?
     }
-    @StateObject private var sheetManager = SheetMananger()
+    @StateObject private var workoutSheetManager = WorkoutSheetMananger()
 
     private func emptyListRow() -> some View {
         Label("The list is empty", systemImage: "exclamationmark.circle")
@@ -22,8 +22,8 @@ struct WorkoutListView: View {
 
     private func listRow(_ workout: Workout) -> some View {
         Button(action: {
-            sheetManager.workout = workout
-            sheetManager.showSheet.toggle()
+            workoutSheetManager.workout = workout
+            workoutSheetManager.showSheet.toggle()
         }, label: {
             Text("\(workout.title) - \(String(describing: workout.type)) - \(String(describing: workout.category))")
         })
@@ -45,15 +45,15 @@ struct WorkoutListView: View {
         .navigationTitle("Workouts")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button(action: { sheetManager.showSheet.toggle() },
+                Button(action: { workoutSheetManager.showSheet.toggle() },
                        label: { Image(systemName: "plus") })
             }
         }
-        .sheet(isPresented: $sheetManager.showSheet, onDismiss: {
+        .sheet(isPresented: $workoutSheetManager.showSheet, onDismiss: {
             updateWorkouts()
         }, content: {
             NavigationView {
-                WorkoutEditView(viewModel: WorkoutEditViewModel(workout: $sheetManager.workout))
+                WorkoutEditView(viewModel: WorkoutEditViewModel(workout: $workoutSheetManager.workout))
             }
         })
         .task {
@@ -73,7 +73,7 @@ extension WorkoutListView {
     private func updateWorkouts() {
         Task {
             await viewModel.getWorkouts()
-            sheetManager.workout = nil
+            workoutSheetManager.workout = nil
         }
     }
 
