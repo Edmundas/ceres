@@ -31,7 +31,7 @@ struct MovementEditView: View {
                     Text("\(movementDefinition != nil ? movementDefinition!.title : "none")")
                         .foregroundColor(.secondary)
                 }
-        })
+            })
     }
 
     private func metricListRow(_ metric: Metric) -> some View {

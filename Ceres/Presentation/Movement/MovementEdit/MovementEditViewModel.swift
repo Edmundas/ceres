@@ -42,7 +42,7 @@ class MovementEditViewModel: ObservableObject {
         movement = Movement(
             id: currentMovement.id,
             orderNumber: currentMovement.orderNumber,
-            movementDefinition: currentMovement.movementDefinition,
+            movementDefinition: movementDefinition,
             metrics: metrics
         )
     }
