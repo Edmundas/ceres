@@ -16,6 +16,19 @@ enum MetricType: Int16, CaseIterable {
          reps
 }
 
+extension MetricType: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .none:     return "none"
+        case .weight:   return "Weight"
+        case .height:   return "Height"
+        case .distance: return "Distance"
+        case .time:     return "Time"
+        case .reps:     return "Reps"
+        }
+    }
+}
+
 struct Metric: Identifiable, Equatable {
     let id: UUID
     let createDate: Date

@@ -20,7 +20,7 @@ struct MetricEditView: View {
     private func typePickerRow() -> some View {
         Picker("Type", selection: $viewModel.type) {
             ForEach(MetricType.allCases, id: \.self) {
-                Text(String(describing: $0))
+                Text($0.description)
             }
         }
     }

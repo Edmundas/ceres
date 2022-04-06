@@ -35,7 +35,7 @@ struct WorkoutEditView: View {
     private func typePickerRow() -> some View {
         Picker("Type", selection: $viewModel.type) {
             ForEach(WorkoutType.allCases, id: \.self) {
-                Text(String(describing: $0))
+                Text($0.description)
             }
         }
     }
@@ -47,7 +47,7 @@ struct WorkoutEditView: View {
         }, label: {
             Text("""
             \(metric.value) - \
-            \(String(describing: metric.type))
+            \(metric.type.description)
             """)
         })
         .buttonStyle(DefaultButtonStyle())

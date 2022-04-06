@@ -20,6 +20,21 @@ enum WorkoutType: Int16, CaseIterable {
          dbr
 }
 
+extension WorkoutType: CustomStringConvertible {
+    var description: String {
+        switch self {
+        case .none:   return "none"
+        case .ft:     return "FT"
+        case .rft:    return "RFT"
+        case .amrap:  return "AMRAP"
+        case .emom:   return "EMOM"
+        case .tabata: return "TABATA"
+        case .fgb:    return "FGB"
+        case .dbr:    return "DBR"
+        }
+    }
+}
+
 struct Workout: Identifiable, Equatable {
     let id: UUID
     let createDate: Date

@@ -41,7 +41,7 @@ struct MovementEditView: View {
         }, label: {
             Text("""
             \(metric.value) - \
-            \(String(describing: metric.type))
+            \(metric.type.description)
             """)
         })
         .buttonStyle(DefaultButtonStyle())
