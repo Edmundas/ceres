@@ -32,19 +32,9 @@ struct WorkoutEditView: View {
             .modifier(ClearButton(text: $viewModel.title))
     }
 
-    private func pickerRow<T: WorkoutEnums>(title: String, selection: Binding<T>) -> some View {
-        var allCases: [T]
-        switch selection.wrappedValue {
-        case is WorkoutType:
-            allCases = (WorkoutType.allCases as? [T]) ?? []
-        case is WorkoutCategory:
-            allCases = (WorkoutCategory.allCases as? [T]) ?? []
-        default:
-            allCases = []
-        }
-
-        return Picker(title, selection: selection) {
-            ForEach(allCases, id: \.self) {
+    private func typePickerRow() -> some View {
+        Picker("Type", selection: $viewModel.type) {
+            ForEach(WorkoutType.allCases, id: \.self) {
                 Text(String(describing: $0))
             }
         }
@@ -57,9 +47,7 @@ struct WorkoutEditView: View {
         }, label: {
             Text("""
             \(metric.value) - \
-            \(String(describing: metric.type)) - \
-            \(String(describing: metric.subtype)) - \
-            \(String(describing: metric.unit))
+            \(String(describing: metric.type))
             """)
         })
         .buttonStyle(DefaultButtonStyle())
@@ -123,8 +111,7 @@ struct WorkoutEditView: View {
                 titleRow()
             }
             Section {
-                pickerRow(title: "Type", selection: $viewModel.type)
-                pickerRow(title: "Category", selection: $viewModel.category)
+                typePickerRow()
             }
             Section {
                 metricList()

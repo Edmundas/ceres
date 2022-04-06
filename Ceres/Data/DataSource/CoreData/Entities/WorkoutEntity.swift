@@ -14,7 +14,6 @@ public class WorkoutEntity: NSManagedObject {
     @NSManaged public var createDate: Date
 
     @NSManaged public var type: Int16
-    @NSManaged public var category: Int16
 
     @NSManaged public var title: String
 

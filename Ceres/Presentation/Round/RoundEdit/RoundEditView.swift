@@ -34,9 +34,7 @@ struct RoundEditView: View {
         }, label: {
             Text("""
             \(metric.value) - \
-            \(String(describing: metric.type)) - \
-            \(String(describing: metric.subtype)) - \
-            \(String(describing: metric.unit))
+            \(String(describing: metric.type))
             """)
         })
         .buttonStyle(DefaultButtonStyle())
@@ -48,7 +46,7 @@ struct RoundEditView: View {
             movementSheetManager.movement = movement
             movementSheetManager.showSheet.toggle()
         }, label: {
-            Text("Movement")
+            Text(movement.movementDefinition?.title ?? "Movement")
         })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)

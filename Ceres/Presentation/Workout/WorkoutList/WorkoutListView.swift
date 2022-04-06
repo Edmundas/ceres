@@ -25,7 +25,7 @@ struct WorkoutListView: View {
             workoutSheetManager.workout = workout
             workoutSheetManager.showSheet.toggle()
         }, label: {
-            Text("\(workout.title) - \(String(describing: workout.type)) - \(String(describing: workout.category))")
+            Text("\(workout.title) - \(String(describing: workout.type))")
         })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)

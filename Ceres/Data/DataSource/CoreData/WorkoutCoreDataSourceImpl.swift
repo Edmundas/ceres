@@ -80,7 +80,6 @@ extension Workout {
         id = entity.id
         createDate = entity.createDate
         type = WorkoutType(rawValue: entity.type) ?? .none
-        category = WorkoutCategory(rawValue: entity.category) ?? .none
         title = entity.title
 
         let entityMetrics = entity.metrics?.map {
@@ -103,7 +102,6 @@ extension Workout {
         entity.id = self.id
         entity.createDate = self.createDate
         entity.type = self.type.rawValue
-        entity.category = self.category.rawValue
         entity.title = self.title
 
         let entityMetrics: [MetricEntity] = self.metrics.map {
@@ -123,7 +121,6 @@ extension Workout {
 
     func updateWorkoutEntity(_ entity: WorkoutEntity) {
         entity.type = type.rawValue
-        entity.category = category.rawValue
         entity.title = title
 
         updateMetrics(for: entity)

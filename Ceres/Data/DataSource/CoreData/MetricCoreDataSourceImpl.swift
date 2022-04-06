@@ -44,8 +44,6 @@ extension Metric {
         id = entity.id
         createDate = entity.createDate
         type = MetricType(rawValue: entity.type) ?? .none
-        subtype = MetricSubtype(rawValue: entity.subtype) ?? .none
-        unit = MetricUnit(rawValue: entity.unit) ?? .none
         value = entity.value
     }
 
@@ -54,8 +52,6 @@ extension Metric {
         entity.id = self.id
         entity.createDate = self.createDate
         entity.type = self.type.rawValue
-        entity.subtype = self.subtype.rawValue
-        entity.unit = self.unit.rawValue
         entity.value = self.value
 
         return entity
@@ -63,8 +59,6 @@ extension Metric {
 
     func updateMetricEntity(_ entity: MetricEntity) {
         entity.type = type.rawValue
-        entity.subtype = subtype.rawValue
-        entity.unit = unit.rawValue
         entity.value = value
     }
 }

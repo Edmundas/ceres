@@ -14,8 +14,6 @@ public class MetricEntity: NSManagedObject {
     @NSManaged public var createDate: Date
 
     @NSManaged public var type: Int16
-    @NSManaged public var subtype: Int16
-    @NSManaged public var unit: Int16
 
     @NSManaged public var value: Double
 

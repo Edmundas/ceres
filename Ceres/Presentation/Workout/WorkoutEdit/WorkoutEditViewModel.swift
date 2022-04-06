@@ -21,7 +21,6 @@ class WorkoutEditViewModel: ObservableObject {
 
     @Published var title = ""
     @Published var type = WorkoutType.none
-    @Published var category = WorkoutCategory.none
 
     @Published var metrics: [Metric] = []
     @Published var rounds: [Round] = []
@@ -35,7 +34,6 @@ class WorkoutEditViewModel: ObservableObject {
         if let currentWorkout = workout.wrappedValue {
             title = currentWorkout.title
             type = currentWorkout.type
-            category = currentWorkout.category
             metrics = currentWorkout.metrics
             rounds = currentWorkout.rounds
         }
@@ -47,7 +45,6 @@ class WorkoutEditViewModel: ObservableObject {
             id: UUID(),
             createDate: Date(),
             type: type,
-            category: category,
             title: title,
             metrics: metrics,
             rounds: rounds
@@ -70,7 +67,6 @@ class WorkoutEditViewModel: ObservableObject {
             id: currentWorkout.id,
             createDate: currentWorkout.createDate,
             type: type,
-            category: category,
             title: title,
             metrics: metrics,
             rounds: rounds
