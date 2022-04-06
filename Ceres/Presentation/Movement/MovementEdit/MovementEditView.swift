@@ -40,8 +40,8 @@ struct MovementEditView: View {
             metricSheetManager.showSheet.toggle()
         }, label: {
             Text("""
-            \(metric.value) - \
-            \(metric.type.description)
+            \(metric.type.description) - \
+            \(metric.value.formattedMetricValue)
             """)
         })
         .buttonStyle(DefaultButtonStyle())

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1803038927FDD2F700CE26B1 /* DataFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803038827FDD2F700CE26B1 /* DataFormatter.swift */; };
 		1803427027F58EE3002208FF /* RoundEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803426F27F58EE3002208FF /* RoundEntity.swift */; };
 		1803427227F58F78002208FF /* Round.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803427127F58F78002208FF /* Round.swift */; };
 		1803427427F58FBA002208FF /* RoundCoreDataSourceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803427327F58FBA002208FF /* RoundCoreDataSourceImpl.swift */; };
@@ -87,6 +88,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1803038827FDD2F700CE26B1 /* DataFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFormatter.swift; sourceTree = "<group>"; };
 		1803426F27F58EE3002208FF /* RoundEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundEntity.swift; sourceTree = "<group>"; };
 		1803427127F58F78002208FF /* Round.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Round.swift; sourceTree = "<group>"; };
 		1803427327F58FBA002208FF /* RoundCoreDataSourceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCoreDataSourceImpl.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 		183D0A8327EDF035006AFDC3 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				1803038827FDD2F700CE26B1 /* DataFormatter.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -715,6 +718,7 @@
 				18F7A84B274E8BD60083BA2B /* ClearButton.swift in Sources */,
 				18537CC227F713C600DEB75B /* MovementDefinitionDataSource.swift in Sources */,
 				183D0A9727EDF37A006AFDC3 /* WorkoutRepositoryImpl.swift in Sources */,
+				1803038927FDD2F700CE26B1 /* DataFormatter.swift in Sources */,
 				18537CC427F7140500DEB75B /* MovementDefinitionCoreDataSourceImpl.swift in Sources */,
 				1803428627F5C2B2002208FF /* MovementDataSource.swift in Sources */,
 				18843A9727F1E22F0061E240 /* UpdateWorkout.swift in Sources */,

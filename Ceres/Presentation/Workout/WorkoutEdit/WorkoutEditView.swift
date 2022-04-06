@@ -46,12 +46,27 @@ struct WorkoutEditView: View {
             metricSheetManager.showSheet.toggle()
         }, label: {
             Text("""
-            \(metric.value) - \
-            \(metric.type.description)
+            \(metric.type.description) - \
+            \(metric.value.formattedMetricValue)
             """)
         })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)
+    }
+
+    private func metricsListRow(_ metrics: [Metric]) -> some View {
+        Group {
+            if metrics.count > 0 {
+                Spacer()
+            }
+            ForEach(metrics) { metric in
+                Text("""
+                \(metric.type.description) - \
+                \(metric.value.formattedMetricValue)
+                """)
+                .foregroundColor(.secondary)
+            }
+        }
     }
 
     private func roundListRow(_ round: Round) -> some View {
@@ -59,7 +74,19 @@ struct WorkoutEditView: View {
             roundSheetManager.round = round
             roundSheetManager.showSheet.toggle()
         }, label: {
-            Text("Round")
+            VStack(alignment: .leading) {
+                Text("Round")
+                metricsListRow(round.metrics)
+                ForEach(round.movements) { movement in
+                    VStack(alignment: .leading) {
+                        Spacer()
+                        Text(movement.movementDefinition?.title ?? "Movement")
+                            .foregroundColor(.secondary)
+                        metricsListRow(movement.metrics)
+                    }
+                    .padding(.leading, 20.0)
+                }
+            }
         })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)

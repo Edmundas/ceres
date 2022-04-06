@@ -33,8 +33,8 @@ struct RoundEditView: View {
             metricSheetManager.showSheet.toggle()
         }, label: {
             Text("""
-            \(metric.value) - \
-            \(metric.type.description)
+            \(metric.type.description) - \
+            \(metric.value.formattedMetricValue)
             """)
         })
         .buttonStyle(DefaultButtonStyle())
@@ -46,7 +46,19 @@ struct RoundEditView: View {
             movementSheetManager.movement = movement
             movementSheetManager.showSheet.toggle()
         }, label: {
-            Text(movement.movementDefinition?.title ?? "Movement")
+            VStack(alignment: .leading) {
+                Text(movement.movementDefinition?.title ?? "Movement")
+                if movement.metrics.count > 0 {
+                    Spacer()
+                }
+                ForEach(movement.metrics) { metric in
+                    Text("""
+                    \(metric.type.description) - \
+                    \(metric.value.formattedMetricValue)
+                    """)
+                    .foregroundColor(.secondary)
+                }
+            }
         })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)

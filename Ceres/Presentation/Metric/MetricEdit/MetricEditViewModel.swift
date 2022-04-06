@@ -13,7 +13,17 @@ class MetricEditViewModel: ObservableObject {
     @Binding var metric: Metric?
 
     @Published var value = ""
-    @Published var type = MetricType.none
+    @Published var type = MetricType.none {
+        didSet {
+            switch type {
+            case .weight: unit = "Kilograms"
+            case .height, .distance: unit = "Meters"
+            default: unit = nil
+            }
+        }
+    }
+
+    @Published var unit: String?
 
     @Published var errorMessage = ""
     @Published var hasError = false
@@ -22,7 +32,7 @@ class MetricEditViewModel: ObservableObject {
         _metric = metric
 
         if let currentMetric = metric.wrappedValue {
-            value = String(currentMetric.value)
+            value = currentMetric.value.formattedMetricValue
             type = currentMetric.type
         }
     }
@@ -32,7 +42,7 @@ class MetricEditViewModel: ObservableObject {
             id: UUID(),
             createDate: Date(),
             type: type,
-            value: Double(value) ?? 0.0
+            value: value.metricValue
         )
     }
 
@@ -43,7 +53,7 @@ class MetricEditViewModel: ObservableObject {
             id: currentMetric.id,
             createDate: currentMetric.createDate,
             type: type,
-            value: Double(value) ?? 0.0
+            value: value.metricValue
         )
     }
 

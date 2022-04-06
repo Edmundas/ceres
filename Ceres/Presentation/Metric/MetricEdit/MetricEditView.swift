@@ -15,6 +15,11 @@ struct MetricEditView: View {
     private func valueRow() -> some View {
         TextField("Value", text: $viewModel.value)
             .modifier(ClearButton(text: $viewModel.value))
+            .keyboardType(.decimalPad)
+    }
+
+    private func valueUnitRow() -> some View {
+        viewModel.unit.map { Text($0) }
     }
 
     private func typePickerRow() -> some View {
@@ -27,9 +32,11 @@ struct MetricEditView: View {
 
     private func editView() -> some View {
         List {
-            Section {
+            Section(content: {
                 valueRow()
-            }
+            }, footer: {
+                valueUnitRow()
+            })
             Section {
                 typePickerRow()
             }
