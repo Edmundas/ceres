@@ -1,19 +1,19 @@
 //
-//  WorkoutEditView.swift
+//  RoundEditView.swift
 //  Ceres
 //
-//  Created by Edmundas Matusevičius on 2022-03-28.
+//  Created by Edmundas Matusevičius on 2022-03-31.
 //
 
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct WorkoutEditView: View {
+struct RoundEditView: View {
     @Environment(\.presentationMode) var presentationMode
 
-    @StateObject var viewModel: WorkoutEditViewModel
+    @StateObject var viewModel: RoundEditViewModel
 
-    @State private var draggingRound: Round?
+    @State private var draggingMovement: Movement?
 
     class MetricSheetMananger: ObservableObject {
         @Published var showSheet = false
@@ -21,24 +21,11 @@ struct WorkoutEditView: View {
     }
     @StateObject private var metricSheetManager = MetricSheetMananger()
 
-    class RoundSheetManager: ObservableObject {
+    class MovementSheetMananger: ObservableObject {
         @Published var showSheet = false
-        @Published var round: Round?
+        @Published var movement: Movement?
     }
-    @StateObject private var roundSheetManager = RoundSheetManager()
-
-    private func titleRow() -> some View {
-        TextField("Title", text: $viewModel.title)
-            .modifier(ClearButton(text: $viewModel.title))
-    }
-
-    private func typePickerRow() -> some View {
-        Picker("Type", selection: $viewModel.type) {
-            ForEach(WorkoutType.allCases, id: \.self) {
-                Text(String(describing: $0))
-            }
-        }
-    }
+    @StateObject private var movementSheetManager = MovementSheetMananger()
 
     private func metricListRow(_ metric: Metric) -> some View {
         Button(action: {
@@ -54,12 +41,12 @@ struct WorkoutEditView: View {
         .foregroundColor(.primary)
     }
 
-    private func roundListRow(_ round: Round) -> some View {
+    private func movementListRow(_ movement: Movement) -> some View {
         Button(action: {
-            roundSheetManager.round = round
-            roundSheetManager.showSheet.toggle()
+            movementSheetManager.movement = movement
+            movementSheetManager.showSheet.toggle()
         }, label: {
-            Text("Round")
+            Text(movement.movementDefinition?.title ?? "Movement")
         })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)
@@ -82,24 +69,24 @@ struct WorkoutEditView: View {
         }
     }
 
-    private func roundList() -> some View {
+    private func movementList() -> some View {
         Group {
-            if let rounds = viewModel.rounds {
-                ForEach(rounds) { round in
-                    roundListRow(round)
+            if let movements = viewModel.movements {
+                ForEach(movements) { movement in
+                    movementListRow(movement)
                         .onDrag {
-                            draggingRound = round
+                            draggingMovement = movement
                             return NSItemProvider(object: NSString())
                         }
-                        .onDrop(of: [UTType.item], delegate: ListItemDragDelegate(current: $draggingRound))
+                        .onDrop(of: [UTType.item], delegate: ListItemDragDelegate(current: $draggingMovement))
                 }
-                .onMove(perform: moveRound)
-                .onDelete(perform: deleteRound)
+                .onMove(perform: moveMovement)
+                .onDelete(perform: deleteMovement)
             }
             Button(action: {
-                roundSheetManager.showSheet.toggle()
+                movementSheetManager.showSheet.toggle()
             }, label: {
-                Label("Add workout round", systemImage: "plus.app")
+                Label("Add round movement", systemImage: "plus.app")
             })
             .buttonStyle(PlainButtonStyle())
         }
@@ -108,20 +95,14 @@ struct WorkoutEditView: View {
     private func editView() -> some View {
         List {
             Section {
-                titleRow()
-            }
-            Section {
-                typePickerRow()
-            }
-            Section {
                 metricList()
             }
             Section {
-                roundList()
+                movementList()
             }
         }
         .listStyle(InsetGroupedListStyle())
-        .navigationTitle("Workout")
+        .navigationTitle("Round")
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Cancel", action: cancelAction)
@@ -131,17 +112,17 @@ struct WorkoutEditView: View {
             }
         }
         .sheet(isPresented: $metricSheetManager.showSheet, onDismiss: {
-            updateWorkoutMetrics()
+            updateRoundMetrics()
         }, content: {
             NavigationView {
                 MetricEditView(viewModel: MetricEditViewModel(metric: $metricSheetManager.metric))
             }
         })
-        .sheet(isPresented: $roundSheetManager.showSheet, onDismiss: {
-            updateWorkoutRounds()
+        .sheet(isPresented: $movementSheetManager.showSheet, onDismiss: {
+            updateRoundMovements()
         }, content: {
             NavigationView {
-                RoundEditView(viewModel: RoundEditViewModel(round: $roundSheetManager.round))
+                MovementEditView(viewModel: MovementEditViewModel(movement: $movementSheetManager.movement))
             }
         })
     }
@@ -151,8 +132,8 @@ struct WorkoutEditView: View {
     }
 }
 
-extension WorkoutEditView {
-    private func updateWorkoutMetrics() {
+extension RoundEditView {
+    private func updateRoundMetrics() {
         guard let newMetric = metricSheetManager.metric else { return }
         Task {
             await viewModel.updateMetric(newMetric)
@@ -168,28 +149,28 @@ extension WorkoutEditView {
         }
     }
 
-    private func updateWorkoutRounds() {
-        guard let newRound = roundSheetManager.round else { return }
+    private func updateRoundMovements() {
+        guard let newMovement = movementSheetManager.movement else { return }
         Task {
-            await viewModel.updateRound(newRound)
-            roundSheetManager.round = nil
+            await viewModel.updateMovement(newMovement)
+            movementSheetManager.movement = nil
         }
     }
 
-    private func moveRound(from source: IndexSet, to destination: Int) {
-        viewModel.rounds.move(fromOffsets: source, toOffset: destination)
+    private func moveMovement(from source: IndexSet, to destination: Int) {
+        viewModel.movements.move(fromOffsets: source, toOffset: destination)
     }
 
-    private func deleteRound(indexSet: IndexSet) {
+    private func deleteMovement(indexSet: IndexSet) {
         indexSet.forEach { index in
             Task {
-                await viewModel.deleteRound(at: index)
+                await viewModel.deleteMovement(at: index)
             }
         }
     }
 }
 
-extension WorkoutEditView {
+extension RoundEditView {
     private func cancelAction() {
         presentationMode.wrappedValue.dismiss()
     }
@@ -201,9 +182,9 @@ extension WorkoutEditView {
 }
 
 /*
-struct WorkoutEditView_Previews: PreviewProvider {
+struct RoundEditView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutEditView()
+        RoundEditView()
     }
 }
  */

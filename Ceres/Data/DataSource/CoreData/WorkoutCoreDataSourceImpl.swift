@@ -20,24 +20,20 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
     func getAll() throws -> [Workout] {
         let request = WorkoutEntity.fetchRequest()
         let context = container.viewContext
-
         return try context.fetch(request).map {
-            Workout(workoutEntity: $0)
+            Workout($0)
         }
     }
 
     func getById(_ id: UUID) throws -> Workout? {
-        let workoutEntity = try getEntityById(id)!
-
-        return Workout(workoutEntity: workoutEntity)
+        let entity = try getEntityById(id)!
+        return Workout(entity)
     }
 
     func delete(_ id: UUID) throws {
-        let workoutEntity = try getEntityById(id)!
+        let entity = try getEntityById(id)!
         let context = container.viewContext
-
-        context.delete(workoutEntity)
-
+        context.delete(entity)
         do {
             try context.save()
         } catch {
@@ -47,47 +43,14 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
     }
 
     func update(id: UUID, workout: Workout) throws {
-        let workoutEntity = try getEntityById(id)!
-        let context = container.viewContext
-
-        workoutEntity.type = workout.type.rawValue
-        workoutEntity.category = workout.category.rawValue
-        workoutEntity.title = workout.title
-
-        var workoutEntityMetrics = workoutEntity.metrics
-        var updatedWorkoutEntityMetrics: Set<MetricEntity> = []
-
-        for metric in workout.metrics {
-            // update metric
-            if let workoutEntityMetric = workoutEntityMetrics?.first(where: { $0.id == metric.id }) {
-                workoutEntityMetric.type = metric.type.rawValue
-                workoutEntityMetric.subtype = metric.subtype.rawValue
-                workoutEntityMetric.unit = metric.unit.rawValue
-                workoutEntityMetric.value = metric.value
-
-                updatedWorkoutEntityMetrics.insert(workoutEntityMetric)
-                workoutEntityMetrics?.remove(workoutEntityMetric)
-            }
-            // create metric
-            else {
-                let workoutEntityMetric = metric.metricEntity(context: context)
-
-                updatedWorkoutEntityMetrics.insert(workoutEntityMetric)
-            }
-        }
-        // delete metric
-        workoutEntityMetrics?.forEach {
-            context.delete($0)
-        }
-        workoutEntity.metrics = updatedWorkoutEntityMetrics
-
+        let entity = try getEntityById(id)!
+        workout.updateWorkoutEntity(entity)
         saveContext()
     }
 
     func create(workout: Workout) throws {
         let context = container.viewContext
         _ = workout.workoutEntity(context: context)
-
         saveContext()
     }
 
@@ -96,14 +59,12 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
         request.fetchLimit = 1
         request.predicate = NSPredicate(format: "id = %@", id.uuidString)
         let context = container.viewContext
-        let workoutEntity = try context.fetch(request)[0]
-
-        return workoutEntity
+        let entity = try context.fetch(request)[0]
+        return entity
     }
 
     private func saveContext() {
         let context = container.viewContext
-
         if context.hasChanges {
             do {
                 try context.save()
@@ -115,32 +76,115 @@ struct WorkoutCoreDataSourceImpl: WorkoutDataSource {
 }
 
 extension Workout {
-    init(workoutEntity: WorkoutEntity) {
-        id = workoutEntity.id
-        createDate = workoutEntity.createDate
-        type = WorkoutType(rawValue: workoutEntity.type) ?? .none
-        category = WorkoutCategory(rawValue: workoutEntity.category) ?? .none
-        title = workoutEntity.title
+    init(_ entity: WorkoutEntity) {
+        id = entity.id
+        createDate = entity.createDate
+        type = WorkoutType(rawValue: entity.type) ?? .none
+        title = entity.title
 
-        let workoutEntityMetrics = workoutEntity.metrics?.map {
-            Metric(metricEntity: $0)
+        let entityMetrics = entity.metrics?.map {
+            Metric($0)
+        }.sorted {
+            $0.createDate < $1.createDate
         }
-        metrics = workoutEntityMetrics ?? []
+        metrics = entityMetrics ?? []
+
+        let entityRounds = entity.rounds?.map {
+            Round($0)
+        }.sorted {
+            $0.orderNumber < $1.orderNumber
+        }
+        rounds = entityRounds ?? []
     }
 
     func workoutEntity(context: NSManagedObjectContext) -> WorkoutEntity {
-        let workoutEntity = WorkoutEntity(context: context)
-        workoutEntity.id = self.id
-        workoutEntity.createDate = self.createDate
-        workoutEntity.type = self.type.rawValue
-        workoutEntity.category = self.category.rawValue
-        workoutEntity.title = self.title
+        let entity = WorkoutEntity(context: context)
+        entity.id = self.id
+        entity.createDate = self.createDate
+        entity.type = self.type.rawValue
+        entity.title = self.title
 
-        let workoutEntityMetrics: [MetricEntity] = self.metrics.map {
+        let entityMetrics: [MetricEntity] = self.metrics.map {
             $0.metricEntity(context: context)
         }
-        workoutEntity.metrics = !workoutEntityMetrics.isEmpty ? Set(workoutEntityMetrics) : nil
+        entity.metrics = !entityMetrics.isEmpty ? Set(entityMetrics) : nil
 
-        return workoutEntity
+        let entityRounds: [RoundEntity] = self.rounds.enumerated().map {
+            let entity = $0.element.roundEntity(context: context)
+            entity.orderNumber = Int16($0.offset)
+            return entity
+        }
+        entity.rounds = !entityRounds.isEmpty ? Set(entityRounds) : nil
+
+        return entity
+    }
+
+    func updateWorkoutEntity(_ entity: WorkoutEntity) {
+        entity.type = type.rawValue
+        entity.title = title
+
+        updateMetrics(for: entity)
+        updateRounds(for: entity)
+    }
+
+    private func updateMetrics(for entity: WorkoutEntity) {
+        guard let context = entity.managedObjectContext else { return }
+
+        var entityMetrics = entity.metrics
+        var updatedEntityMetrics: Set<MetricEntity> = []
+
+        metrics.forEach { metric in
+            // update metric
+            if let entityMetric = entityMetrics?.first(where: { $0.id == metric.id }) {
+                metric.updateMetricEntity(entityMetric)
+
+                updatedEntityMetrics.insert(entityMetric)
+                entityMetrics?.remove(entityMetric)
+            }
+            // create metric
+            else {
+                let entityMetric = metric.metricEntity(context: context)
+
+                updatedEntityMetrics.insert(entityMetric)
+            }
+        }
+        // delete metric
+        entityMetrics?.forEach {
+            context.delete($0)
+        }
+        entity.metrics = updatedEntityMetrics
+    }
+
+    private func updateRounds(for entity: WorkoutEntity) {
+        guard let context = entity.managedObjectContext else { return }
+
+        var entityRounds = entity.rounds
+        var updatedEntityRounds: Set<RoundEntity> = []
+
+        rounds.enumerated().map {
+            Round(id: $0.element.id,
+                  orderNumber: $0.offset,
+                  metrics: $0.element.metrics,
+                  movements: $0.element.movements)
+        }.forEach { round in
+            // update round
+            if let entityRound = entityRounds?.first(where: { $0.id == round.id }) {
+                round.updateRoundEntity(entityRound)
+
+                updatedEntityRounds.insert(entityRound)
+                entityRounds?.remove(entityRound)
+            }
+            // create round
+            else {
+                let entityRound = round.roundEntity(context: context)
+
+                updatedEntityRounds.insert(entityRound)
+            }
+        }
+        // delete round
+        entityRounds?.forEach {
+            context.delete($0)
+        }
+        entity.rounds = updatedEntityRounds
     }
 }

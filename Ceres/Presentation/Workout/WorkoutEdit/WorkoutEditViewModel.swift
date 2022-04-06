@@ -10,24 +10,20 @@ import SwiftUI
 
 @MainActor
 class WorkoutEditViewModel: ObservableObject {
-    var createWorkoutUseCase = CreateWorkoutUseCase(
+    private var createWorkoutUseCase = CreateWorkoutUseCase(
         repo: WorkoutRepositoryImpl(
-            dataSource: WorkoutCoreDataSourceImpl()
-        )
-    )
-    var updateWorkoutUseCase = UpdateWorkoutUseCase(
+            dataSource: WorkoutCoreDataSourceImpl()))
+    private var updateWorkoutUseCase = UpdateWorkoutUseCase(
         repo: WorkoutRepositoryImpl(
-            dataSource: WorkoutCoreDataSourceImpl()
-        )
-    )
+            dataSource: WorkoutCoreDataSourceImpl()))
 
     @Binding var workout: Workout?
 
     @Published var title = ""
     @Published var type = WorkoutType.none
-    @Published var category = WorkoutCategory.none
 
     @Published var metrics: [Metric] = []
+    @Published var rounds: [Round] = []
 
     @Published var errorMessage = ""
     @Published var hasError = false
@@ -38,10 +34,8 @@ class WorkoutEditViewModel: ObservableObject {
         if let currentWorkout = workout.wrappedValue {
             title = currentWorkout.title
             type = currentWorkout.type
-            category = currentWorkout.category
-            metrics = currentWorkout.metrics.sorted {
-                $0.createDate < $1.createDate
-            }
+            metrics = currentWorkout.metrics
+            rounds = currentWorkout.rounds
         }
     }
 
@@ -51,9 +45,9 @@ class WorkoutEditViewModel: ObservableObject {
             id: UUID(),
             createDate: Date(),
             type: type,
-            category: category,
             title: title,
-            metrics: metrics
+            metrics: metrics,
+            rounds: rounds
         )
         let result = await createWorkoutUseCase.execute(workout: workout)
         switch result {
@@ -73,9 +67,9 @@ class WorkoutEditViewModel: ObservableObject {
             id: currentWorkout.id,
             createDate: currentWorkout.createDate,
             type: type,
-            category: category,
             title: title,
-            metrics: metrics
+            metrics: metrics,
+            rounds: rounds
         )
         let result = await updateWorkoutUseCase.execute(workout: workout)
         switch result {
@@ -88,16 +82,19 @@ class WorkoutEditViewModel: ObservableObject {
     }
 
     func updateMetric(_ metric: Metric) async {
-        if let index = metrics.firstIndex(where: { $0.id == metric.id }) {
-            metrics.remove(at: index)
-            metrics.insert(metric, at: index)
-        } else {
-            metrics.append(metric)
-        }
+        updateItem(metric, in: &metrics)
     }
 
     func deleteMetric(at index: Int) async {
         metrics.remove(at: index)
+    }
+
+    func updateRound(_ round: Round) async {
+        updateItem(round, in: &rounds)
+    }
+
+    func deleteRound(at index: Int) async {
+        rounds.remove(at: index)
     }
 
     func save() {
@@ -105,6 +102,17 @@ class WorkoutEditViewModel: ObservableObject {
             Task { await updateWorkout() }
         } else {
             Task { await createWorkout() }
+        }
+    }
+}
+
+extension WorkoutEditViewModel {
+    private func updateItem<T: Identifiable>(_ item: T, in source: inout [T]) {
+        if let index = source.firstIndex(where: { $0.id == item.id }) {
+            source.remove(at: index)
+            source.insert(item, at: index)
+        } else {
+            source.append(item)
         }
     }
 }

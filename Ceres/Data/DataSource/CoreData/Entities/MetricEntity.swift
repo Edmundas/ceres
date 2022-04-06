@@ -14,12 +14,8 @@ public class MetricEntity: NSManagedObject {
     @NSManaged public var createDate: Date
 
     @NSManaged public var type: Int16
-    @NSManaged public var subtype: Int16
-    @NSManaged public var unit: Int16
 
     @NSManaged public var value: Double
-
-    @NSManaged public var workout: WorkoutEntity?
 
     public override func awakeFromInsert() {
         super.awakeFromInsert()

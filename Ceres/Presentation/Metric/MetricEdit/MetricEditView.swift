@@ -17,21 +17,9 @@ struct MetricEditView: View {
             .modifier(ClearButton(text: $viewModel.value))
     }
 
-    private func picker<T: MetricEnums>(title: String, selection: Binding<T>) -> some View {
-        var allCases: [T]
-        switch selection.wrappedValue {
-        case is MetricType:
-            allCases = (MetricType.allCases as? [T]) ?? []
-        case is MetricSubtype:
-            allCases = (MetricSubtype.allCases as? [T]) ?? []
-        case is MetricUnit:
-            allCases = (MetricUnit.allCases as? [T]) ?? []
-        default:
-            allCases = []
-        }
-
-        return Picker(title, selection: selection) {
-            ForEach(allCases, id: \.self) {
+    private func typePickerRow() -> some View {
+        Picker("Type", selection: $viewModel.type) {
+            ForEach(MetricType.allCases, id: \.self) {
                 Text(String(describing: $0))
             }
         }
@@ -43,9 +31,7 @@ struct MetricEditView: View {
                 valueRow()
             }
             Section {
-                picker(title: "Type", selection: $viewModel.type)
-                picker(title: "Subtype", selection: $viewModel.subtype)
-                picker(title: "Unit", selection: $viewModel.unit)
+                typePickerRow()
             }
         }
         .listStyle(InsetGroupedListStyle())
