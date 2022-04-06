@@ -58,6 +58,7 @@ struct RoundEditView: View {
                     """)
                     .foregroundColor(.secondary)
                 }
+                .padding(.leading, 16.0)
             }
         })
         .buttonStyle(DefaultButtonStyle())

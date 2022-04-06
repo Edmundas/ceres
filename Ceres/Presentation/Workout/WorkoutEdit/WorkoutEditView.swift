@@ -66,6 +66,7 @@ struct WorkoutEditView: View {
                 """)
                 .foregroundColor(.secondary)
             }
+            .padding(.leading, 16.0)
         }
     }
 
@@ -84,8 +85,8 @@ struct WorkoutEditView: View {
                             .foregroundColor(.secondary)
                         metricsListRow(movement.metrics)
                     }
-                    .padding(.leading, 20.0)
                 }
+                .padding(.leading, 32.0)
             }
         })
         .buttonStyle(DefaultButtonStyle())
