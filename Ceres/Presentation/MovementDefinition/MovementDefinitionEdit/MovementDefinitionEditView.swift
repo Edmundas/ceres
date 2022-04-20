@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MovementDefinitionEditView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
 
     @StateObject var viewModel: MovementDefinitionEditViewModel
 
@@ -40,12 +40,12 @@ struct MovementDefinitionEditView: View {
 
 extension MovementDefinitionEditView {
     private func cancelAction() {
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 
     private func saveAction() {
         viewModel.save()
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 }
 

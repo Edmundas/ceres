@@ -8,15 +8,12 @@
 import SwiftUI
 
 struct MovementEditView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
 
     @StateObject var viewModel: MovementEditViewModel
 
-    class MetricSheetMananger: ObservableObject {
-        @Published var showSheet = false
-        @Published var metric: Metric?
-    }
-    @StateObject private var metricSheetManager = MetricSheetMananger()
+    @State private var metric: Metric?
+    @State private var showMetricSheet = false
 
     private func movementDefinitionRow(_ movementDefinition: MovementDefinition?) -> some View {
         NavigationLink(
@@ -34,14 +31,14 @@ struct MovementEditView: View {
             })
     }
 
-    private func metricListRow(_ metric: Metric) -> some View {
+    private func metricListRow(_ selectedMetric: Metric) -> some View {
         Button(action: {
-            metricSheetManager.metric = metric
-            metricSheetManager.showSheet.toggle()
+            metric = selectedMetric
+            showMetricSheet.toggle()
         }, label: {
             Text("""
-            \(metric.type.description) - \
-            \(metric.value.formattedMetricValue)
+            \(selectedMetric.type.description) - \
+            \(selectedMetric.value.formattedMetricValue)
             """)
         })
         .buttonStyle(DefaultButtonStyle())
@@ -57,7 +54,7 @@ struct MovementEditView: View {
                 .onDelete(perform: deleteMetric)
             }
             Button(action: {
-                metricSheetManager.showSheet.toggle()
+                showMetricSheet.toggle()
             }, label: {
                 Label("Add workout metric", systemImage: "plus.app")
             })
@@ -84,26 +81,28 @@ struct MovementEditView: View {
                 Button("Save", action: saveAction)
             }
         }
-        .sheet(isPresented: $metricSheetManager.showSheet, onDismiss: {
+        .sheet(isPresented: $showMetricSheet, onDismiss: {
             updateMovementMetrics()
         }, content: {
             NavigationView {
-                MetricEditView(viewModel: MetricEditViewModel(metric: $metricSheetManager.metric))
+                MetricEditView(viewModel: MetricEditViewModel(metric: $metric))
             }
         })
     }
 
     var body: some View {
-        editView()
+        _ = self.metric
+
+        return editView()
     }
 }
 
 extension MovementEditView {
     private func updateMovementMetrics() {
-        guard let newMetric = metricSheetManager.metric else { return }
+        guard let newMetric = metric else { return }
         Task {
             await viewModel.updateMetric(newMetric)
-            metricSheetManager.metric = nil
+            metric = nil
         }
     }
 
@@ -118,12 +117,12 @@ extension MovementEditView {
 
 extension MovementEditView {
     private func cancelAction() {
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 
     private func saveAction() {
         viewModel.save()
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 }
 

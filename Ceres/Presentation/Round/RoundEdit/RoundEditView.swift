@@ -9,49 +9,42 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct RoundEditView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
 
     @StateObject var viewModel: RoundEditViewModel
 
     @State private var draggingMovement: Movement?
 
-    class MetricSheetMananger: ObservableObject {
-        @Published var showSheet = false
-        @Published var metric: Metric?
-    }
-    @StateObject private var metricSheetManager = MetricSheetMananger()
+    @State private var metric: Metric?
+    @State private var showMetricSheet = false
+    @State private var movement: Movement?
+    @State private var showMovementSheet = false
 
-    class MovementSheetMananger: ObservableObject {
-        @Published var showSheet = false
-        @Published var movement: Movement?
-    }
-    @StateObject private var movementSheetManager = MovementSheetMananger()
-
-    private func metricListRow(_ metric: Metric) -> some View {
+    private func metricListRow(_ selectedMetric: Metric) -> some View {
         Button(action: {
-            metricSheetManager.metric = metric
-            metricSheetManager.showSheet.toggle()
+            metric = selectedMetric
+            showMetricSheet.toggle()
         }, label: {
             Text("""
-            \(metric.type.description) - \
-            \(metric.value.formattedMetricValue)
+            \(selectedMetric.type.description) - \
+            \(selectedMetric.value.formattedMetricValue)
             """)
         })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)
     }
 
-    private func movementListRow(_ movement: Movement) -> some View {
+    private func movementListRow(_ selectedMovement: Movement) -> some View {
         Button(action: {
-            movementSheetManager.movement = movement
-            movementSheetManager.showSheet.toggle()
+            movement = selectedMovement
+            showMovementSheet.toggle()
         }, label: {
             VStack(alignment: .leading) {
-                Text(movement.movementDefinition?.title ?? "Movement")
-                if movement.metrics.count > 0 {
+                Text(selectedMovement.movementDefinition?.title ?? "Movement")
+                if selectedMovement.metrics.count > 0 {
                     Spacer()
                 }
-                ForEach(movement.metrics) { metric in
+                ForEach(selectedMovement.metrics) { metric in
                     Text("""
                     \(metric.type.description) - \
                     \(metric.value.formattedMetricValue)
@@ -74,7 +67,7 @@ struct RoundEditView: View {
                 .onDelete(perform: deleteMetric)
             }
             Button(action: {
-                metricSheetManager.showSheet.toggle()
+                showMetricSheet.toggle()
             }, label: {
                 Label("Add workout metric", systemImage: "plus.app")
             })
@@ -97,7 +90,7 @@ struct RoundEditView: View {
                 .onDelete(perform: deleteMovement)
             }
             Button(action: {
-                movementSheetManager.showSheet.toggle()
+                showMovementSheet.toggle()
             }, label: {
                 Label("Add round movement", systemImage: "plus.app")
             })
@@ -124,33 +117,36 @@ struct RoundEditView: View {
                 Button("Save", action: saveAction)
             }
         }
-        .sheet(isPresented: $metricSheetManager.showSheet, onDismiss: {
+        .sheet(isPresented: $showMetricSheet, onDismiss: {
             updateRoundMetrics()
         }, content: {
             NavigationView {
-                MetricEditView(viewModel: MetricEditViewModel(metric: $metricSheetManager.metric))
+                MetricEditView(viewModel: MetricEditViewModel(metric: $metric))
             }
         })
-        .sheet(isPresented: $movementSheetManager.showSheet, onDismiss: {
+        .sheet(isPresented: $showMovementSheet, onDismiss: {
             updateRoundMovements()
         }, content: {
             NavigationView {
-                MovementEditView(viewModel: MovementEditViewModel(movement: $movementSheetManager.movement))
+                MovementEditView(viewModel: MovementEditViewModel(movement: $movement))
             }
         })
     }
 
     var body: some View {
-        editView()
+        _ = self.metric
+        _ = self.movement
+
+        return editView()
     }
 }
 
 extension RoundEditView {
     private func updateRoundMetrics() {
-        guard let newMetric = metricSheetManager.metric else { return }
+        guard let newMetric = metric else { return }
         Task {
             await viewModel.updateMetric(newMetric)
-            metricSheetManager.metric = nil
+            metric = nil
         }
     }
 
@@ -163,10 +159,10 @@ extension RoundEditView {
     }
 
     private func updateRoundMovements() {
-        guard let newMovement = movementSheetManager.movement else { return }
+        guard let newMovement = movement else { return }
         Task {
             await viewModel.updateMovement(newMovement)
-            movementSheetManager.movement = nil
+            movement = nil
         }
     }
 
@@ -185,12 +181,12 @@ extension RoundEditView {
 
 extension RoundEditView {
     private func cancelAction() {
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 
     private func saveAction() {
         viewModel.save()
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 }
 

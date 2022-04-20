@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MetricEditView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
 
     @StateObject var viewModel: MetricEditViewModel
 
@@ -60,12 +60,12 @@ struct MetricEditView: View {
 
 extension MetricEditView {
     private func cancelAction() {
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 
     private func saveAction() {
         viewModel.save()
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 }
 
