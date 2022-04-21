@@ -12,7 +12,7 @@ enum MetricType: Int16, CaseIterable {
          weight,
          height,
          distance,
-         time,
+         duration,
          reps
 }
 
@@ -23,7 +23,7 @@ extension MetricType: CustomStringConvertible {
         case .weight:   return "Weight"
         case .height:   return "Height"
         case .distance: return "Distance"
-        case .time:     return "Time"
+        case .duration: return "Duration"
         case .reps:     return "Reps"
         }
     }

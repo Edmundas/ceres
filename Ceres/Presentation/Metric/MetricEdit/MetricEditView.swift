@@ -12,14 +12,13 @@ struct MetricEditView: View {
 
     @StateObject var viewModel: MetricEditViewModel
 
-    private func valueRow() -> some View {
-        TextField("Value", text: $viewModel.value)
-            .modifier(ClearButton(text: $viewModel.value))
-            .keyboardType(.decimalPad)
+    private func valueFieldRow(_ value: Binding<String>) -> some View {
+        TextField("Value", text: value)
+            .modifier(ClearButton(text: value))
     }
 
-    private func valueUnitRow() -> some View {
-        viewModel.unit.map { Text($0) }
+    private func valueUnitRow(_ unit: String) -> some View {
+        Text(unit)
     }
 
     private func typePickerRow() -> some View {
@@ -33,10 +32,23 @@ struct MetricEditView: View {
     private func editView() -> some View {
         List {
             Section(content: {
-                valueRow()
+                valueFieldRow($viewModel.value1)
+                    .keyboardType(viewModel.type == .duration ? .numberPad : .decimalPad)
             }, footer: {
-                valueUnitRow()
+                if let unit = viewModel.unit1 {
+                    valueUnitRow(unit)
+                }
             })
+            if viewModel.type == .duration {
+                Section(content: {
+                    valueFieldRow($viewModel.value2)
+                        .keyboardType(.numberPad)
+                }, footer: {
+                    if let unit = viewModel.unit2 {
+                        valueUnitRow(unit)
+                    }
+                })
+            }
             Section {
                 typePickerRow()
             }

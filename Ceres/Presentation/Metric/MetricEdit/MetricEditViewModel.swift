@@ -12,18 +12,30 @@ import SwiftUI
 class MetricEditViewModel: ObservableObject {
     @Binding var metric: Metric?
 
-    @Published var value = ""
+    @Published var value1 = ""
+    @Published var value2 = ""
+
     @Published var type = MetricType.none {
         didSet {
             switch type {
-            case .weight: unit = "Kilograms"
-            case .height, .distance: unit = "Meters"
-            default: unit = nil
+            case .weight:
+                unit1 = "Kilograms"
+                unit2 = nil
+            case .height, .distance:
+                unit1 = "Meters"
+                unit2 = nil
+            case .duration:
+                unit1 = "Minutes"
+                unit2 = "Seconds"
+            default:
+                unit1 = nil
+                unit2 = nil
             }
         }
     }
 
-    @Published var unit: String?
+    @Published var unit1: String?
+    @Published var unit2: String?
 
     @Published var errorMessage = ""
     @Published var hasError = false
@@ -32,28 +44,53 @@ class MetricEditViewModel: ObservableObject {
         _metric = metric
 
         if let currentMetric = metric.wrappedValue {
-            value = currentMetric.value.formattedMetricValue
+            if currentMetric.type == .duration {
+                let duration = currentMetric.value
+                let seconds = duration.truncatingRemainder(dividingBy: 60.0)
+                let minutes = (duration - seconds) / 60.0
+
+                value1 = minutes.formattedDurationMetricValue
+                value2 = seconds.formattedDurationMetricValue
+            } else {
+                value1 = currentMetric.value.formattedMetricValue
+            }
             type = currentMetric.type
         }
     }
 
     private func createMetric() async {
+        var value: Double
+
+        if type == .duration {
+            value = value1.metricDurationValue * 60.0 + value2.metricDurationValue
+        } else {
+            value = value1.metricValue
+        }
+
         metric = Metric(
             id: UUID(),
             createDate: Date(),
             type: type,
-            value: value.metricValue
+            value: value
         )
     }
 
     private func updateMetric() async {
         guard let currentMetric = metric else { return }
 
+        var value: Double
+
+        if currentMetric.type == .duration {
+            value = value1.metricDurationValue * 60.0 + value2.metricDurationValue
+        } else {
+            value = value1.metricValue
+        }
+
         metric = Metric(
             id: currentMetric.id,
             createDate: currentMetric.createDate,
             type: type,
-            value: value.metricValue
+            value: value
         )
     }
 
