@@ -9,23 +9,16 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct WorkoutEditView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
 
     @StateObject var viewModel: WorkoutEditViewModel
 
     @State private var draggingRound: Round?
 
-    class MetricSheetMananger: ObservableObject {
-        @Published var showSheet = false
-        @Published var metric: Metric?
-    }
-    @StateObject private var metricSheetManager = MetricSheetMananger()
-
-    class RoundSheetManager: ObservableObject {
-        @Published var showSheet = false
-        @Published var round: Round?
-    }
-    @StateObject private var roundSheetManager = RoundSheetManager()
+    @State private var metric: Metric?
+    @State private var showMetricSheet = false
+    @State private var round: Round?
+    @State private var showRoundSheet = false
 
     private func titleRow() -> some View {
         TextField("Title", text: $viewModel.title)
@@ -40,26 +33,54 @@ struct WorkoutEditView: View {
         }
     }
 
-    private func metricListRow(_ metric: Metric) -> some View {
+    private func metricListRow(_ selectedMetric: Metric) -> some View {
         Button(action: {
-            metricSheetManager.metric = metric
-            metricSheetManager.showSheet.toggle()
+            metric = selectedMetric
+            showMetricSheet.toggle()
         }, label: {
             Text("""
-            \(metric.value) - \
-            \(metric.type.description)
+            \(selectedMetric.type.description) - \
+            \(selectedMetric.displayableValue)
             """)
         })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)
     }
 
-    private func roundListRow(_ round: Round) -> some View {
+    private func metricsListRow(_ metrics: [Metric]) -> some View {
+        Group {
+            if metrics.count > 0 {
+                Spacer()
+            }
+            ForEach(metrics) { metric in
+                Text("""
+                \(metric.type.description) - \
+                \(metric.displayableValue)
+                """)
+                .foregroundColor(.secondary)
+            }
+            .padding(.leading, 16.0)
+        }
+    }
+
+    private func roundListRow(_ selectedRound: Round) -> some View {
         Button(action: {
-            roundSheetManager.round = round
-            roundSheetManager.showSheet.toggle()
+            round = selectedRound
+            showRoundSheet.toggle()
         }, label: {
-            Text("Round")
+            VStack(alignment: .leading) {
+                Text("Round")
+                metricsListRow(selectedRound.metrics)
+                ForEach(selectedRound.movements) { movement in
+                    VStack(alignment: .leading) {
+                        Spacer()
+                        Text(movement.movementDefinition?.title ?? "Movement")
+                            .foregroundColor(.secondary)
+                        metricsListRow(movement.metrics)
+                    }
+                }
+                .padding(.leading, 32.0)
+            }
         })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)
@@ -74,7 +95,7 @@ struct WorkoutEditView: View {
                 .onDelete(perform: deleteMetric)
             }
             Button(action: {
-                metricSheetManager.showSheet.toggle()
+                showMetricSheet.toggle()
             }, label: {
                 Label("Add workout metric", systemImage: "plus.app")
             })
@@ -97,7 +118,7 @@ struct WorkoutEditView: View {
                 .onDelete(perform: deleteRound)
             }
             Button(action: {
-                roundSheetManager.showSheet.toggle()
+                showRoundSheet.toggle()
             }, label: {
                 Label("Add workout round", systemImage: "plus.app")
             })
@@ -130,33 +151,36 @@ struct WorkoutEditView: View {
                 Button("Save", action: saveAction)
             }
         }
-        .sheet(isPresented: $metricSheetManager.showSheet, onDismiss: {
+        .sheet(isPresented: $showMetricSheet, onDismiss: {
             updateWorkoutMetrics()
         }, content: {
             NavigationView {
-                MetricEditView(viewModel: MetricEditViewModel(metric: $metricSheetManager.metric))
+                MetricEditView(viewModel: MetricEditViewModel(metric: $metric))
             }
         })
-        .sheet(isPresented: $roundSheetManager.showSheet, onDismiss: {
+        .sheet(isPresented: $showRoundSheet, onDismiss: {
             updateWorkoutRounds()
         }, content: {
             NavigationView {
-                RoundEditView(viewModel: RoundEditViewModel(round: $roundSheetManager.round))
+                RoundEditView(viewModel: RoundEditViewModel(round: $round))
             }
         })
     }
 
     var body: some View {
-        editView()
+        _ = self.metric
+        _ = self.round
+
+        return editView()
     }
 }
 
 extension WorkoutEditView {
     private func updateWorkoutMetrics() {
-        guard let newMetric = metricSheetManager.metric else { return }
+        guard let newMetric = metric else { return }
         Task {
             await viewModel.updateMetric(newMetric)
-            metricSheetManager.metric = nil
+            metric = nil
         }
     }
 
@@ -169,10 +193,10 @@ extension WorkoutEditView {
     }
 
     private func updateWorkoutRounds() {
-        guard let newRound = roundSheetManager.round else { return }
+        guard let newRound = round else { return }
         Task {
             await viewModel.updateRound(newRound)
-            roundSheetManager.round = nil
+            round = nil
         }
     }
 
@@ -191,12 +215,12 @@ extension WorkoutEditView {
 
 extension WorkoutEditView {
     private func cancelAction() {
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 
     private func saveAction() {
         viewModel.save()
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 }
 

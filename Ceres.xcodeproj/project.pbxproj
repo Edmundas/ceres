@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1803038927FDD2F700CE26B1 /* DataFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803038827FDD2F700CE26B1 /* DataFormatter.swift */; };
 		1803427027F58EE3002208FF /* RoundEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803426F27F58EE3002208FF /* RoundEntity.swift */; };
 		1803427227F58F78002208FF /* Round.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803427127F58F78002208FF /* Round.swift */; };
 		1803427427F58FBA002208FF /* RoundCoreDataSourceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803427327F58FBA002208FF /* RoundCoreDataSourceImpl.swift */; };
@@ -20,6 +21,7 @@
 		1803428627F5C2B2002208FF /* MovementDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803428527F5C2B2002208FF /* MovementDataSource.swift */; };
 		1803428A27F5C67C002208FF /* MovementEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803428927F5C67C002208FF /* MovementEditView.swift */; };
 		1803428C27F5C68F002208FF /* MovementEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803428B27F5C68F002208FF /* MovementEditViewModel.swift */; };
+		182F54AC2812E5F9003581E6 /* MeasurementUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182F54AB2812E5F9003581E6 /* MeasurementUnit.swift */; };
 		183D0A8B27EDF164006AFDC3 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D0A8A27EDF164006AFDC3 /* Workout.swift */; };
 		183D0A8D27EDF18D006AFDC3 /* WorkoutRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D0A8C27EDF18D006AFDC3 /* WorkoutRepository.swift */; };
 		183D0A9127EDF328006AFDC3 /* WorkoutListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D0A9027EDF328006AFDC3 /* WorkoutListViewModel.swift */; };
@@ -87,6 +89,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1803038827FDD2F700CE26B1 /* DataFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFormatter.swift; sourceTree = "<group>"; };
 		1803426F27F58EE3002208FF /* RoundEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundEntity.swift; sourceTree = "<group>"; };
 		1803427127F58F78002208FF /* Round.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Round.swift; sourceTree = "<group>"; };
 		1803427327F58FBA002208FF /* RoundCoreDataSourceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCoreDataSourceImpl.swift; sourceTree = "<group>"; };
@@ -100,6 +103,7 @@
 		1803428527F5C2B2002208FF /* MovementDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementDataSource.swift; sourceTree = "<group>"; };
 		1803428927F5C67C002208FF /* MovementEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementEditView.swift; sourceTree = "<group>"; };
 		1803428B27F5C68F002208FF /* MovementEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementEditViewModel.swift; sourceTree = "<group>"; };
+		182F54AB2812E5F9003581E6 /* MeasurementUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementUnit.swift; sourceTree = "<group>"; };
 		183D0A8A27EDF164006AFDC3 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		183D0A8C27EDF18D006AFDC3 /* WorkoutRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutRepository.swift; sourceTree = "<group>"; };
 		183D0A9027EDF328006AFDC3 /* WorkoutListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutListViewModel.swift; sourceTree = "<group>"; };
@@ -217,6 +221,8 @@
 		183D0A8327EDF035006AFDC3 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				1803038827FDD2F700CE26B1 /* DataFormatter.swift */,
+				182F54AB2812E5F9003581E6 /* MeasurementUnit.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -696,6 +702,7 @@
 				18537CD827F71EBE00DEB75B /* UpdateMovementDefinition.swift in Sources */,
 				1803428427F5C253002208FF /* MovementCoreDataSourceImpl.swift in Sources */,
 				18537CC827F71B6500DEB75B /* MovementDefinitionEditViewModel.swift in Sources */,
+				182F54AC2812E5F9003581E6 /* MeasurementUnit.swift in Sources */,
 				18537CD127F71E7C00DEB75B /* MovementDefinitionRepository.swift in Sources */,
 				1803427C27F59526002208FF /* RoundEditViewModel.swift in Sources */,
 				183D0A9F27EDF496006AFDC3 /* WorkoutError.swift in Sources */,
@@ -715,6 +722,7 @@
 				18F7A84B274E8BD60083BA2B /* ClearButton.swift in Sources */,
 				18537CC227F713C600DEB75B /* MovementDefinitionDataSource.swift in Sources */,
 				183D0A9727EDF37A006AFDC3 /* WorkoutRepositoryImpl.swift in Sources */,
+				1803038927FDD2F700CE26B1 /* DataFormatter.swift in Sources */,
 				18537CC427F7140500DEB75B /* MovementDefinitionCoreDataSourceImpl.swift in Sources */,
 				1803428627F5C2B2002208FF /* MovementDataSource.swift in Sources */,
 				18843A9727F1E22F0061E240 /* UpdateWorkout.swift in Sources */,

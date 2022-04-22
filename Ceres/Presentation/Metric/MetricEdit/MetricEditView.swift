@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct MetricEditView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
 
     @StateObject var viewModel: MetricEditViewModel
 
-    private func valueRow() -> some View {
-        TextField("Value", text: $viewModel.value)
-            .modifier(ClearButton(text: $viewModel.value))
+    private func valueFieldRow(_ value: Binding<String>) -> some View {
+        TextField("Value", text: value)
+            .modifier(ClearButton(text: value))
+    }
+
+    private func valueUnitRow(_ unit: String) -> some View {
+        Text(unit)
     }
 
     private func typePickerRow() -> some View {
@@ -27,8 +31,23 @@ struct MetricEditView: View {
 
     private func editView() -> some View {
         List {
-            Section {
-                valueRow()
+            Section(content: {
+                valueFieldRow($viewModel.value1)
+                    .keyboardType(viewModel.type == .duration ? .numberPad : .decimalPad)
+            }, footer: {
+                if let unit = viewModel.unit1 {
+                    valueUnitRow(unit)
+                }
+            })
+            if viewModel.type == .duration {
+                Section(content: {
+                    valueFieldRow($viewModel.value2)
+                        .keyboardType(.numberPad)
+                }, footer: {
+                    if let unit = viewModel.unit2 {
+                        valueUnitRow(unit)
+                    }
+                })
             }
             Section {
                 typePickerRow()
@@ -53,12 +72,12 @@ struct MetricEditView: View {
 
 extension MetricEditView {
     private func cancelAction() {
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 
     private func saveAction() {
         viewModel.save()
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 }
 

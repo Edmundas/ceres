@@ -8,18 +8,15 @@
 import SwiftUI
 
 struct MovementDefinitionListView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
 
     @StateObject var viewModel: MovementDefinitionListViewModel
 
     @State var isSelectionOnly = false
     @Binding var selectedMovementDefinition: MovementDefinition?
 
-    class MovementDefinitionSheetMananger: ObservableObject {
-        @Published var showSheet = false
-        @Published var movementDefinition: MovementDefinition?
-    }
-    @StateObject private var movementDefinitionSheetManager = MovementDefinitionSheetMananger()
+    @State private var movementDefinition: MovementDefinition?
+    @State private var showMovementDefinitionSheet = false
 
     private func emptyListRow() -> some View {
         Label("The list is empty", systemImage: "exclamationmark.circle")
@@ -53,17 +50,17 @@ struct MovementDefinitionListView: View {
         .navigationTitle("Movement Definitions")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button(action: { movementDefinitionSheetManager.showSheet.toggle() },
+                Button(action: { showMovementDefinitionSheet.toggle() },
                        label: { Image(systemName: "plus") })
             }
         }
-        .sheet(isPresented: $movementDefinitionSheetManager.showSheet, onDismiss: {
+        .sheet(isPresented: $showMovementDefinitionSheet, onDismiss: {
             updateMovementDefinitions()
         }, content: {
             NavigationView {
                 MovementDefinitionEditView(
                     viewModel: MovementDefinitionEditViewModel(
-                        movementDefinition: $movementDefinitionSheetManager.movementDefinition))
+                        movementDefinition: $movementDefinition))
             }
             // workaround for layout constraints errors
             .navigationViewStyle(.stack)
@@ -77,7 +74,9 @@ struct MovementDefinitionListView: View {
     }
 
     var body: some View {
-        movementDefinitionList()
+        _ = self.movementDefinition
+
+        return movementDefinitionList()
     }
 }
 
@@ -85,7 +84,7 @@ extension MovementDefinitionListView {
     private func updateMovementDefinitions() {
         Task {
             await viewModel.getMovementDefinitions()
-            movementDefinitionSheetManager.movementDefinition = nil
+            movementDefinition = nil
         }
     }
 }
@@ -93,7 +92,7 @@ extension MovementDefinitionListView {
 extension MovementDefinitionListView {
     private func selectionAction(movementDefinition: MovementDefinition) {
         selectedMovementDefinition = movementDefinition
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 }
 
