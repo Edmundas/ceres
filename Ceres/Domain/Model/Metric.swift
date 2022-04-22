@@ -19,7 +19,7 @@ enum MetricType: Int16, CaseIterable {
 extension MetricType: CustomStringConvertible {
     var description: String {
         switch self {
-        case .none:     return "none"
+        case .none:     return "None"
         case .weight:   return "Weight"
         case .height:   return "Height"
         case .distance: return "Distance"
@@ -36,4 +36,21 @@ struct Metric: Identifiable, Equatable {
     let type: MetricType
 
     let value: Double
+}
+
+extension Metric {
+    var displayableValue: String {
+        switch self.type {
+        case .none, .reps:
+            return self.value.formattedMetricValue
+        case .weight:
+            return self.value.formattedMetricValue + " " + MeasurementUnit.kilograms.descriptionAbbreviation
+        case .height:
+            return self.value.formattedMetricValue + " " + MeasurementUnit.meters.descriptionAbbreviation
+        case .distance:
+            return self.value.formattedMetricValue + " " + MeasurementUnit.meters.descriptionAbbreviation
+        case .duration:
+            return DateComponentsFormatter.metricDurationFormatter.string(from: self.value) ?? ""
+        }
+    }
 }

@@ -19,14 +19,14 @@ class MetricEditViewModel: ObservableObject {
         didSet {
             switch type {
             case .weight:
-                unit1 = "Kilograms"
+                unit1 = MeasurementUnit.kilograms.description
                 unit2 = nil
             case .height, .distance:
-                unit1 = "Meters"
+                unit1 = MeasurementUnit.meters.description
                 unit2 = nil
             case .duration:
-                unit1 = "Minutes"
-                unit2 = "Seconds"
+                unit1 = MeasurementUnit.minutes.description
+                unit2 = MeasurementUnit.seconds.description
             default:
                 unit1 = nil
                 unit2 = nil
@@ -49,8 +49,8 @@ class MetricEditViewModel: ObservableObject {
                 let seconds = duration.truncatingRemainder(dividingBy: 60.0)
                 let minutes = (duration - seconds) / 60.0
 
-                value1 = minutes.formattedDurationMetricValue
-                value2 = seconds.formattedDurationMetricValue
+                value1 = minutes.formattedMetricValue
+                value2 = seconds.formattedMetricValue
             } else {
                 value1 = currentMetric.value.formattedMetricValue
             }
@@ -62,7 +62,7 @@ class MetricEditViewModel: ObservableObject {
         var value: Double
 
         if type == .duration {
-            value = value1.metricDurationValue * 60.0 + value2.metricDurationValue
+            value = value1.metricValue * 60.0 + value2.metricValue
         } else {
             value = value1.metricValue
         }
@@ -81,7 +81,7 @@ class MetricEditViewModel: ObservableObject {
         var value: Double
 
         if currentMetric.type == .duration {
-            value = value1.metricDurationValue * 60.0 + value2.metricDurationValue
+            value = value1.metricValue * 60.0 + value2.metricValue
         } else {
             value = value1.metricValue
         }

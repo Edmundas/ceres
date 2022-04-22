@@ -11,19 +11,11 @@ extension Double {
     var formattedMetricValue: String {
         return NumberFormatter.metricValueFormatter.string(from: NSNumber(value: self)) ?? ""
     }
-
-    var formattedDurationMetricValue: String {
-        return NumberFormatter.metricDurationValueFormatter.string(from: NSNumber(value: self)) ?? ""
-    }
 }
 
 extension String {
     var metricValue: Double {
         return NumberFormatter.metricValueFormatter.number(from: self)?.doubleValue ?? 0.0
-    }
-
-    var metricDurationValue: Double {
-        return NumberFormatter.metricDurationValueFormatter.number(from: self)?.doubleValue ?? 0.0
     }
 }
 
@@ -32,12 +24,16 @@ extension NumberFormatter {
         let nFormatter = NumberFormatter()
         nFormatter.numberStyle = .decimal
         nFormatter.minimumFractionDigits = 0
+        nFormatter.maximumFractionDigits = 3
         return nFormatter
     }
+}
 
-    static var metricDurationValueFormatter: NumberFormatter {
-        let nFormatter = NumberFormatter()
-        nFormatter.numberStyle = .none
-        return nFormatter
+extension DateComponentsFormatter {
+    static var metricDurationFormatter: DateComponentsFormatter {
+        let dFormatter = DateComponentsFormatter()
+        dFormatter.unitsStyle = .abbreviated
+        dFormatter.allowedUnits = [.hour, .minute, .second]
+        return dFormatter
     }
 }

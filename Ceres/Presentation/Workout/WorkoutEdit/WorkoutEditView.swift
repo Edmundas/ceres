@@ -40,7 +40,7 @@ struct WorkoutEditView: View {
         }, label: {
             Text("""
             \(selectedMetric.type.description) - \
-            \(selectedMetric.value.formattedMetricValue)
+            \(selectedMetric.displayableValue)
             """)
         })
         .buttonStyle(DefaultButtonStyle())
@@ -55,7 +55,7 @@ struct WorkoutEditView: View {
             ForEach(metrics) { metric in
                 Text("""
                 \(metric.type.description) - \
-                \(metric.value.formattedMetricValue)
+                \(metric.displayableValue)
                 """)
                 .foregroundColor(.secondary)
             }
