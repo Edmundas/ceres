@@ -49,7 +49,7 @@ struct RoundEditView: View {
                     \(metric.type.description) - \
                     \(metric.displayableValue)
                     """)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(Color(.gray))
                 }
                 .padding(.leading, 16.0)
             }

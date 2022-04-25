@@ -57,7 +57,7 @@ struct WorkoutEditView: View {
                 \(metric.type.description) - \
                 \(metric.displayableValue)
                 """)
-                .foregroundColor(.secondary)
+                .foregroundColor(Color(.gray))
             }
             .padding(.leading, 16.0)
         }
@@ -69,18 +69,20 @@ struct WorkoutEditView: View {
             showRoundSheet.toggle()
         }, label: {
             VStack(alignment: .leading) {
-                Text("Round")
-                metricsListRow(selectedRound.metrics)
+                ForEach(selectedRound.metrics) { metric in
+                    metricListRow(metric)
+                }
                 ForEach(selectedRound.movements) { movement in
                     VStack(alignment: .leading) {
                         Spacer()
                         Text(movement.movementDefinition?.title ?? "Movement")
-                            .foregroundColor(.secondary)
+                            .foregroundColor(Color(.darkGray))
                         metricsListRow(movement.metrics)
                     }
                 }
-                .padding(.leading, 32.0)
+                .padding(.leading, 16.0)
             }
+            .padding(.vertical, 6.0)
         })
         .buttonStyle(DefaultButtonStyle())
         .foregroundColor(.primary)
